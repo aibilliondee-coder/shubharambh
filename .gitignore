@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+._*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local config overrides (prod secrets must NEVER be committed)
+config/config.local.php
+config/config.production.php
+.env
+.env.*
+
+# SQLite dev DB
+storage/*.sqlite
+storage/*.sqlite-journal
+
+# User uploads (keep folder, ignore contents)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs
+*.log
+storage/logs/
+
+# PHP
+vendor/
+composer.phar

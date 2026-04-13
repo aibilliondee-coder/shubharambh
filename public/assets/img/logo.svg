@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Shubharambh Infra Advisors — transparent wordmark logo.
+  Works on both light and dark backgrounds:
+    - .logo-on-dark  → text rendered in white  (used in header/footer)
+    - .logo-on-light → text rendered in navy   (used on light pages)
+  Gold accents stay the same in both modes.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img"
+     aria-label="Shubharambh Infra Advisors — Your Success Our Priority">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-weight: 600; letter-spacing: 0.01em; }
+      .sub      { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; letter-spacing: 0.42em; }
+      .tag      { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; letter-spacing: 0.18em; font-size: 22px; }
+      .text-color     { fill: #0B1D33; }
+      .text-color-alt { fill: #FFFFFF; }
+      .gold           { fill: none; stroke: #B59355; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .gold-fill      { fill: #B59355; }
+      .gold-sub       { fill: #B59355; }
+      .gold-line      { stroke: #B59355; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- ==============  Arched gateway motif (center)  ============== -->
+  <g transform="translate(500,10)">
+    <!-- Small diamond/gem crowning the arch -->
+    <path class="gold-fill" d="M0 0 L16 16 L0 32 L-16 16 Z"/>
+    <!-- Arch outer curve -->
+    <path class="gold" d="M-60 60 Q-60 32 0 32 Q60 32 60 60 L60 208 L-60 208 Z" fill="none"/>
+    <!-- Inner arch mid-line (the horizontal bar that makes it read as the letter 'A') -->
+    <line class="gold" x1="-72" y1="148" x2="72" y2="148"/>
+    <!-- Small vertical door divider -->
+    <line class="gold" x1="0" y1="148" x2="0" y2="208"/>
+  </g>
+
+  <!-- ==============  Wordmark: SHUBH [arch=A] RAMBH  ============== -->
+  <!-- The arch occupies the visual slot of the letter "A" between SHUBH and RAMBH -->
+  <g class="text-group">
+    <text x="35"  y="245" class="wordmark text-color" font-size="130">SHUBH</text>
+    <text x="590" y="245" class="wordmark text-color" font-size="130">RAMBH</text>
+  </g>
+
+  <!-- ==============  Decorative gold divider line  ============== -->
+  <line class="gold-line" x1="200" y1="285" x2="800" y2="285"/>
+
+  <!-- ==============  INFRA ADVISORS sub-line  ============== -->
+  <text x="500" y="332" text-anchor="middle" class="sub gold-sub" font-size="34">INFRA  ADVISORS</text>
+
+  <!-- ==============  Tagline  ============== -->
+  <text x="500" y="378" text-anchor="middle" class="tag text-color">YOUR SUCCESS OUR PRIORITY</text>
+</svg>
