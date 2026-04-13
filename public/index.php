@@ -72,8 +72,9 @@ include __DIR__ . '/../includes/header.php';
   <!-- Cinematic media stack: video (if available) + rotating image slides + overlays -->
   <div class="hero-media" aria-hidden="true">
     <?php if ($hasHeroVideo): ?>
-      <video class="hero-video" autoplay muted loop playsinline preload="auto"
-             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>"
+             disableremoteplayback>
         <source src="<?= e(asset('video/hero.mp4')) ?>" type="video/mp4">
       </video>
     <?php endif; ?>

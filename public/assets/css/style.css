@@ -53,6 +53,8 @@
   --gutter:      clamp(1rem, 3vw, 1.75rem);
   --pad-section: clamp(3.5rem, 7vw, 6.5rem);
   --header-h:    100px;
+  --sticky-bar-h: 84px;  /* mobile fixed Call/Enquire/WhatsApp bar */
+  --shortlist-h:  58px;
 
   /* ---- Effects ---- */
   --shadow-sm:   0 2px 8px rgba(0,0,0,0.25);
@@ -271,7 +273,7 @@ p  { margin: 0 0 1em; }
 }
 .btn-whatsapp:hover { background: var(--c-whatsapp-dk); color: #fff; }
 
-.btn-sm { padding: 0.65rem 1.2rem; font-size: 0.78rem; min-height: 40px; }
+.btn-sm { padding: 0.65rem 1.2rem; font-size: 0.78rem; min-height: 44px; }
 .btn-block { width: 100%; }
 
 /* ==========================================================================
@@ -1096,7 +1098,7 @@ p  { margin: 0 0 1em; }
   gap: 0.5rem;
   margin-top: 1rem;
 }
-.project-card .cta-row .btn { padding: 0.7rem 0.5rem; font-size: 0.72rem; min-height: 42px; letter-spacing: 0.08em; }
+.project-card .cta-row .btn { padding: 0.75rem 0.55rem; font-size: 0.74rem; min-height: 48px; letter-spacing: 0.08em; }
 
 /* ==========================================================================
    Filter bar (projects.php)
@@ -2790,7 +2792,7 @@ p  { margin: 0 0 1em; }
   font-weight: 500;
 }
 .shortlist-bar strong { color: var(--c-gold); font-family: var(--f-serif); font-size: 1rem; }
-.shortlist-bar .btn { padding: 0.55rem 1rem; min-height: 38px; font-size: 0.72rem; }
+.shortlist-bar .btn { padding: 0.6rem 1.05rem; min-height: 44px; font-size: 0.74rem; }
 
 /* ==========================================================================
    404 page
@@ -3127,6 +3129,114 @@ p  { margin: 0 0 1em; }
   .hero-stats .stat:last-child { border-bottom: none; }
   .sticky-mobile-bar a { font-size: 0.6rem; letter-spacing: 0.05em; }
   .nav-toggle { width: 42px; height: 42px; }
+}
+
+/* ==========================================================================
+   UX Hardening — April 2026
+   Global a11y polish, sticky-bar separation, touch-target guarantees,
+   section rhythm, gold-on-light contrast fix, reduced-data respect.
+   ========================================================================== */
+
+/* High-contrast focus ring (AAA) — keeps 2px gold, adds subtle dark halo
+   so the ring stays visible on light AND dark backgrounds. */
+:focus-visible {
+  outline: 2px solid var(--c-gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(7, 19, 35, 0.55);
+}
+/* Skip-link gets a brighter focus treatment so it's obvious */
+.skip-link:focus-visible { outline-color: var(--c-white); }
+
+/* Any gold text rendered on an off-white/white surface must use the
+   darker gold-dim token (4.6:1 contrast) to pass WCAG AA body text. */
+.text-gold-on-light,
+.on-light .text-gold { color: var(--c-gold-dim) !important; }
+
+/* --- Sticky mobile bar: visual separation from page content --------------
+   Adds a navy-to-transparent gradient above the bar so the last row of
+   content (project cards, contact form, footer bottom) always has a clear
+   "lift-off" rather than visually colliding with the CTAs. */
+@media (max-width: 768px) {
+  .sticky-mobile-bar::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 0; right: 0;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(7,19,35,0) 0%, rgba(7,19,35,0.55) 100%);
+    pointer-events: none;
+  }
+  /* Use the design token for vertical safe-space — single source of truth */
+  body {
+    padding-bottom: calc(var(--sticky-bar-h) + 12px + env(safe-area-inset-bottom, 0px));
+  }
+  body.has-shortlist {
+    padding-bottom: calc(var(--sticky-bar-h) + var(--shortlist-h) + 16px + env(safe-area-inset-bottom, 0px));
+  }
+  .shortlist-bar {
+    bottom: calc(var(--sticky-bar-h) + 12px + env(safe-area-inset-bottom, 0px));
+  }
+  .toast {
+    bottom: calc(var(--sticky-bar-h) + 18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Guarantee the footer feels like a distinct region above the sticky bar */
+  .site-footer { padding-bottom: 2.25rem; }
+  .site-footer::after {
+    content: '';
+    display: block;
+    height: 12px; /* soft gap so sticky-bar gradient doesn't touch footer text */
+  }
+}
+
+/* --- Section rhythm: bump mobile section padding to the 64–80px band ----- */
+@media (max-width: 768px) {
+  .section { padding: clamp(3.5rem, 9vw, 4.5rem) 0; }
+  .section + .section { border-top: 1px solid rgba(181,147,85,0.08); }
+  .section-head { margin-bottom: 2.25rem; }
+}
+
+/* --- Touch-target floor: every interactive element on mobile ≥ 44px ------ */
+@media (pointer: coarse) {
+  .btn, .btn-sm, .nav-list a, .footer-col a, .faq summary,
+  .hero-search-tabs button, .project-card .fav, .shortlist-bar .btn {
+    min-height: 44px;
+  }
+  .faq summary { padding-top: 1.05rem; padding-bottom: 1.05rem; }
+  .footer-col li { margin-bottom: 0.85rem; }
+}
+
+/* --- Hero: respect Save-Data / reduced-data users -----------------------
+   The 5MB hero MP4 is kept on mobile for visual impact, but users who
+   have opted into data savings get the image-slide fallback instead. */
+@media (prefers-reduced-data: reduce) {
+  .hero--cinematic .hero-video { display: none; }
+}
+
+/* --- Reduce motion: extend to the new video breathe animation ------------ */
+@media (prefers-reduced-motion: reduce) {
+  .hero--cinematic.has-video .hero-video,
+  .hero-badge-dot, .hero-orb, .hero-slide.is-active {
+    animation: none !important;
+  }
+}
+
+/* --- 404 and page banner: smoother typography on small screens ---------- */
+@media (max-width: 600px) {
+  .page-banner h1 { font-size: clamp(1.55rem, 6.5vw, 2rem); }
+}
+
+/* --- Newsletter form full-width on mobile (already set, belt+braces) ----- */
+@media (max-width: 480px) {
+  .newsletter-form { max-width: 100%; }
+  .newsletter-form input { flex: 1 1 100%; min-height: 52px; }
+  .newsletter-form button { flex: 1 1 100%; min-height: 48px; }
+}
+
+/* --- Body text: enforce 16px floor so iOS doesn't zoom on input focus --- */
+input, select, textarea { font-size: 16px; }
+@media (min-width: 769px) {
+  input, select, textarea { font-size: 0.95rem; }
 }
 
 /* ==========================================================================
