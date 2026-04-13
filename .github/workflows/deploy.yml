@@ -1,0 +1,71 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, uat]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'uat' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve target path
+        id: target
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "path=/var/www/shubharambh" >> "$GITHUB_OUTPUT"
+            echo "label=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/var/www/shubharambh-uat" >> "$GITHUB_OUTPUT"
+            echo "label=uat" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Rsync to ${{ steps.target.outputs.label }}
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          TARGET: ${{ steps.target.outputs.path }}
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts" \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='.DS_Store' \
+            --exclude='README.md' \
+            --exclude='config/config.php' \
+            --exclude='storage/' \
+            --exclude='public/uploads/' \
+            ./ "$SSH_USER@$SSH_HOST:$TARGET/"
+
+      - name: Fix permissions and reload Apache
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          TARGET: ${{ steps.target.outputs.path }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts \
+            "$SSH_USER@$SSH_HOST" "set -e
+              chown -R www-data:www-data $TARGET/storage $TARGET/public/uploads
+              find $TARGET -type d -exec chmod 755 {} +
+              find $TARGET -type f -exec chmod 644 {} +
+              chmod -R u+rwX,g+rwX $TARGET/storage $TARGET/public/uploads
+              systemctl reload apache2
+            "
