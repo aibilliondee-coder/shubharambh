@@ -149,9 +149,15 @@ $whatsappHref = whatsapp_url($settings['phone_whatsapp'], $whatsappMsg);
 </button>
 
 <!-- Shortlist bar (favorites counter) -->
-<div class="shortlist-bar" id="shortlist-bar" role="status" aria-live="polite">
-  <span>Shortlisted <strong id="shortlist-count">0</strong> projects</span>
-  <a href="<?= e(url('contact.php')) ?>" class="btn btn-gold btn-sm">Get Quotes</a>
+<div class="shortlist-bar" id="shortlist-bar" role="status" aria-live="polite" aria-hidden="true">
+  <a class="shortlist-bar__count" href="<?= e(url('contact.php?shortlist=1')) ?>" aria-label="Review your shortlisted projects">
+    <span class="shortlist-bar__dot" aria-hidden="true"></span>
+    <span class="shortlist-bar__text">Shortlisted <strong id="shortlist-count">0</strong> <span class="shortlist-bar__word">projects</span></span>
+  </a>
+  <a href="<?= e(url('contact.php?shortlist=1')) ?>" class="btn btn-gold btn-sm shortlist-bar__cta">Get&nbsp;Quotes</a>
+  <button type="button" class="shortlist-bar__close" id="shortlist-close" aria-label="Dismiss shortlist bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
 </div>
 
 <!-- Enquiry modal (triggered manually or via idle/exit-intent) -->
