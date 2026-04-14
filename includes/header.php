@@ -44,15 +44,13 @@ $page_jsonld      = $page_jsonld ?? null;
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="<?= e(logo_url('light')) ?>">
 
-<!-- Fonts — Fraunces (editorial display) + Playfair Display (serif) + Inter (body) -->
+<!-- Fonts — Playfair Display (serif headings) + Inter (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,30..100;1,9..144,400..500,30..100&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap">
 
-<!-- Base stylesheet (tokens + legacy components) -->
+<!-- Stylesheet -->
 <link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>">
-<!-- Enterprise skin v1.0 — implements docs/DESIGN_SYSTEM.md -->
-<link rel="stylesheet" href="<?= e(asset('css/enterprise.css')) ?>">
 
 <!-- JSON-LD — base RealEstateAgent schema -->
 <script type="application/ld+json">
