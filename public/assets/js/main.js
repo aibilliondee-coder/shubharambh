@@ -419,6 +419,7 @@
   function setFavs(list) {
     try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch (e) {}
   }
+  const SHORTLIST_DISMISS_KEY = 'sia_shortlist_dismissed';
   function initFavorites() {
     const buttons = $$('[data-fav]');
     const favs = getFavs();
@@ -428,7 +429,7 @@
       const id = btn.getAttribute('data-fav');
       if (favs.indexOf(id) !== -1) btn.classList.add('is-saved');
     });
-    updateShortlistBar();
+    updateShortlistBar({ silent: true });
 
     buttons.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -438,28 +439,67 @@
         const name = btn.getAttribute('data-name') || 'Project';
         const list = getFavs();
         const i = list.indexOf(id);
+        let added = false;
         if (i === -1) {
           list.push(id);
           btn.classList.add('is-saved');
           showToast('Added ' + name + ' to your shortlist', 'success');
+          added = true;
         } else {
           list.splice(i, 1);
           btn.classList.remove('is-saved');
           showToast('Removed ' + name + ' from your shortlist', 'success');
         }
         setFavs(list);
-        updateShortlistBar();
+        // Any new add clears the dismissed state so the bar re-appears
+        if (added) {
+          try { sessionStorage.removeItem(SHORTLIST_DISMISS_KEY); } catch (e) {}
+        }
+        updateShortlistBar({ pulse: added });
       });
     });
+
+    // Close / dismiss button — hides the bar for the rest of the session
+    const closeBtn = $('#shortlist-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const bar = $('#shortlist-bar');
+        if (!bar) return;
+        try { sessionStorage.setItem(SHORTLIST_DISMISS_KEY, '1'); } catch (err) {}
+        bar.classList.add('is-dismissed');
+        bar.classList.remove('visible');
+        bar.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('has-shortlist');
+      });
+    }
   }
-  function updateShortlistBar() {
+  function isShortlistDismissed() {
+    try { return sessionStorage.getItem(SHORTLIST_DISMISS_KEY) === '1'; }
+    catch (e) { return false; }
+  }
+  function updateShortlistBar(opts) {
     const bar = $('#shortlist-bar');
     if (!bar) return;
+    opts = opts || {};
     const count = getFavs().length;
     const numEl = $('#shortlist-count', bar);
     if (numEl) numEl.textContent = count;
-    bar.classList.toggle('visible', count > 0);
-    document.body.classList.toggle('has-shortlist', count > 0);
+
+    const shouldShow = count > 0 && !isShortlistDismissed();
+    bar.classList.toggle('visible', shouldShow);
+    bar.classList.toggle('is-dismissed', count > 0 && isShortlistDismissed());
+    bar.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    document.body.classList.toggle('has-shortlist', shouldShow);
+
+    if (shouldShow && opts.pulse) {
+      bar.classList.remove('is-pulsing');
+      // reflow to restart the animation
+      void bar.offsetWidth;
+      bar.classList.add('is-pulsing');
+      setTimeout(() => bar.classList.remove('is-pulsing'), 2400);
+    }
   }
 
   // ------------------------------------------------------------------

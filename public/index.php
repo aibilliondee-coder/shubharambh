@@ -85,12 +85,18 @@ include __DIR__ . '/../includes/header.php';
   $heroVideo  = APP_ROOT . '/public/assets/video/hero.mp4';
   $hasHeroVideo = is_file($heroVideo);
 ?>
-<section class="hero">
+<?php
+  $heroWaMsg = 'Hi, I would like to book a free consultation with Shubharambh Infra Advisors.';
+  $heroWaHref = whatsapp_url($settings['phone_whatsapp'], $heroWaMsg);
+  $heroTelHref = 'tel:' . preg_replace('/\s+/', '', $settings['phone_primary']);
+?>
+<section class="hero hero--cinematic<?= $hasHeroVideo ? ' has-video' : '' ?>">
   <!-- Cinematic media stack: video (if available) + rotating image slides + overlays -->
   <div class="hero-media" aria-hidden="true">
     <?php if ($hasHeroVideo): ?>
-      <video class="hero-video" autoplay muted loop playsinline preload="auto"
-             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>"
+             disableremoteplayback>
         <source src="<?= e(asset('video/hero.mp4')) ?>" type="video/mp4">
       </video>
     <?php endif; ?>
@@ -103,6 +109,7 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <div class="hero-overlay"></div>
+    <div class="hero-vignette"></div>
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
     <div class="hero-orb hero-orb--1"></div>
@@ -110,9 +117,33 @@ include __DIR__ . '/../includes/header.php';
   </div>
 
   <div class="container hero-inner">
-    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <span class="hero-badge">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      RERA&nbsp;Registered&nbsp;·&nbsp;Since&nbsp;2014
+    </span>
     <h1><?= e($settings['hero_title']) ?> <span class="accent">in Delhi NCR</span></h1>
     <p class="sub"><?= e($settings['hero_subtitle']) ?></p>
+
+    <div class="hero-ctas reveal delay-1">
+      <a href="<?= e($heroWaHref) ?>" target="_blank" rel="noopener"
+         class="btn btn-hero-primary" aria-label="Book a free consultation on WhatsApp">
+        <span class="btn-label">Book Free Consultation</span>
+        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <a href="<?= e(url('projects.php')) ?>" class="btn btn-hero-ghost"
+         aria-label="Explore curated properties">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+        </svg>
+        <span class="btn-label">Explore Properties</span>
+      </a>
+      <a href="<?= e($heroTelHref) ?>" class="hero-call" aria-label="Call us now">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.93.37 1.85.72 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.29a2 2 0 0 1 2.11-.45c.87.35 1.79.59 2.72.72A2 2 0 0 1 22 16.92z"/></svg>
+        <span>or call <strong><?= e($settings['phone_primary']) ?></strong></span>
+      </a>
+    </div>
 
     <div class="hero-search" role="search">
       <div class="hero-search-tabs" role="tablist" aria-label="Property type">
