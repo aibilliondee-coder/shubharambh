@@ -16,8 +16,8 @@ try {
     $projects = [];
 }
 
-$page_title       = 'Contact Us — ' . $settings['company_name'];
-$page_description = 'Get in touch with Shubharambh Infra Advisors. Visit our office in Noida or reach out by phone, WhatsApp, or email.';
+$page_title       = 'Contact Shubharambh Infra Advisors — Best Property Advisor in Noida';
+$page_description = 'Contact Shubharambh Infra Advisors — the best property advisor in Noida. Visit our office or reach out by phone, WhatsApp, or email for expert real estate guidance.';
 $page_active      = 'contact';
 $page_canonical   = url('contact.php');
 include __DIR__ . '/../includes/header.php';
@@ -25,8 +25,8 @@ include __DIR__ . '/../includes/header.php';
 
 <section class="page-banner">
   <div class="container">
-    <span class="eyebrow">Say Hello</span>
-    <h1>Contact Us</h1>
+    <span class="eyebrow">Best Property Advisor in Noida</span>
+    <h1>Contact Shubharambh Infra Advisors</h1>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="<?= e(url('index.php')) ?>">Home</a> &nbsp;/&nbsp; Contact
     </nav>

@@ -7,16 +7,16 @@ require_once __DIR__ . '/../includes/settings.php';
 start_session_once();
 $settings = load_settings();
 
-$page_title       = 'Home Loan EMI Calculator — ' . $settings['company_name'];
-$page_description = 'Calculate your monthly home loan EMI instantly. Plan your dream home purchase in Noida, Gurgaon or Delhi NCR with the Shubharambh Infra Advisors EMI calculator.';
+$page_title       = 'Home Loan EMI Calculator — Shubharambh Infra Advisors, Best Property Advisor in Noida';
+$page_description = 'Calculate your monthly home loan EMI instantly. Plan your dream property purchase in Noida with the best property advisor in Noida — Shubharambh Infra Advisors.';
 $page_active      = 'emi';
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <section class="page-banner">
   <div class="container">
-    <span class="eyebrow">Plan Smart</span>
-    <h1>Home Loan EMI Calculator</h1>
+    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <h1>Home Loan EMI Calculator — Plan Your Noida Property with Shubharambh</h1>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="<?= e(url('index.php')) ?>">Home</a><span class="sep">/</span>EMI Calculator
     </nav>
@@ -27,9 +27,9 @@ include __DIR__ . '/../includes/header.php';
   <div class="container container-narrow">
     <div class="section-head reveal">
       <span class="eyebrow">Financial Planning</span>
-      <h2>Estimate Your Monthly Instalment</h2>
+      <h2>Estimate Your Monthly Instalment for a Noida Property</h2>
       <div class="arch-divider" aria-hidden="true"></div>
-      <p>Use the sliders below to estimate your EMI for any property. We'll walk you through the full loan process once you're ready to move forward.</p>
+      <p>Use the sliders below to estimate your EMI for any property in Noida or Delhi NCR. Shubharambh Infra Advisors — the best property advisor in Noida — will walk you through the full loan process once you're ready.</p>
     </div>
 
     <div class="reveal">

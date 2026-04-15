@@ -15,16 +15,16 @@ try {
     $team = [];
 }
 
-$page_title       = 'About Us — ' . $settings['company_name'];
-$page_description = 'Learn about Shubharambh Infra Advisors — a RERA-registered real estate consultancy led by Mr. Mohit Khari, serving Delhi NCR and Uttarakhand for over a decade.';
+$page_title       = 'About Shubharambh Infra Advisors — Best Property Advisor in Noida';
+$page_description = 'Meet the best property advisor in Noida — Shubharambh Infra Advisors, a RERA-registered real estate consultancy led by Mr. Mohit Khari, serving Delhi NCR and Uttarakhand for over a decade.';
 $page_active      = 'about';
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <section class="page-banner">
   <div class="container">
-    <span class="eyebrow">Who We Are</span>
-    <h1>About Shubharambh Infra</h1>
+    <span class="eyebrow">Best Property Advisor in Noida</span>
+    <h1>Shubharambh Infra Advisors — Noida's Best Property Advisory Firm</h1>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="<?= e(url('index.php')) ?>">Home</a><span class="sep">/</span>About
     </nav>
@@ -156,8 +156,8 @@ include __DIR__ . '/../includes/header.php';
   <div class="container">
     <div class="counters reveal" style="text-align:center;">
       <div style="grid-column:1 / -1;">
-        <h2 style="margin-bottom:0.5rem;">Ready to Find Your Next Property?</h2>
-        <p style="color:var(--c-muted);max-width:580px;margin:0 auto 1.5rem;">Let our experts guide you to the perfect investment, home or commercial space.</p>
+        <h2 style="margin-bottom:0.5rem;">Work with Noida's Best Property Advisor</h2>
+        <p style="color:var(--c-muted);max-width:580px;margin:0 auto 1.5rem;">Let Shubharambh Infra Advisors guide you to the perfect investment, home or commercial space across Noida, Delhi NCR and Uttarakhand.</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
           <a href="<?= e(url('projects.php')) ?>" class="btn btn-gold">Browse Projects</a>
           <a href="<?= e(url('contact.php')) ?>" class="btn btn-outline">Talk to an Expert</a>

@@ -63,8 +63,8 @@ try {
 
 $count = count($allProjects);
 
-$page_title       = 'Projects — ' . $settings['company_name'];
-$page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment real estate projects curated by Shubharambh Infra Advisors across Delhi NCR and Uttarakhand.';
+$page_title       = 'Properties in Noida &amp; Delhi NCR | Shubharambh Infra Advisors — Best Property Advisor in Noida';
+$page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment properties in Noida — curated by the best property advisor in Noida, Shubharambh Infra Advisors, across Delhi NCR and Uttarakhand.';
 $page_active      = 'projects';
 $page_canonical   = url('projects.php');
 
@@ -124,8 +124,8 @@ include __DIR__ . '/../includes/header.php';
 
 <section class="page-banner">
   <div class="container">
-    <span class="eyebrow">Our Portfolio</span>
-    <h1>Explore Our Projects</h1>
+    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <h1>Explore Properties in Noida &amp; Delhi NCR</h1>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="<?= e(url('index.php')) ?>">Home</a><span class="sep">/</span>Projects
     </nav>
