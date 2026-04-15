@@ -155,7 +155,7 @@ include __DIR__ . '/../includes/header.php';
                     aria-label="Save <?= e($p['name']) ?>">
               <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
-            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?>" loading="lazy"
+            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?>, Delhi NCR | Shubharambh Infra Advisors" loading="lazy"
                  onerror="this.style.display='none'">
           </div>
           <div class="body">

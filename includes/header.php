@@ -103,7 +103,7 @@ $page_jsonld      = $page_jsonld ?? null;
 <header class="site-header">
   <div class="container inner">
     <a href="<?= e(url('index.php')) ?>" class="site-logo" aria-label="<?= e($settings['company_name']) ?> — Home">
-      <img src="<?= e(logo_url('light')) ?>" alt="<?= e($settings['company_name']) ?>" width="180" height="100">
+      <img src="<?= e(logo_url('light')) ?>" alt="<?= e($settings['company_name']) ?> — RERA-Registered Real Estate Consultancy in Delhi NCR" width="180" height="100" loading="lazy">
     </a>
 
     <nav aria-label="Primary">

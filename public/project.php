@@ -105,7 +105,7 @@ include __DIR__ . '/../includes/header.php';
               <span class="badge">RERA Approved</span>
             <?php endif; ?>
           </div>
-          <img src="<?= e($imgPath) ?>" alt="<?= e($project['name']) ?>" loading="eager">
+          <img src="<?= e($imgPath) ?>" alt="<?= e($project['name']) ?> by <?= e($project['builder']) ?> — <?= e($project['property_type']) ?> in <?= e($project['location']) ?>, <?= e($project['city']) ?> | Buy Property Delhi NCR" loading="eager">
         </div>
 
         <!-- Quick facts strip -->
@@ -258,7 +258,7 @@ include __DIR__ . '/../includes/header.php';
         <article class="project-card">
           <div class="media">
             <div class="badges"><span class="badge"><?= e($rCat) ?></span></div>
-            <img src="<?= e($rImg) ?>" alt="<?= e($p['name']) ?>" loading="lazy" onerror="this.style.display='none'">
+            <img src="<?= e($rImg) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?> | Shubharambh Infra Advisors" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="body">
             <h3><?= e($p['name']) ?></h3>

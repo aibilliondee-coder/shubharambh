@@ -15,7 +15,7 @@ $whatsappHref = whatsapp_url($settings['phone_whatsapp'], $whatsappMsg);
   <div class="container">
     <div class="footer-grid">
       <div class="footer-about">
-        <img src="<?= e(logo_url('light')) ?>" alt="<?= e($settings['company_name']) ?>" width="260" height="110">
+        <img src="<?= e(logo_url('light')) ?>" alt="<?= e($settings['company_name']) ?> — Luxury Residential &amp; Commercial Real Estate Advisory, Delhi NCR" width="260" height="110" loading="lazy">
         <p>
           A RERA-registered real estate consultancy based in Noida. We help clients
           buy, sell and invest in premium residential and commercial properties

@@ -40,7 +40,7 @@ include __DIR__ . '/../includes/header.php';
             $ceo = $team[0] ?? null;
             if ($ceo && !empty($ceo['photo']) && file_exists(APP_ROOT . '/public/uploads/' . $ceo['photo'])):
           ?>
-            <img src="<?= e(upload_url($ceo['photo'])) ?>" alt="<?= e($ceo['full_name']) ?>">
+            <img src="<?= e(upload_url($ceo['photo'])) ?>" alt="<?= e($ceo['full_name']) ?> — <?= e($ceo['title'] ?? 'Founder') ?>, Shubharambh Infra Advisors, Real Estate Expert Delhi NCR" loading="lazy">
           <?php else: ?>
             <div style="height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);color:var(--c-gold);font-size:2rem;padding:2rem;text-align:center;">
               <?= e($ceo['full_name'] ?? 'Mr. Mohit Khari') ?>
