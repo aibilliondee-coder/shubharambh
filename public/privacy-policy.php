@@ -10,6 +10,7 @@ $settings = load_settings();
 $page_title       = 'Privacy Policy — ' . $settings['company_name'];
 $page_description = 'How Shubharambh Infra Advisors collects, uses and protects your personal information.';
 $page_active      = '';
+$page_robots      = 'noindex, nofollow';
 include __DIR__ . '/../includes/header.php';
 ?>
 

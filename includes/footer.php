@@ -197,6 +197,6 @@ $whatsappHref = whatsapp_url($settings['phone_whatsapp'], $whatsappMsg);
     recaptchaKey: <?= json_encode((string)RECAPTCHA_SITE_KEY) ?>
   };
 </script>
-<script src="<?= e(asset('js/main.js')) ?>" defer></script>
+<script src="<?= e(asset('js/main.js')) ?>" defer async></script>
 </body>
 </html>

@@ -66,6 +66,59 @@ $count = count($allProjects);
 $page_title       = 'Projects — ' . $settings['company_name'];
 $page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment real estate projects curated by Shubharambh Infra Advisors across Delhi NCR and Uttarakhand.';
 $page_active      = 'projects';
+$page_canonical   = url('projects.php');
+
+// -----------------------------------------------------------------------
+// JSON-LD — ItemList schema for the projects listing page.
+// Each project becomes a ListItem pointing to its own detail page.
+// All values are dynamic — pulled from $allProjects (DB query above).
+// -----------------------------------------------------------------------
+$listItems = [];
+foreach ($allProjects as $i => $p) {
+    $pImg = !empty($p['cover_image'])
+        ? upload_url($p['cover_image'])
+        : asset('img/placeholders/project.svg');
+
+    $listItems[] = [
+        '@type'    => 'ListItem',
+        'position' => $i + 1,
+        'item'     => [
+            '@type'       => 'RealEstateListing',
+            '@id'         => url('project.php?slug=' . urlencode($p['slug'])),
+            'name'        => $p['name'],
+            'description' => truncate($p['description'] ?? '', 160),
+            'url'         => url('project.php?slug=' . urlencode($p['slug'])),
+            'image'       => $pImg,
+            'offers'      => [
+                '@type'         => 'Offer',
+                'priceCurrency' => 'INR',
+                'price'         => $p['price_display'],
+                'availability'  => 'https://schema.org/InStock',
+            ],
+            'address'  => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => $p['location'] ?? '',
+                'addressLocality' => $p['city']     ?? '',
+                'addressCountry'  => 'IN',
+            ],
+            'provider' => [
+                '@type' => 'Organization',
+                'name'  => $p['builder'] ?? '',
+            ],
+        ],
+    ];
+}
+
+$page_jsonld = [
+    '@context'       => 'https://schema.org',
+    '@type'          => 'ItemList',
+    'name'           => 'Real Estate Projects — ' . $settings['company_name'],
+    'description'    => 'Browse residential plots, luxury apartments and investment properties across Delhi NCR and Uttarakhand.',
+    'url'            => url('projects.php'),
+    'numberOfItems'  => $count,
+    'itemListElement' => $listItems,
+];
+
 include __DIR__ . '/../includes/header.php';
 ?>
 

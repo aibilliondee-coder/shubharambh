@@ -19,6 +19,12 @@ $page_ogimage     = $page_ogimage ?? asset('img/logo.svg');
 
 // Optional extra JSON-LD payload (string or array — we'll render it raw)
 $page_jsonld      = $page_jsonld ?? null;
+
+// Canonical URL — pages can override by setting $page_canonical before including header
+$page_canonical   = $page_canonical ?? url($_SERVER['REQUEST_URI'] ?? '/');
+
+// Robots — pages can override by setting $page_robots (e.g. 'noindex, nofollow')
+$page_robots      = $page_robots ?? 'index, follow';
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -26,6 +32,8 @@ $page_jsonld      = $page_jsonld ?? null;
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title><?= e($page_title) ?></title>
 <meta name="description" content="<?= e($page_description) ?>">
+<meta name="robots" content="<?= e($page_robots) ?>">
+<link rel="canonical" href="<?= e(strtok($page_canonical, '?')) ?>">
 <meta name="theme-color" content="#0B1D33">
 <meta name="format-detection" content="telephone=yes">
 

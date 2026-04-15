@@ -46,6 +46,7 @@ try {
 $page_title       = $settings['company_name'] . ' — ' . $settings['tagline'];
 $page_description = 'Shubharambh Infra Advisors — RERA-registered real estate consultancy in Noida. Luxury residential, commercial and investment properties across Delhi NCR, Gurgaon and Uttarakhand.';
 $page_active      = 'home';
+$page_canonical   = url('index.php');
 include __DIR__ . '/../includes/header.php';
 ?>
 

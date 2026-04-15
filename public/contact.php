@@ -19,6 +19,7 @@ try {
 $page_title       = 'Contact Us — ' . $settings['company_name'];
 $page_description = 'Get in touch with Shubharambh Infra Advisors. Visit our office in Noida or reach out by phone, WhatsApp, or email.';
 $page_active      = 'contact';
+$page_canonical   = url('contact.php');
 include __DIR__ . '/../includes/header.php';
 ?>
 
