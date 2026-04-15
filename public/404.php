@@ -11,6 +11,7 @@ http_response_code(404);
 $page_title       = 'Page Not Found — ' . $settings['company_name'];
 $page_description = 'The page you are looking for does not exist.';
 $page_active      = '';
+$page_robots      = 'noindex, nofollow';
 include __DIR__ . '/../includes/header.php';
 ?>
 

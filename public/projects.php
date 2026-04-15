@@ -63,16 +63,69 @@ try {
 
 $count = count($allProjects);
 
-$page_title       = 'Projects — ' . $settings['company_name'];
-$page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment real estate projects curated by Shubharambh Infra Advisors across Delhi NCR and Uttarakhand.';
+$page_title       = 'Properties in Noida &amp; Delhi NCR | Shubharambh Infra Advisors — Best Property Advisor in Noida';
+$page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment properties in Noida — curated by the best property advisor in Noida, Shubharambh Infra Advisors, across Delhi NCR and Uttarakhand.';
 $page_active      = 'projects';
+$page_canonical   = url('projects.php');
+
+// -----------------------------------------------------------------------
+// JSON-LD — ItemList schema for the projects listing page.
+// Each project becomes a ListItem pointing to its own detail page.
+// All values are dynamic — pulled from $allProjects (DB query above).
+// -----------------------------------------------------------------------
+$listItems = [];
+foreach ($allProjects as $i => $p) {
+    $pImg = !empty($p['cover_image'])
+        ? upload_url($p['cover_image'])
+        : asset('img/placeholders/project.svg');
+
+    $listItems[] = [
+        '@type'    => 'ListItem',
+        'position' => $i + 1,
+        'item'     => [
+            '@type'       => 'RealEstateListing',
+            '@id'         => url('project.php?slug=' . urlencode($p['slug'])),
+            'name'        => $p['name'],
+            'description' => truncate($p['description'] ?? '', 160),
+            'url'         => url('project.php?slug=' . urlencode($p['slug'])),
+            'image'       => $pImg,
+            'offers'      => [
+                '@type'         => 'Offer',
+                'priceCurrency' => 'INR',
+                'price'         => $p['price_display'],
+                'availability'  => 'https://schema.org/InStock',
+            ],
+            'address'  => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => $p['location'] ?? '',
+                'addressLocality' => $p['city']     ?? '',
+                'addressCountry'  => 'IN',
+            ],
+            'provider' => [
+                '@type' => 'Organization',
+                'name'  => $p['builder'] ?? '',
+            ],
+        ],
+    ];
+}
+
+$page_jsonld = [
+    '@context'       => 'https://schema.org',
+    '@type'          => 'ItemList',
+    'name'           => 'Real Estate Projects — ' . $settings['company_name'],
+    'description'    => 'Browse residential plots, luxury apartments and investment properties across Delhi NCR and Uttarakhand.',
+    'url'            => url('projects.php'),
+    'numberOfItems'  => $count,
+    'itemListElement' => $listItems,
+];
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <section class="page-banner">
   <div class="container">
-    <span class="eyebrow">Our Portfolio</span>
-    <h1>Explore Our Projects</h1>
+    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <h1>Explore Properties in Noida &amp; Delhi NCR</h1>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="<?= e(url('index.php')) ?>">Home</a><span class="sep">/</span>Projects
     </nav>
@@ -155,7 +208,7 @@ include __DIR__ . '/../includes/header.php';
                     aria-label="Save <?= e($p['name']) ?>">
               <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
-            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?>" loading="lazy"
+            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?>, Delhi NCR | Shubharambh Infra Advisors" loading="lazy"
                  onerror="this.style.display='none'">
           </div>
           <div class="body">

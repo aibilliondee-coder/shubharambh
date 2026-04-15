@@ -239,10 +239,15 @@
     if (items.length < 2) return;
 
     let idx = 0, timer = null;
+    // Clear PHP pre-rendered dots to avoid duplicates
+    dotsBox.innerHTML = '';
     items.forEach((_, i) => {
       const b = document.createElement('button');
       b.type = 'button';
+      b.setAttribute('role', 'tab');
       b.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      if (i === 0) b.classList.add('active');
       b.addEventListener('click', () => { goTo(i); restart(); });
       dotsBox.appendChild(b);
     });
@@ -251,7 +256,7 @@
     function goTo(i) {
       idx = (i + items.length) % items.length;
       track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-      dots.forEach((d, di) => d.classList.toggle('active', di === idx));
+      dots.forEach((d, di) => { d.classList.toggle('active', di === idx); d.setAttribute('aria-selected', di === idx ? 'true' : 'false'); });
     }
     function next() { goTo(idx + 1); }
     function prev() { goTo(idx - 1); }
@@ -680,20 +685,28 @@
   // Boot
   // ------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', () => {
+    // Critical — run immediately (affects visible UI)
     initStickyHeader();
     initNav();
     initHeroSlides();
     initHeroTabs();
     initHeroSearch();
     initTestimonials();
-    initReveal();
-    initCounters();
-    initEmiCalc();
-    initFavorites();
-    initPopup();
-    initScrollTop();
-    initFilterBar();
     initAnchors();
-    initForms();
+
+    // Non-critical — defer to idle so main thread is free during LCP
+    const idle = window.requestIdleCallback || (fn => setTimeout(fn, 100));
+    idle(() => {
+      initReveal();
+      initCounters();
+      initFavorites();
+      initScrollTop();
+      initFilterBar();
+      initForms();
+    });
+    idle(() => {
+      initEmiCalc();
+      initPopup();
+    });
   });
 })();
