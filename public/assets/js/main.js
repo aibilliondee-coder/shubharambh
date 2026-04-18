@@ -69,6 +69,33 @@
   }
 
   // ------------------------------------------------------------------
+  // Notification banner — dismiss on close, remember via sessionStorage
+  // ------------------------------------------------------------------
+  function initNotifBanner() {
+    const banner = document.querySelector('.notif-banner');
+    const closeBtn = document.querySelector('.notif-banner__close');
+    if (!banner || !closeBtn) return;
+
+    function dismissBanner() {
+      banner.classList.add('is-hidden');
+      document.body.classList.add('no-banner');
+      document.documentElement.style.setProperty('--banner-h', '0px');
+      try { sessionStorage.setItem('notif_dismissed', '1'); } catch(e) {}
+    }
+
+    // Check session — if dismissed before, hide immediately
+    try {
+      if (sessionStorage.getItem('notif_dismissed') === '1') {
+        banner.classList.add('is-hidden');
+        document.body.classList.add('no-banner');
+        document.documentElement.style.setProperty('--banner-h', '0px');
+      }
+    } catch(e) {}
+
+    closeBtn.addEventListener('click', dismissBanner);
+  }
+
+  // ------------------------------------------------------------------
   // Sticky header shrink on scroll
   // ------------------------------------------------------------------
   function initStickyHeader() {
@@ -105,6 +132,8 @@
     toggle.addEventListener('click', () => {
       list.classList.contains('open') ? close() : open();
     });
+    const drawerClose = document.querySelector('.nav-drawer-close');
+    if (drawerClose) drawerClose.addEventListener('click', close);
     if (backdrop) backdrop.addEventListener('click', close);
     $$('a', list).forEach(a => a.addEventListener('click', close));
     document.addEventListener('keydown', e => {
@@ -419,7 +448,6 @@
   function setFavs(list) {
     try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch (e) {}
   }
-  const SHORTLIST_DISMISS_KEY = 'sia_shortlist_dismissed';
   function initFavorites() {
     const buttons = $$('[data-fav]');
     const favs = getFavs();
@@ -429,7 +457,7 @@
       const id = btn.getAttribute('data-fav');
       if (favs.indexOf(id) !== -1) btn.classList.add('is-saved');
     });
-    updateShortlistBar({ silent: true });
+    updateShortlistBar();
 
     buttons.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -439,67 +467,28 @@
         const name = btn.getAttribute('data-name') || 'Project';
         const list = getFavs();
         const i = list.indexOf(id);
-        let added = false;
         if (i === -1) {
           list.push(id);
           btn.classList.add('is-saved');
           showToast('Added ' + name + ' to your shortlist', 'success');
-          added = true;
         } else {
           list.splice(i, 1);
           btn.classList.remove('is-saved');
           showToast('Removed ' + name + ' from your shortlist', 'success');
         }
         setFavs(list);
-        // Any new add clears the dismissed state so the bar re-appears
-        if (added) {
-          try { sessionStorage.removeItem(SHORTLIST_DISMISS_KEY); } catch (e) {}
-        }
-        updateShortlistBar({ pulse: added });
+        updateShortlistBar();
       });
     });
-
-    // Close / dismiss button — hides the bar for the rest of the session
-    const closeBtn = $('#shortlist-close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const bar = $('#shortlist-bar');
-        if (!bar) return;
-        try { sessionStorage.setItem(SHORTLIST_DISMISS_KEY, '1'); } catch (err) {}
-        bar.classList.add('is-dismissed');
-        bar.classList.remove('visible');
-        bar.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('has-shortlist');
-      });
-    }
   }
-  function isShortlistDismissed() {
-    try { return sessionStorage.getItem(SHORTLIST_DISMISS_KEY) === '1'; }
-    catch (e) { return false; }
-  }
-  function updateShortlistBar(opts) {
+  function updateShortlistBar() {
     const bar = $('#shortlist-bar');
     if (!bar) return;
-    opts = opts || {};
     const count = getFavs().length;
     const numEl = $('#shortlist-count', bar);
     if (numEl) numEl.textContent = count;
-
-    const shouldShow = count > 0 && !isShortlistDismissed();
-    bar.classList.toggle('visible', shouldShow);
-    bar.classList.toggle('is-dismissed', count > 0 && isShortlistDismissed());
-    bar.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
-    document.body.classList.toggle('has-shortlist', shouldShow);
-
-    if (shouldShow && opts.pulse) {
-      bar.classList.remove('is-pulsing');
-      // reflow to restart the animation
-      void bar.offsetWidth;
-      bar.classList.add('is-pulsing');
-      setTimeout(() => bar.classList.remove('is-pulsing'), 2400);
-    }
+    bar.classList.toggle('visible', count > 0);
+    document.body.classList.toggle('has-shortlist', count > 0);
   }
 
   // ------------------------------------------------------------------
@@ -686,6 +675,7 @@
   // ------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', () => {
     // Critical — run immediately (affects visible UI)
+    initNotifBanner();
     initStickyHeader();
     initNav();
     initHeroSlides();

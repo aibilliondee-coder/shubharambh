@@ -345,6 +345,8 @@ include __DIR__ . '/../includes/header.php';
           </div>
         <?php endif; ?>
 
+        <p style="color:var(--c-muted);font-size:0.9rem;margin-top:0.75rem;">Trusted by 500+ families as the best property advisor in Noida and Delhi NCR.</p>
+
         <div style="margin-top:1.75rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
           <a href="<?= e(url('about.php')) ?>" class="btn btn-gold">About Shubharambh</a>
           <a href="<?= e(url('contact.php')) ?>" class="btn btn-ghost">Contact Team</a>
@@ -385,7 +387,7 @@ include __DIR__ . '/../includes/header.php';
       <span class="eyebrow">Our Advantage</span>
       <h2>Noida's Best Property Advisor — Shubharambh Infra</h2>
       <div class="arch-divider" aria-hidden="true"></div>
-      <p>A partnership built on transparency, expertise and a client-first mindset.</p>
+      <p>As the best property advisor in Noida, we build every client relationship on transparency, expertise and a client-first mindset.</p>
     </div>
 
     <div class="pillars">

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/xampp/htdocs/shubharambh/public/assets/css/**)",
+      "Read(//c/xampp/htdocs/shubharambh/public/assets/js/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\xampp\\htdocs\\shubharambh\\includes",
+      "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\css",
+      "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\js"
+    ]
+  }
+}
