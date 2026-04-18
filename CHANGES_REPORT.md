@@ -175,3 +175,82 @@ Added on every page in:
 | `public/project.php` | Quick facts HTML restructure, Project JSON-LD schema |
 | `public/assets/css/style.css` | Honeypot fix, modal fix, touch UX, contact responsive, hero search, quick-facts, H2 clamp, form box-sizing |
 | `public/assets/js/main.js` | Testimonial ARIA (role=tab, aria-selected), idle callback for non-critical JS |
+
+---
+
+## 🗓️ Session 2 — 18 April 2026
+
+---
+
+## 🔝 7. Sticky Header (Fixed)
+
+### ✅ Header changed from `position: sticky` → `position: fixed`
+- `position: sticky` was not working reliably due to `body { position: relative }` and overflow constraints
+- Changed to `position: fixed; top: 0; left: 0; right: 0; z-index: 200`
+- Added `body { padding-top: calc(var(--header-h) + var(--banner-h)) }` to prevent content going under header
+- Header size stays **same on scroll** — removed logo shrink on `.is-scrolled` (was changing from 76px → 64px)
+- `is-scrolled` now only changes background opacity + adds box-shadow (no size change)
+
+---
+
+## 📢 8. Notification Banner
+
+### ✅ New announcement banner added below header (all pages)
+- Added in `includes/header.php` between `</header>` and `<main>`
+- `position: fixed; top: var(--header-h); z-index: 190` — always visible below header
+- Gold gradient background, navy text, navy CTA pill button
+- Message: "🔥 Limited Time Offer — **Book Your Plot Today** & Get Exclusive Pre-Launch Prices in Noida!"
+- **Enquire Now** button links to `contact.php`
+- **✕ dismiss button** — hides banner with smooth animation, remembers dismiss via `sessionStorage` (won't reappear on page navigation)
+- CSS variable `--banner-h: 44px` (desktop) / `52px` (mobile ≤600px) used sitewide for offset calculations
+- Mobile: text wraps naturally, icon hidden, font/padding reduced
+
+---
+
+## 📱 9. Mobile Nav Drawer Redesign
+
+### ✅ Complete visual redesign of hamburger menu drawer
+- Deep gradient background: `#071323 → #0B1D33 → #102943`
+- Nav links styled as **card buttons** with:
+  - Gold left border `3px` on active/hover
+  - `rgba` gold background highlight on active
+  - `›` arrow on right side
+  - Rounded corners, smooth hover transitions
+- **Close button (✕) added inside drawer** — `position: absolute; top-right` — always visible regardless of z-index stacking
+- Close button wired to JS `initNav()` — same close function as backdrop/escape key
+- Drawer `z-index: 150`, header `z-index: 200` — header always on top
+- **Call button** at bottom of drawer — gold gradient, full width, with phone icon
+- Drawer width: **72% / max 280px** — doesn't cover full screen
+- `top: 0; height: 100vh` with `padding-top: var(--header-h)` — links start right below header
+
+---
+
+## ⚙️ 10. XAMPP Config Fix
+
+### ✅ `config/config.php` — SITE_URL updated for XAMPP
+- Changed `SITE_URL` from `http://localhost:8000` (PHP built-in server) to `http://localhost/shubharambh/public`
+- Fixes CSS/JS/image paths when running via XAMPP Apache instead of PHP built-in server
+
+---
+
+## 🔑 11. Keyword Density — index.php
+
+### ✅ "Best Property Advisor in Noida" now visible 4 times in body content
+| # | Location | Text |
+|---|---|---|
+| 1 | Hero eyebrow | `Shubharambh Infra Advisors — Best Property Advisor in Noida` |
+| 2 | About section | `Trusted by 500+ families as the best property advisor in Noida and Delhi NCR.` |
+| 3 | Why Choose Us H2 | `Noida's Best Property Advisor — Shubharambh Infra` |
+| 4 | Why Choose Us paragraph | `As the best property advisor in Noida, we build every client relationship on transparency...` |
+
+---
+
+## 📁 Files Modified (Session 2)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | Notification banner, nav drawer close button, drawer call button |
+| `config/config.php` | SITE_URL updated for XAMPP |
+| `public/index.php` | Keyword added 2 more times naturally (about section + why choose us) |
+| `public/assets/css/style.css` | Fixed header, notification banner, mobile nav drawer redesign, body padding-top, banner CSS variables |
+| `public/assets/js/main.js` | `initNotifBanner()` — dismiss + sessionStorage, drawer close button wired to `initNav()` |

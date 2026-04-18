@@ -239,14 +239,6 @@ $page_robots      = $page_robots ?? 'index, follow';
 <script src="https://www.google.com/recaptcha/api.js?render=<?= e(RECAPTCHA_SITE_KEY) ?>" async defer></script>
 <?php endif; ?>
 <?php if (!empty($page_extra_head)) echo $page_extra_head . "\n"; ?>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V4KK0Q663J"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-V4KK0Q663J');
-</script>
 </head>
 <body>
 
@@ -260,11 +252,18 @@ $page_robots      = $page_robots ?? 'index, follow';
 
     <nav aria-label="Primary">
       <ul class="nav-list" id="primary-nav">
+        <button class="nav-drawer-close" aria-label="Close menu" type="button">&#10005;</button>
         <li><a href="<?= e(url('index.php'))    ?>" class="<?= $page_active === 'home'     ? 'active' : '' ?>">Home</a></li>
         <li><a href="<?= e(url('about.php'))    ?>" class="<?= $page_active === 'about'    ? 'active' : '' ?>">About</a></li>
         <li><a href="<?= e(url('projects.php')) ?>" class="<?= $page_active === 'projects' ? 'active' : '' ?>">Projects</a></li>
         <li><a href="<?= e(url('emi-calculator.php')) ?>" class="<?= $page_active === 'emi' ? 'active' : '' ?>">EMI Calc</a></li>
         <li><a href="<?= e(url('contact.php'))  ?>" class="<?= $page_active === 'contact'  ? 'active' : '' ?>">Contact</a></li>
+        <li class="nav-drawer-footer" aria-hidden="true">
+          <a href="tel:<?= e(preg_replace('/\s+/', '', $settings['phone_primary'])) ?>" class="nav-drawer-call">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <?= e($settings['phone_primary']) ?>
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -279,5 +278,12 @@ $page_robots      = $page_robots ?? 'index, follow';
 </header>
 
 <div class="nav-backdrop" aria-hidden="true"></div>
+
+<!-- Notification Banner -->
+<div class="notif-banner" role="alert" aria-live="polite">
+  <span class="notif-banner__text">&#x1F525; Limited Time Offer — <strong>Book Your Plot Today</strong> &amp; Get Exclusive Pre-Launch Prices in Noida!</span>
+  <a href="<?= e(url('contact.php')) ?>" class="notif-banner__cta">Enquire Now</a>
+  <button class="notif-banner__close" aria-label="Close notification" type="button">&#10005;</button>
+</div>
 
 <main id="main">
