@@ -68,6 +68,7 @@
     }, 4400);
   }
 
+
   // ------------------------------------------------------------------
   // Sticky header shrink on scroll
   // ------------------------------------------------------------------
@@ -105,6 +106,8 @@
     toggle.addEventListener('click', () => {
       list.classList.contains('open') ? close() : open();
     });
+    const drawerClose = document.querySelector('.nav-drawer-close');
+    if (drawerClose) drawerClose.addEventListener('click', close);
     if (backdrop) backdrop.addEventListener('click', close);
     $$('a', list).forEach(a => a.addEventListener('click', close));
     document.addEventListener('keydown', e => {
@@ -239,10 +242,15 @@
     if (items.length < 2) return;
 
     let idx = 0, timer = null;
+    // Clear PHP pre-rendered dots to avoid duplicates
+    dotsBox.innerHTML = '';
     items.forEach((_, i) => {
       const b = document.createElement('button');
       b.type = 'button';
+      b.setAttribute('role', 'tab');
       b.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      if (i === 0) b.classList.add('active');
       b.addEventListener('click', () => { goTo(i); restart(); });
       dotsBox.appendChild(b);
     });
@@ -251,7 +259,7 @@
     function goTo(i) {
       idx = (i + items.length) % items.length;
       track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-      dots.forEach((d, di) => d.classList.toggle('active', di === idx));
+      dots.forEach((d, di) => { d.classList.toggle('active', di === idx); d.setAttribute('aria-selected', di === idx ? 'true' : 'false'); });
     }
     function next() { goTo(idx + 1); }
     function prev() { goTo(idx - 1); }
@@ -452,9 +460,21 @@
     if (!bar) return;
     const count = getFavs().length;
     const numEl = $('#shortlist-count', bar);
+    const numElSm = $('#shortlist-count-sm', bar);
     if (numEl) numEl.textContent = count;
+    if (numElSm) numElSm.textContent = count;
     bar.classList.toggle('visible', count > 0);
     document.body.classList.toggle('has-shortlist', count > 0);
+  }
+  function initShortlistClear() {
+    const btn = $('#shortlist-clear');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      setFavs([]);
+      $$('[data-fav]').forEach(b => b.classList.remove('is-saved'));
+      updateShortlistBar();
+      showToast('Shortlist cleared', 'success');
+    });
   }
 
   // ------------------------------------------------------------------
@@ -640,20 +660,64 @@
   // Boot
   // ------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', () => {
-    initStickyHeader();
+    // Critical — run immediately (affects visible UI)
+initStickyHeader();
     initNav();
     initHeroSlides();
     initHeroTabs();
     initHeroSearch();
     initTestimonials();
-    initReveal();
-    initCounters();
-    initEmiCalc();
-    initFavorites();
-    initPopup();
-    initScrollTop();
-    initFilterBar();
     initAnchors();
-    initForms();
+
+    // Non-critical — defer to idle so main thread is free during LCP
+    const idle = window.requestIdleCallback || (fn => setTimeout(fn, 100));
+    idle(() => {
+      initReveal();
+      initCounters();
+      initFavorites();
+      initShortlistClear();
+      initScrollTop();
+      initFilterBar();
+      initForms();
+    });
+    idle(() => {
+      initEmiCalc();
+      initPopup();
+      initAdvisorExpand();
+    });
   });
+
+  // ------------------------------------------------------------------
+  // Advisor info expand / collapse
+  // ------------------------------------------------------------------
+  function initAdvisorExpand() {
+    const btn      = document.querySelector('.advisor-read-more-btn');
+    const panel    = document.querySelector('.advisor-info-body');
+    const backdrop = document.querySelector('.advisor-panel-backdrop');
+    const closeBtn = document.querySelector('.advisor-panel-close-btn');
+    if (!btn || !panel) return;
+
+    const open = () => {
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.querySelector('.btn-label').textContent = 'Read Less';
+      if (backdrop) backdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.querySelector('.btn-label').textContent = 'Read More';
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+
+    btn.addEventListener('click', () => panel.classList.contains('is-open') ? close() : open());
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (backdrop) backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  }
+
 })();

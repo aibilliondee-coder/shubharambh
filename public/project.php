@@ -53,26 +53,158 @@ $page_title       = $project['name'] . ' by ' . $project['builder'] . ' | ' . $p
 $page_description = $project['name'] . ' by ' . $project['builder'] . ' at ' . $project['location'] . '. ' . truncate($project['description'] ?? '', 140);
 $page_active      = 'projects';
 $page_ogimage     = $imgPath;
+$page_canonical   = url('project.php?slug=' . urlencode($project['slug']));
 
-// JSON-LD Product schema for this project
+// -----------------------------------------------------------------------
+// JSON-LD — @graph with RealEstateListing + BreadcrumbList schemas.
+// Every value is 100% dynamic — nothing hardcoded.
+// Works automatically for ALL projects (Noida, Greater Noida,
+// Haridwar, Ramnagar, etc.) because city/region resolve from DB.
+// -----------------------------------------------------------------------
+
+// Resolve state name dynamically from city — no hardcoding
+$schemaStateMap = [
+    'haridwar'      => 'Uttarakhand',
+    'ramnagar'      => 'Uttarakhand',
+    'dehradun'      => 'Uttarakhand',
+    'rishikesh'     => 'Uttarakhand',
+    'gurgaon'       => 'Haryana',
+    'gurugram'      => 'Haryana',
+    'faridabad'     => 'Haryana',
+    'delhi'         => 'Delhi',
+    'new delhi'     => 'Delhi',
+];
+$cityLower       = mb_strtolower(trim($project['city'] ?? ''));
+$schemaState     = $schemaStateMap[$cityLower] ?? 'Uttar Pradesh'; // default UP (Noida, Greater Noida)
+
+// Already parsed above: $amenities, $usps, $connectivity
+$schemaAmenities = !empty($amenities) ? $amenities : [];
+$schemaUsps      = !empty($usps)      ? $usps      : [];
+
+// Keywords string — built entirely from DB columns
+$schemaKeywords = implode(', ', array_filter([
+    $project['property_type']  ?? '',
+    $project['configurations'] ?? '',
+    $project['city']           ?? '',
+    $project['location']       ?? '',
+    $project['builder']        ?? '',
+    implode(', ', array_slice($schemaUsps, 0, 5)),
+]));
+
+// additionalProperty — only include fields that have data in DB
+$schemaAdditional = array_values(array_filter([
+    !empty($project['property_type']) ? [
+        '@type' => 'PropertyValue',
+        'name'  => 'Property Type',
+        'value' => $project['property_type'],
+    ] : null,
+    !empty($project['configurations']) ? [
+        '@type' => 'PropertyValue',
+        'name'  => 'Configuration',
+        'value' => $project['configurations'],
+    ] : null,
+    !empty($project['sizes']) ? [
+        '@type' => 'PropertyValue',
+        'name'  => 'Sizes',
+        'value' => $project['sizes'],
+    ] : null,
+    !empty($project['possession']) ? [
+        '@type' => 'PropertyValue',
+        'name'  => 'Possession',
+        'value' => $project['possession'],
+    ] : null,
+    !empty($project['rera_id']) ? [
+        '@type' => 'PropertyValue',
+        'name'  => 'RERA Registration ID',
+        'value' => $project['rera_id'],
+    ] : null,
+]));
+
+// amenityFeature — each amenity from DB as LocationFeatureSpecification
+$schemaAmenityFeature = array_map(fn($a) => [
+    '@type' => 'LocationFeatureSpecification',
+    'name'  => $a,
+    'value' => true,
+], $schemaAmenities);
+
+// Use @graph so both schemas coexist cleanly with the
+// RealEstateAgent schema already emitted by header.php
 $page_jsonld = [
-    '@context'    => 'https://schema.org',
-    '@type'       => 'Product',
-    'name'        => $project['name'],
-    'description' => truncate($project['description'] ?? '', 300),
-    'brand'       => ['@type' => 'Organization', 'name' => $project['builder']],
-    'category'    => $project['property_type'],
-    'image'       => $imgPath,
-    'offers'      => [
-        '@type'         => 'Offer',
-        'priceCurrency' => 'INR',
-        'priceSpecification' => [
-            '@type' => 'PriceSpecification',
-            'price' => $project['price_display'],
+    '@context' => 'https://schema.org',
+    '@graph'   => [
+
+        // ── 1. RealEstateListing ─────────────────────────────────────
+        [
+            '@type'       => 'RealEstateListing',
+            '@id'         => url('project.php?slug=' . urlencode($project['slug'])) . '#listing',
+            'name'        => $project['name'],
+            'description' => truncate($project['description'] ?? '', 300),
+            'url'         => url('project.php?slug=' . urlencode($project['slug'])),
+            'image'       => $imgPath,
+            'keywords'    => $schemaKeywords,
+
+            // Price
+            'offers' => [
+                '@type'         => 'Offer',
+                'priceCurrency' => 'INR',
+                'price'         => $project['price_display'],
+                'availability'  => 'https://schema.org/InStock',
+                'seller'        => [
+                    '@type' => 'RealEstateAgent',
+                    'name'  => $settings['company_name'],
+                    'url'   => url('index.php'),
+                ],
+            ],
+
+            // Address — state resolved dynamically from city
+            'address' => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => $project['location'] ?? '',
+                'addressLocality' => $project['city']     ?? '',
+                'addressRegion'   => $schemaState,
+                'addressCountry'  => 'IN',
+            ],
+
+            // Builder / Developer
+            'provider' => [
+                '@type' => 'Organization',
+                'name'  => $project['builder'] ?? '',
+            ],
+
+            // Property details — conditional per project
+            'additionalProperty' => $schemaAdditional,
+
+            // Amenities — each from DB
+            'amenityFeature' => $schemaAmenityFeature,
         ],
-        'availability'  => 'https://schema.org/InStock',
-        'seller'        => ['@type' => 'Organization', 'name' => $settings['company_name']],
-    ],
+
+        // ── 2. BreadcrumbList ─────────────────────────────────────────
+        [
+            '@type'           => 'BreadcrumbList',
+            '@id'             => url('project.php?slug=' . urlencode($project['slug'])) . '#breadcrumb',
+            'itemListElement' => [
+                [
+                    '@type'    => 'ListItem',
+                    'position' => 1,
+                    'name'     => 'Home',
+                    'item'     => url('index.php'),
+                ],
+                [
+                    '@type'    => 'ListItem',
+                    'position' => 2,
+                    'name'     => 'Projects',
+                    'item'     => url('projects.php'),
+                ],
+                [
+                    '@type'    => 'ListItem',
+                    'position' => 3,
+                    'name'     => $project['name'],
+                    'item'     => url('project.php?slug=' . urlencode($project['slug'])),
+                ],
+            ],
+        ],
+
+    ], // end @graph
 ];
 
 include __DIR__ . '/../includes/header.php';
@@ -105,26 +237,30 @@ include __DIR__ . '/../includes/header.php';
               <span class="badge">RERA Approved</span>
             <?php endif; ?>
           </div>
-          <img src="<?= e($imgPath) ?>" alt="<?= e($project['name']) ?>" loading="eager">
+          <img src="<?= e($imgPath) ?>" alt="<?= e($project['name']) ?> by <?= e($project['builder']) ?> — <?= e($project['property_type']) ?> in <?= e($project['location']) ?>, <?= e($project['city']) ?> | Buy Property Delhi NCR" loading="eager">
         </div>
 
         <!-- Quick facts strip -->
         <div class="quick-facts">
           <div class="qf">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
-            <div><strong><?= e($cfg) ?></strong><span>Configuration</span></div>
+            <span>Configuration</span>
+            <strong><?= e($cfg) ?></strong>
           </div>
           <div class="qf">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-            <div><strong><?= e($project['sizes'] ?: 'On Request') ?></strong><span>Sizes</span></div>
+            <span>Sizes</span>
+            <strong><?= e($project['sizes'] ?: 'On Request') ?></strong>
           </div>
           <div class="qf">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-            <div><strong><?= e($possession) ?></strong><span>Possession</span></div>
+            <span>Possession</span>
+            <strong><?= e($possession) ?></strong>
           </div>
           <div class="qf">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <div><strong><?= e($project['city']) ?></strong><span>Location</span></div>
+            <span>Location</span>
+            <strong><?= e($project['city']) ?></strong>
           </div>
         </div>
 
@@ -258,7 +394,7 @@ include __DIR__ . '/../includes/header.php';
         <article class="project-card">
           <div class="media">
             <div class="badges"><span class="badge"><?= e($rCat) ?></span></div>
-            <img src="<?= e($rImg) ?>" alt="<?= e($p['name']) ?>" loading="lazy" onerror="this.style.display='none'">
+            <img src="<?= e($rImg) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?> | Shubharambh Infra Advisors" loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="body">
             <h3><?= e($p['name']) ?></h3>

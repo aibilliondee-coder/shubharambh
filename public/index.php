@@ -11,7 +11,7 @@ $settings = load_settings();
 try {
     $projects = db()->query(
         'SELECT * FROM projects WHERE is_featured = 1 AND is_active = 1
-         ORDER BY sort_order ASC, id DESC LIMIT 9'
+         ORDER BY sort_order DESC, id DESC LIMIT 9'
     )->fetchAll();
 
     $testimonials = db()->query(
@@ -43,9 +43,31 @@ try {
     }
 }
 
-$page_title       = $settings['company_name'] . ' — ' . $settings['tagline'];
-$page_description = 'Shubharambh Infra Advisors — RERA-registered real estate consultancy in Noida. Luxury residential, commercial and investment properties across Delhi NCR, Gurgaon and Uttarakhand.';
+$page_title       = 'Best Property Advisor in Noida — ' . $settings['company_name'];
+$page_description = 'Best property advisor in Noida — Shubharambh Infra Advisors, RERA-registered real estate consultancy. Luxury residential, commercial and investment properties across Delhi NCR, Gurgaon and Uttarakhand.';
 $page_active      = 'home';
+$page_canonical   = url('index.php');
+
+// Preload first hero slide so LCP image is discovered early
+$heroSlidesPreload = [
+    'projects/m3mcullinan-1.webp',
+    'projects/elanimperial1.webp',
+    'projects/godrejriverine1.webp',
+    'projects/mahindracodenamegreenlife1.webp',
+];
+$firstHeroSlide = null;
+foreach ($heroSlidesPreload as $p) {
+    if (file_exists(APP_ROOT . '/public/uploads/' . $p)) {
+        $firstHeroSlide = upload_url($p);
+        break;
+    }
+}
+
+// Inject preload link into <head> before header renders
+$page_extra_head = $firstHeroSlide
+    ? '<link rel="preload" as="image" href="' . e($firstHeroSlide) . '" fetchpriority="high">'
+    : '';
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -88,9 +110,9 @@ include __DIR__ . '/../includes/header.php';
   </div>
 
   <div class="container hero-inner">
-    <span class="eyebrow">Shubharambh Infra Advisors</span>
-    <h1><?= e($settings['hero_title']) ?> <span class="accent">in Delhi NCR</span></h1>
-    <p class="sub"><?= e($settings['hero_subtitle']) ?></p>
+    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <h1 style="font-size:clamp(1.6rem,7vw,3.25rem);">Best Property Advisor <span class="accent">in Noida</span></h1>
+    <p class="sub">Trusted by 500+ Families Across Delhi NCR</p>
 
     <div class="hero-search" role="search">
       <div class="hero-search-tabs" role="tablist" aria-label="Property type">
@@ -103,7 +125,7 @@ include __DIR__ . '/../includes/header.php';
         <input type="hidden" name="category" id="hero-search-type" value="Residential">
 
         <div class="field field--search">
-          <label for="hero-search-input">Project / Builder / Location</label>
+          <label for="hero-search-input">Search</label>
           <input type="text" id="hero-search-input" name="q"
                  placeholder="Try M3M, Godrej, Sector 94…" autocomplete="off">
           <div class="hero-search-results" id="hero-search-results" role="listbox"></div>
@@ -158,13 +180,13 @@ include __DIR__ . '/../includes/header.php';
 <?php if (!empty($partners)): ?>
 <section class="trust-strip" aria-label="Developer partners">
   <div class="container">
-    <h4>Partnered With India's Most Trusted Developers</h4>
+    <p class="trust-strip-label">Partnered With India's Most Trusted Developers</p>
   </div>
   <div class="partners-track">
     <?php foreach (array_merge($partners, $partners) as $pt): ?>
       <div class="partner">
         <?php if (!empty($pt['logo']) && file_exists(APP_ROOT . '/public/uploads/' . $pt['logo'])): ?>
-          <img src="<?= e(upload_url($pt['logo'])) ?>" alt="<?= e($pt['name']) ?>" loading="lazy">
+          <img src="<?= e(upload_url($pt['logo'])) ?>" alt="<?= e($pt['name']) ?> — Trusted Real Estate Developer Partner of Shubharambh Infra Advisors" loading="lazy">
         <?php else: ?>
           <span><?= e($pt['name']) ?></span>
         <?php endif; ?>
@@ -173,6 +195,56 @@ include __DIR__ . '/../includes/header.php';
   </div>
 </section>
 <?php endif; ?>
+
+<!-- ==========  ADVISOR INFO EXPAND  ========== -->
+<section class="section section--plain advisor-info-section" id="advisor-info">
+  <div class="container">
+    <div class="advisor-info-wrap reveal">
+      <div class="advisor-info-header">
+        <div class="advisor-info-title">
+          <h2>Your Trusted Property Investment Partner <span class="accent">in Noida</span></h2>
+          <p>Shubharambh Infra Advisors — helping families find the right property since 2014.</p>
+        </div>
+        <button class="advisor-read-more-btn" aria-expanded="false" aria-controls="advisor-info-body" type="button">
+          <span class="btn-label">Read More</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Advisor side panel — outside all sections so position:fixed works correctly -->
+<div class="advisor-panel-backdrop" id="advisor-panel-backdrop" aria-hidden="true"></div>
+<div class="advisor-info-body" id="advisor-info-body" aria-hidden="true">
+  <div class="advisor-panel-close">
+    <span class="advisor-panel-close-title">About Us</span>
+    <button class="advisor-panel-close-btn" aria-label="Close panel" type="button">&#10005;</button>
+  </div>
+  <div class="advisor-info-grid">
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Best Property Advisor in Noida for Buyers &amp; Investors</h3>
+      <p>Shubharambh Infra Advisors is recognized as the best property advisor in Noida — with a strong focus on transparency, RERA compliance and client satisfaction. We help buyers and investors make confident, informed property decisions across Delhi NCR.</p>
+    </div>
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>Expert Guidance for Residential, Commercial &amp; Investment Properties</h3>
+      <p>As a leading property advisor in Noida, we provide expert guidance on residential apartments, luxury plots and commercial spaces. Our experienced consultants analyze market trends, project reliability and growth potential to ensure maximum ROI for every client.</p>
+    </div>
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>RERA-Registered &amp; Trusted Real Estate Consultancy in Delhi NCR</h3>
+      <p>With 10+ years of experience and 500+ families served, we have earned a reputation as the most trusted real estate consultancy in Noida and Delhi NCR. Every project in our portfolio is RERA-approved and due-diligence verified — so you invest with total confidence.</p>
+    </div>
+  </div>
+</div>
 
 <!-- ==========  FEATURED PROJECTS  ========== -->
 <section class="section" id="projects">
@@ -212,7 +284,7 @@ include __DIR__ . '/../includes/header.php';
                     aria-label="Save <?= e($p['name']) ?> to shortlist">
               <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
-            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?>" loading="lazy"
+            <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?>, Delhi NCR | Shubharambh Infra Advisors" loading="lazy"
                  onerror="this.style.display='none'">
           </div>
           <div class="body">
@@ -261,7 +333,7 @@ include __DIR__ . '/../includes/header.php';
       <div class="about-img reveal">
         <div class="img-wrap">
           <?php if ($ceo && !empty($ceo['photo']) && file_exists(APP_ROOT . '/public/uploads/' . $ceo['photo'])): ?>
-            <img src="<?= e(upload_url($ceo['photo'])) ?>" alt="<?= e($ceo['full_name']) ?>">
+            <img src="<?= e(upload_url($ceo['photo'])) ?>" alt="<?= e($ceo['full_name']) ?> — <?= e($ceo['title'] ?? 'Founder') ?>, Shubharambh Infra Advisors, Real Estate Expert Delhi NCR" loading="lazy">
           <?php else: ?>
             <div style="height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);color:var(--c-gold);font-size:2rem;padding:2rem;text-align:center;">
               <?= e($ceo['full_name'] ?? 'Mr. Mohit Khari') ?>
@@ -292,8 +364,10 @@ include __DIR__ . '/../includes/header.php';
           </div>
         <?php endif; ?>
 
+        <p style="color:var(--c-muted);font-size:0.9rem;margin-top:0.75rem;">Trusted by 500+ families as the best property advisor in Noida and Delhi NCR.</p>
+
         <div style="margin-top:1.75rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
-          <a href="<?= e(url('about.php')) ?>" class="btn btn-gold">Learn More</a>
+          <a href="<?= e(url('about.php')) ?>" class="btn btn-gold">About Shubharambh</a>
           <a href="<?= e(url('contact.php')) ?>" class="btn btn-ghost">Contact Team</a>
         </div>
       </div>
@@ -330,9 +404,9 @@ include __DIR__ . '/../includes/header.php';
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Our Advantage</span>
-      <h2>Why Choose Shubharambh Infra</h2>
+      <h2>Noida's Best Property Advisor — Shubharambh Infra</h2>
       <div class="arch-divider" aria-hidden="true"></div>
-      <p>A partnership built on transparency, expertise and a client-first mindset.</p>
+      <p>As the best property advisor in Noida, we build every client relationship on transparency, expertise and a client-first mindset.</p>
     </div>
 
     <div class="pillars">
@@ -365,19 +439,19 @@ include __DIR__ . '/../includes/header.php';
     <div class="feature-grid" style="margin-top:2.5rem;">
       <div class="feature reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
-        <div><h4>10+ Years of Expertise</h4><p>Deep market insight across Delhi NCR's most sought-after micro-markets.</p></div>
+        <div><h3 class="feature-title">10+ Years of Expertise</h3><p>Deep market insight across Delhi NCR's most sought-after micro-markets.</p></div>
       </div>
       <div class="feature reveal delay-1">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg></div>
-        <div><h4>Best Price Negotiation</h4><p>Developer relationships that unlock preferred pricing and payment plans.</p></div>
+        <div><h3 class="feature-title">Best Price Negotiation</h3><p>Developer relationships that unlock preferred pricing and payment plans.</p></div>
       </div>
       <div class="feature reveal delay-2">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg></div>
-        <div><h4>Transparent Communication</h4><p>No surprises — clear pricing, honest advice and regular updates.</p></div>
+        <div><h3 class="feature-title">Transparent Communication</h3><p>No surprises — clear pricing, honest advice and regular updates.</p></div>
       </div>
       <div class="feature reveal delay-3">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div><h4>Home Loan Assistance</h4><p>Partnered with leading banks for faster approvals and competitive rates.</p></div>
+        <div><h3 class="feature-title">Home Loan Assistance</h3><p>Partnered with leading banks for faster approvals and competitive rates.</p></div>
       </div>
     </div>
   </div>
@@ -415,7 +489,11 @@ include __DIR__ . '/../includes/header.php';
       <button type="button" class="testimonial-nav next" aria-label="Next testimonial">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      <div class="testimonial-dots" role="tablist" aria-label="Choose testimonial"></div>
+      <div class="testimonial-dots" role="tablist" aria-label="Choose testimonial">
+        <?php foreach ($testimonials as $ti => $t): ?>
+          <button type="button" role="tab" aria-label="Testimonial <?= $ti + 1 ?>" <?= $ti === 0 ? 'aria-selected="true" class="active"' : 'aria-selected="false"' ?>></button>
+        <?php endforeach; ?>
+      </div>
     </div>
   </div>
 </section>
@@ -482,7 +560,7 @@ include __DIR__ . '/../includes/header.php';
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Get In Touch</span>
-      <h2>Let's Find Your Next Property</h2>
+      <h2>Talk to the Best Property Advisor in Noida</h2>
       <div class="arch-divider" aria-hidden="true"></div>
     </div>
 
@@ -494,28 +572,28 @@ include __DIR__ . '/../includes/header.php';
           <li>
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div>
-              <h4>Office Address</h4>
+              <h3 class="contact-label">Office Address</h3>
               <div class="val"><?= e($settings['address_line']) ?></div>
             </div>
           </li>
           <li>
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
             <div>
-              <h4>Phone / WhatsApp</h4>
+              <h3 class="contact-label">Phone / WhatsApp</h3>
               <div class="val"><a href="tel:<?= e(preg_replace('/\s+/', '', $settings['phone_primary'])) ?>"><?= e($settings['phone_primary']) ?></a></div>
             </div>
           </li>
           <li>
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg></div>
             <div>
-              <h4>Email</h4>
+              <h3 class="contact-label">Email</h3>
               <div class="val"><a href="mailto:<?= e($settings['email_primary']) ?>"><?= e($settings['email_primary']) ?></a></div>
             </div>
           </li>
           <li>
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
             <div>
-              <h4>Working Hours</h4>
+              <h3 class="contact-label">Working Hours</h3>
               <div class="val">Monday &ndash; Saturday &middot; 10:00 AM &ndash; 7:00 PM</div>
             </div>
           </li>

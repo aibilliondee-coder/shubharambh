@@ -42,16 +42,16 @@ define('DB_CHARSET', 'utf8mb4');
 // Leave blank to disable reCAPTCHA verification during local development.
 // ---------------------------------------------------------------------------
 define('RECAPTCHA_SITE_KEY', '');
-define('RECAPTCHA_SECRET',   '');
+define('RECAPTCHA_SECRET', '');
 define('RECAPTCHA_MIN_SCORE', 0.5);
 
 // ---------------------------------------------------------------------------
 // Company contact defaults (overridden by site_settings table if row exists)
 // ---------------------------------------------------------------------------
-define('DEFAULT_COMPANY_NAME',   'Shubharambh Infra Advisors');
-define('DEFAULT_PHONE',          '+91 9911600100');
-define('DEFAULT_WHATSAPP',       '919911600100');
-define('DEFAULT_EMAIL',          'company@shubharambhinfraadvisors.com');
+define('DEFAULT_COMPANY_NAME', 'Shubharambh Infra Advisors');
+define('DEFAULT_PHONE', '+91 9911600100');
+define('DEFAULT_WHATSAPP', '919911600100');
+define('DEFAULT_EMAIL', 'company@shubharambhinfraadvisors.com');
 
 // ---------------------------------------------------------------------------
 // Error reporting

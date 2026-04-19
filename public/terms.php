@@ -10,6 +10,7 @@ $settings = load_settings();
 $page_title       = 'Terms & Conditions — ' . $settings['company_name'];
 $page_description = 'Terms and conditions governing use of the Shubharambh Infra Advisors website and services.';
 $page_active      = '';
+$page_robots      = 'noindex, nofollow';
 include __DIR__ . '/../includes/header.php';
 ?>
 

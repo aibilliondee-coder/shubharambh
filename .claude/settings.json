@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/xampp/htdocs/shubharambh/public/assets/css/**)",
+      "Read(//c/xampp/htdocs/shubharambh/public/assets/js/**)",
+      "Read(//c/xampp/htdocs/shubharambh/public/**)",
+      "Bash(curl -s http://localhost/shubharambh/public/)",
+      "Read(//c/xampp/htdocs/shubharambh/**)",
+      "Bash(php -r 'define\\('\\\\''APP_ROOT'\\\\'', __DIR__\\); require '\\\\''includes/bootstrap.php'\\\\''; $s = load_settings\\(\\); echo $s['\\\\''hero_subtitle'\\\\''] ?? '\\\\''NOT SET'\\\\'';')",
+      "Bash(/c/xampp/php/php.exe -r 'define\\('\\\\''APP_ROOT'\\\\'', '\\\\''c:/xampp/htdocs/shubharambh'\\\\''\\); require '\\\\''c:/xampp/htdocs/shubharambh/includes/bootstrap.php'\\\\''; $s = load_settings\\(\\); echo $s['\\\\''hero_subtitle'\\\\''] ?? '\\\\''NOT SET'\\\\'';')",
+      "Bash(grep -E \"\\\\.php$\")",
+      "Bash(xargs grep *)",
+      "Bash(c:/xampp/php/php.exe -r ' *)",
+      "WebFetch(domain:theblue.tandtgroup.in)",
+      "WebFetch(domain:moneytreerealty.com)",
+      "Bash(curl -L -o \"c:/xampp/htdocs/shubharambh/public/uploads/projects/tnt-the-blue.webp\" \"https://theblue.tandtgroup.in/wp-content/uploads/2025/01/IMG-20250124-WA0002-1024x621.jpg\" --max-time 30 -s)",
+      "Bash(curl -L -o \"c:/xampp/htdocs/shubharambh/public/uploads/projects/yatharth-highlife.webp\" \"https://moneytreerealty.com/storage/images/conversions/yatharthhighlife1-hero.webp\" --max-time 30 -s)"
+    ],
+    "additionalDirectories": [
+      "c:\\xampp\\htdocs\\shubharambh\\includes",
+      "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\css",
+      "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\js",
+      "c:\\xampp\\htdocs\\shubharambh\\public",
+      "c:\\xampp\\htdocs\\shubharambh\\sql"
+    ]
+  }
+}
