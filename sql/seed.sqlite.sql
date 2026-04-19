@@ -327,3 +327,49 @@ INSERT INTO team_members (full_name, title, bio, photo, sort_order) VALUES
 ('Mr. Mohit Khari', 'Founder & CEO',
  'With over a decade of rich experience in Indian real estate, Mr. Mohit Khari leads Shubharambh Infra Advisors with a mission to simplify property buying, selling and investing for every client. Under his leadership, the firm has built a reputation for transparent advice, deep market insight and long-term client relationships.',
  'team/mohit-khari.jpg', 10);
+
+-- -----------------------------------------------------------------------------
+-- New Projects — Session 3 (19 April 2026)
+-- -----------------------------------------------------------------------------
+INSERT OR IGNORE INTO projects
+  (slug, name, tagline, builder, location, city, price_display, property_type,
+   configurations, sizes, possession, rera_id, description, amenities,
+   connectivity, usps, cover_image, is_featured, is_active, sort_order)
+VALUES
+('tnt-the-blue',
+ 'T&T The Blue',
+ 'AI-Enabled Luxury Living on NH-24, Ghaziabad',
+ 'T&T Group',
+ 'Siddharth Vihar, NH-24, Ghaziabad',
+ 'Ghaziabad',
+ '₹2.8 Cr Onwards',
+ 'Luxury 3 BHK Apartments',
+ '3 BHK',
+ '3 BHK: 2,048 sq ft',
+ 'December 2027',
+ 'UPRERAPRJ899584',
+ 'T&T The Blue is a landmark luxury residential project in Siddharth Vihar, Ghaziabad — strategically located on NH-24 with seamless connectivity to Noida Sector 62, Akshardham and Delhi. Developed by T&T Group, The Blue redefines premium urban living with AI-enabled smart homes, fully loaded apartments and world-class amenities. With only 2 residences per floor, it offers an ultra-exclusive, zero-traffic, pedestrian-friendly community wrapped in stunning white architecture and lush green landscaping.',
+ '["World-class swimming pool","Indoor clubhouse","Yoga lawn & sensory zen garden","Kids garden & play area","Multi-purpose sports courts","Open-air gymnasium","Jogging & cycling track","Daily needs kiosk","5-tier security system","Zero on-ground traffic design","Grand 16-foot lobby","Digital amenities & smart home"]',
+ '["NH-24 highway directly accessible","5 minutes from Noida Sector 62","10 minutes from Akshardham Temple","6 minutes to Fortis Hospital Sector 62","20 minutes to Sector 18 market","30 minutes to Connaught Place","40 minutes to New Delhi Railway Station","50 minutes to IGI Airport"]',
+ '["AI-enabled smart home technology","Fully loaded luxury apartments — move-in ready","Only 2 residences per floor — ultra-exclusive living","6 customizable design themes (Classical, Contemporary, Futuristic)","All-white façade with lush green landscaping","RERA registered — UPRERAPRJ899584","Zero on-ground traffic — complete pedestrian zone","Sustainable & ecological architecture"]',
+ 'projects/tnt-the-blue.webp',
+ 1, 1, 125),
+
+('yatharth-highlife',
+ 'Yatharth HighLife TechZone 4',
+ 'IKEA-Furnished Smart Homes by NBCC, Greater Noida West',
+ 'Yatharth Group & NBCC India',
+ 'Tech Zone IV, Dream Valley, Greater Noida West',
+ 'Greater Noida',
+ '₹90 Lakh Onwards',
+ 'Smart 1 BHK & 2 BHK Apartments',
+ '1 BHK, 2 BHK',
+ '1 BHK: 941–964 sq ft | 2 BHK: 1,410–1,454 sq ft',
+ '2030',
+ 'NBCC Dream Valley — SC supervised',
+ 'Yatharth HighLife TechZone 4 is a premium residential development in Greater Noida West, built under the supervision of NBCC India Ltd. — a Government of India undertaking — and approved by the Supreme Court of India. Offering 1 BHK and 2 BHK IKEA-furnished smart apartments, Yatharth HighLife brings together affordability, modern design and technology in one of Delhi NCR''s fastest-growing micro-markets.',
+ '["Infinity swimming pool","Fully equipped gymnasium","Kids play zone","Jogging & cycling tracks","Landscaped gardens","IKEA-furnished interiors (standard)","Smart home integration","24x7 CCTV surveillance","24x7 concierge services","Power backup","Rainwater harvesting","Commercial podium","Dedicated parking"]',
+ '["FNG Expressway — 10-15 minutes","Ryan International School — 0.6 km","Gaur City Mall — 2.4 km","Proposed metro station — nearby","Noida Expressway — 15 minutes","Jewar International Airport — 35-40 km"]',
+ '["NBCC India Ltd. supervised — Supreme Court approved","IKEA-furnished apartments — India first of its kind","Smart home integration standard","Pre-launch offer: 10% now, no payment for 24 months","Only 91 units across 2 towers — boutique community","Backed by NBCC (Government of India undertaking)"]',
+ 'projects/yatharth-highlife.webp',
+ 1, 1, 120);

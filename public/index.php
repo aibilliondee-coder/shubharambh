@@ -11,7 +11,7 @@ $settings = load_settings();
 try {
     $projects = db()->query(
         'SELECT * FROM projects WHERE is_featured = 1 AND is_active = 1
-         ORDER BY sort_order ASC, id DESC LIMIT 9'
+         ORDER BY sort_order DESC, id DESC LIMIT 9'
     )->fetchAll();
 
     $testimonials = db()->query(

@@ -39,7 +39,7 @@ switch ($sort) {
     case 'name':       $orderBy = 'name ASC'; break;
     case 'price_asc':  $orderBy = 'sort_order ASC, name ASC'; break;
     case 'price_desc': $orderBy = 'sort_order DESC, name ASC'; break;
-    default:           $orderBy = 'is_featured DESC, sort_order ASC, id DESC';
+    default:           $orderBy = 'is_featured DESC, sort_order DESC, id DESC';
 }
 
 try {
