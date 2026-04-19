@@ -330,3 +330,84 @@ Added on every page in:
 | `public/index.php` | Advisor section moved above Featured Projects, hero subtitle updated, advisor section restructured as standalone |
 | `public/assets/css/style.css` | Shortlist bar visibility fix, toast offset, clear btn CSS, advisor redesign (no box), partner logos white bg, mobile bar layout |
 | `public/assets/js/main.js` | Removed `initNotifBanner()`, added `initShortlistClear()`, dual count update for short label |
+
+---
+
+## 🗓️ Session 3 (Continued) — 19 April 2026
+
+---
+
+## 🎓 17. Careers Page — New Page Created
+
+### ✅ Full careers page built from scratch (`public/careers.php`)
+- **Why Join Us** — 6 perk cards: High Earning Potential, Expert Mentorship, Fast Growth, Premium Projects, RERA-Registered, Flexible Culture
+- **Open Positions** — 4 job listings with requirements + Apply Now buttons:
+  - Senior Property Advisor (₹4–10 LPA + Commission)
+  - Digital Marketing Executive (₹3–6 LPA)
+  - Property Consultant Fresher (₹2.5–4 LPA + Incentives)
+  - CRM & Operations Executive (₹3–5 LPA)
+- **Stats strip** — 10+ years, 500+ clients, 50+ projects, 30+ team members
+- **Application form** — name, email, phone, position dropdown, experience, cover letter
+  - CSRF token validation, honeypot spam protection
+  - Submissions saved to `inquiries` table with `source = 'careers'`
+  - Success state + error state with messages
+- **SEO** — title, meta description with main keyword "Best Property Advisor in Noida"
+- **"Careers" added to header nav** (between EMI Calc and Contact)
+- **"Careers" added to footer Quick Links**
+- Fully responsive — 3-col perks → 2-col → 1-col on mobile
+
+---
+
+## 🏗️ 18. New Projects Added — T&T The Blue & Yatharth HighLife
+
+### ✅ T&T The Blue (ID: 12, sort_order: 125)
+- Builder: T&T Group
+- Location: Siddharth Vihar, NH-24, Ghaziabad
+- Config: 3 BHK | Size: 2,048 sq ft | Price: ₹2.8 Cr Onwards
+- Possession: December 2027 | RERA: UPRERAPRJ899584
+- Category: Residential | is_featured: 1
+- Key USPs: AI-enabled smart home, only 2 residences/floor, 6 design themes, white façade
+- Cover image downloaded from `theblue.tandtgroup.in`
+
+### ✅ Yatharth HighLife TechZone 4 (ID: 13, sort_order: 120)
+- Builder: Yatharth Group & NBCC India
+- Location: Tech Zone IV, Dream Valley, Greater Noida West
+- Config: 1 BHK, 2 BHK | Sizes: 941–1,454 sq ft | Price: ₹90 Lakh Onwards
+- Possession: 2030 | NBCC/Supreme Court supervised
+- Category: Residential | is_featured: 1
+- Key USPs: IKEA-furnished, smart home, NBCC govt. undertaking, only 91 units
+- Cover image downloaded from `moneytreerealty.com`
+
+### ✅ Project display order fixed — latest projects now show first
+- Changed `ORDER BY sort_order ASC` → `DESC` in `index.php` and `projects.php`
+- Higher sort_order = appears first on homepage and projects page
+
+### ✅ Both projects added to `sql/seed.sqlite.sql` for git deployment
+
+---
+
+## 🔤 19. Font Changed — Inter → DM Sans (Sitewide)
+
+### ✅ Body font changed from Inter to DM Sans across entire project
+- Updated Google Fonts `<link>` in `includes/header.php`
+- Updated CSS variable: `--f-sans: 'DM Sans'`
+- Updated `--f-serif: 'DM Sans'` (Playfair Display removed from headings/numbers)
+- All text — headings, body, numbers, labels — now renders in DM Sans
+- Playfair Display retained only in logo SVG file
+- Added `?v=20260419b` cache-busting query to CSS link
+
+---
+
+## 📁 Files Modified (Session 3 Continued)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | Careers nav link added, DM Sans Google Fonts, cache-bust version query |
+| `includes/footer.php` | Careers link added to Quick Links |
+| `public/careers.php` | **NEW FILE** — full careers page with job listings + application form |
+| `public/index.php` | `ORDER BY sort_order DESC` for newest projects first |
+| `public/projects.php` | `ORDER BY sort_order DESC` default sort |
+| `public/assets/css/style.css` | Careers page CSS, `--f-sans` + `--f-serif` → DM Sans, font comment updated |
+| `sql/seed.sqlite.sql` | T&T The Blue + Yatharth HighLife INSERT statements added |
+| `public/uploads/projects/tnt-the-blue.webp` | 
+| `public/uploads/projects/yatharth-highlife.webp`  |
