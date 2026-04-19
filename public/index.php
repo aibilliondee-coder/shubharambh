@@ -85,18 +85,12 @@ include __DIR__ . '/../includes/header.php';
   $heroVideo  = APP_ROOT . '/public/assets/video/hero.mp4';
   $hasHeroVideo = is_file($heroVideo);
 ?>
-<?php
-  $heroWaMsg = 'Hi, I would like to book a free consultation with Shubharambh Infra Advisors.';
-  $heroWaHref = whatsapp_url($settings['phone_whatsapp'], $heroWaMsg);
-  $heroTelHref = 'tel:' . preg_replace('/\s+/', '', $settings['phone_primary']);
-?>
-<section class="hero hero--cinematic<?= $hasHeroVideo ? ' has-video' : '' ?>">
+<section class="hero">
   <!-- Cinematic media stack: video (if available) + rotating image slides + overlays -->
   <div class="hero-media" aria-hidden="true">
     <?php if ($hasHeroVideo): ?>
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata"
-             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>"
-             disableremoteplayback>
+      <video class="hero-video" autoplay muted loop playsinline preload="auto"
+             poster="<?= e(upload_url($heroSlides[0] ?? 'projects/m3mcullinan-1.webp')) ?>">
         <source src="<?= e(asset('video/hero.mp4')) ?>" type="video/mp4">
       </video>
     <?php endif; ?>
@@ -109,7 +103,6 @@ include __DIR__ . '/../includes/header.php';
     </div>
 
     <div class="hero-overlay"></div>
-    <div class="hero-vignette"></div>
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
     <div class="hero-orb hero-orb--1"></div>
@@ -117,33 +110,9 @@ include __DIR__ . '/../includes/header.php';
   </div>
 
   <div class="container hero-inner">
-    <span class="hero-badge">
-      <span class="hero-badge-dot" aria-hidden="true"></span>
-      RERA&nbsp;Registered&nbsp;·&nbsp;Since&nbsp;2014
-    </span>
-    <h1><?= e($settings['hero_title']) ?> <span class="accent">in Delhi NCR</span></h1>
-    <p class="sub"><?= e($settings['hero_subtitle']) ?></p>
-
-    <div class="hero-ctas reveal delay-1">
-      <a href="<?= e($heroWaHref) ?>" target="_blank" rel="noopener"
-         class="btn btn-hero-primary" aria-label="Book a free consultation on WhatsApp">
-        <span class="btn-label">Book Free Consultation</span>
-        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <a href="<?= e(url('projects.php')) ?>" class="btn btn-hero-ghost"
-         aria-label="Explore curated properties">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-        </svg>
-        <span class="btn-label">Explore Properties</span>
-      </a>
-      <a href="<?= e($heroTelHref) ?>" class="hero-call" aria-label="Call us now">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.93.37 1.85.72 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.29a2 2 0 0 1 2.11-.45c.87.35 1.79.59 2.72.72A2 2 0 0 1 22 16.92z"/></svg>
-        <span>or call <strong><?= e($settings['phone_primary']) ?></strong></span>
-      </a>
-    </div>
+    <span class="eyebrow">Shubharambh Infra Advisors — Best Property Advisor in Noida</span>
+    <h1 style="font-size:clamp(1.6rem,7vw,3.25rem);">Best Property Advisor <span class="accent">in Noida</span></h1>
+    <p class="sub">Trusted by 500+ Families Across Delhi NCR</p>
 
     <div class="hero-search" role="search">
       <div class="hero-search-tabs" role="tablist" aria-label="Property type">
@@ -226,6 +195,56 @@ include __DIR__ . '/../includes/header.php';
   </div>
 </section>
 <?php endif; ?>
+
+<!-- ==========  ADVISOR INFO EXPAND  ========== -->
+<section class="section section--plain advisor-info-section" id="advisor-info">
+  <div class="container">
+    <div class="advisor-info-wrap reveal">
+      <div class="advisor-info-header">
+        <div class="advisor-info-title">
+          <h2>Your Trusted Property Investment Partner <span class="accent">in Noida</span></h2>
+          <p>Shubharambh Infra Advisors — helping families find the right property since 2014.</p>
+        </div>
+        <button class="advisor-read-more-btn" aria-expanded="false" aria-controls="advisor-info-body" type="button">
+          <span class="btn-label">Read More</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Advisor side panel — outside all sections so position:fixed works correctly -->
+<div class="advisor-panel-backdrop" id="advisor-panel-backdrop" aria-hidden="true"></div>
+<div class="advisor-info-body" id="advisor-info-body" aria-hidden="true">
+  <div class="advisor-panel-close">
+    <span class="advisor-panel-close-title">About Us</span>
+    <button class="advisor-panel-close-btn" aria-label="Close panel" type="button">&#10005;</button>
+  </div>
+  <div class="advisor-info-grid">
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Best Property Advisor in Noida for Buyers &amp; Investors</h3>
+      <p>Shubharambh Infra Advisors is recognized as the best property advisor in Noida — with a strong focus on transparency, RERA compliance and client satisfaction. We help buyers and investors make confident, informed property decisions across Delhi NCR.</p>
+    </div>
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>Expert Guidance for Residential, Commercial &amp; Investment Properties</h3>
+      <p>As a leading property advisor in Noida, we provide expert guidance on residential apartments, luxury plots and commercial spaces. Our experienced consultants analyze market trends, project reliability and growth potential to ensure maximum ROI for every client.</p>
+    </div>
+    <div class="advisor-info-card">
+      <div class="advisor-info-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>RERA-Registered &amp; Trusted Real Estate Consultancy in Delhi NCR</h3>
+      <p>With 10+ years of experience and 500+ families served, we have earned a reputation as the most trusted real estate consultancy in Noida and Delhi NCR. Every project in our portfolio is RERA-approved and due-diligence verified — so you invest with total confidence.</p>
+    </div>
+  </div>
+</div>
 
 <!-- ==========  FEATURED PROJECTS  ========== -->
 <section class="section" id="projects">
