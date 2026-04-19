@@ -149,14 +149,12 @@ $whatsappHref = whatsapp_url($settings['phone_whatsapp'], $whatsappMsg);
 </button>
 
 <!-- Shortlist bar (favorites counter) -->
-<div class="shortlist-bar" id="shortlist-bar" role="status" aria-live="polite" aria-hidden="true">
-  <a class="shortlist-bar__count" href="<?= e(url('contact.php?shortlist=1')) ?>" aria-label="Review your shortlisted projects">
-    <span class="shortlist-bar__dot" aria-hidden="true"></span>
-    <span class="shortlist-bar__text">Shortlisted <strong id="shortlist-count">0</strong> <span class="shortlist-bar__word">projects</span></span>
-  </a>
-  <a href="<?= e(url('contact.php?shortlist=1')) ?>" class="btn btn-gold btn-sm shortlist-bar__cta">Get&nbsp;Quotes</a>
-  <button type="button" class="shortlist-bar__close" id="shortlist-close" aria-label="Dismiss shortlist bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+<div class="shortlist-bar" id="shortlist-bar" role="status" aria-live="polite">
+  <span class="shortlist-label-full">Shortlisted <strong id="shortlist-count">0</strong> projects</span>
+  <span class="shortlist-label-short">&#9829; <strong id="shortlist-count-sm">0</strong> saved</span>
+  <a href="<?= e(url('contact.php')) ?>" class="btn btn-gold btn-sm">Get Quotes</a>
+  <button class="shortlist-clear-btn" id="shortlist-clear" aria-label="Clear all shortlisted projects" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
   </button>
 </div>
 

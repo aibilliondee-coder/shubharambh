@@ -225,14 +225,6 @@ Added on every page in:
 
 ---
 
-## ⚙️ 10. XAMPP Config Fix
-
-### ✅ `config/config.php` — SITE_URL updated for XAMPP
-- Changed `SITE_URL` from `http://localhost:8000` (PHP built-in server) to `http://localhost/shubharambh/public`
-- Fixes CSS/JS/image paths when running via XAMPP Apache instead of PHP built-in server
-
----
-
 ## 🔑 11. Keyword Density — index.php
 
 ### ✅ "Best Property Advisor in Noida" now visible 4 times in body content
@@ -254,3 +246,87 @@ Added on every page in:
 | `public/index.php` | Keyword added 2 more times naturally (about section + why choose us) |
 | `public/assets/css/style.css` | Fixed header, notification banner, mobile nav drawer redesign, body padding-top, banner CSS variables |
 | `public/assets/js/main.js` | `initNotifBanner()` — dismiss + sessionStorage, drawer close button wired to `initNav()` |
+
+---
+
+## 🗓️ Session 3 — 19 April 2026
+
+---
+
+## 🎫 12. Notification Banner — Updates
+
+### ✅ CTA button text changed: "Grab the Deal" → "Enquire Now"
+
+### ✅ Close (✕) button permanently removed
+- Banner is now always visible — cannot be dismissed by user
+- Removed `initNotifBanner()` JS function entirely (dismiss + sessionStorage logic deleted)
+- Removed `.notif-banner__close`, `.notif-banner.is-hidden`, `body.no-banner` CSS
+
+---
+
+## ❤️ 13. Shortlist Bar — Bug Fixes & UI
+
+### ✅ Bug fix: shortlist bar was showing on mobile even with 0 projects
+- Added `visibility: hidden` by default with `transition delay` trick
+- Bar is now fully invisible until `.visible` class is added (count > 0)
+
+### ✅ Overlap fix: shortlist bar was overlapping sticky mobile bar
+- `bottom: calc(76px + env(safe-area-inset-bottom))` — sits cleanly above sticky bar
+
+### ✅ Toast notification moved above shortlist bar on mobile
+- `bottom: calc(148px + env(safe-area-inset-bottom))` so toast doesn't overlap bar
+
+### ✅ Clear All (🗑️) trash icon button added to shortlist bar
+- Clears all shortlisted projects from localStorage in one tap
+- Removes `is-saved` class from all heart buttons
+- Shows toast: "Shortlist cleared"
+- CSS: red hover state on trash icon
+
+### ✅ Mobile layout fix — single row, no wrap
+- `flex-wrap: nowrap` on mobile
+- `white-space: nowrap` on text and button
+- On screens ≤360px: label switches to short version "♥ N saved" to fit in one row
+
+---
+
+## 📍 14. Advisor Info Section — Repositioned & Redesigned
+
+### ✅ Moved above Featured Projects
+- Order is now: **Advisor → Featured Projects → About → Counters → Why Choose Us → Testimonials**
+
+### ✅ Visual redesign — removed card box
+- Removed `border`, `border-radius`, `background` from `.advisor-info-wrap`
+- Now a clean full-width strip with `border-top` + `border-bottom` divider lines
+- Blends naturally between trust strip and featured projects
+
+### ✅ Layout changed to centered
+- Heading + subtitle centered
+- Read More button centered below (was side-by-side with heading)
+- `font-size: clamp(1.4rem, 3vw, 2rem)` for responsive heading
+
+---
+
+## 🏷️ 15. Hero Subtitle Updated
+
+### ✅ "BEST REAL ESTATE PROPERTY CONSULTANT IN DELHI/NCR" → "Trusted by 500+ Families Across Delhi NCR"
+- Hardcoded in `public/index.php` (overrides DB value)
+
+---
+
+## 🤝 16. Partner Logos — Uniform White Background
+
+### ✅ All partner logo cards now have pure `#ffffff` background
+- Previously some logos had transparent PNG backgrounds (SVG Developers, GlobalBirth) — looked inconsistent
+- Fixed: `.partners-track .partner { background: #ffffff }` — uniform across all logos
+
+---
+
+## 📁 Files Modified (Session 3)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | Removed close button from banner, CTA text → "Enquire Now" |
+| `includes/footer.php` | Added trash icon (Clear All) button to shortlist bar, dual span labels for responsive text |
+| `public/index.php` | Advisor section moved above Featured Projects, hero subtitle updated, advisor section restructured as standalone |
+| `public/assets/css/style.css` | Shortlist bar visibility fix, toast offset, clear btn CSS, advisor redesign (no box), partner logos white bg, mobile bar layout |
+| `public/assets/js/main.js` | Removed `initNotifBanner()`, added `initShortlistClear()`, dual count update for short label |

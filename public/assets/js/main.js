@@ -68,32 +68,6 @@
     }, 4400);
   }
 
-  // ------------------------------------------------------------------
-  // Notification banner — dismiss on close, remember via sessionStorage
-  // ------------------------------------------------------------------
-  function initNotifBanner() {
-    const banner = document.querySelector('.notif-banner');
-    const closeBtn = document.querySelector('.notif-banner__close');
-    if (!banner || !closeBtn) return;
-
-    function dismissBanner() {
-      banner.classList.add('is-hidden');
-      document.body.classList.add('no-banner');
-      document.documentElement.style.setProperty('--banner-h', '0px');
-      try { sessionStorage.setItem('notif_dismissed', '1'); } catch(e) {}
-    }
-
-    // Check session — if dismissed before, hide immediately
-    try {
-      if (sessionStorage.getItem('notif_dismissed') === '1') {
-        banner.classList.add('is-hidden');
-        document.body.classList.add('no-banner');
-        document.documentElement.style.setProperty('--banner-h', '0px');
-      }
-    } catch(e) {}
-
-    closeBtn.addEventListener('click', dismissBanner);
-  }
 
   // ------------------------------------------------------------------
   // Sticky header shrink on scroll
@@ -486,9 +460,21 @@
     if (!bar) return;
     const count = getFavs().length;
     const numEl = $('#shortlist-count', bar);
+    const numElSm = $('#shortlist-count-sm', bar);
     if (numEl) numEl.textContent = count;
+    if (numElSm) numElSm.textContent = count;
     bar.classList.toggle('visible', count > 0);
     document.body.classList.toggle('has-shortlist', count > 0);
+  }
+  function initShortlistClear() {
+    const btn = $('#shortlist-clear');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      setFavs([]);
+      $$('[data-fav]').forEach(b => b.classList.remove('is-saved'));
+      updateShortlistBar();
+      showToast('Shortlist cleared', 'success');
+    });
   }
 
   // ------------------------------------------------------------------
@@ -675,8 +661,7 @@
   // ------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', () => {
     // Critical — run immediately (affects visible UI)
-    initNotifBanner();
-    initStickyHeader();
+initStickyHeader();
     initNav();
     initHeroSlides();
     initHeroTabs();
@@ -690,6 +675,7 @@
       initReveal();
       initCounters();
       initFavorites();
+      initShortlistClear();
       initScrollTop();
       initFilterBar();
       initForms();
@@ -697,6 +683,41 @@
     idle(() => {
       initEmiCalc();
       initPopup();
+      initAdvisorExpand();
     });
   });
+
+  // ------------------------------------------------------------------
+  // Advisor info expand / collapse
+  // ------------------------------------------------------------------
+  function initAdvisorExpand() {
+    const btn      = document.querySelector('.advisor-read-more-btn');
+    const panel    = document.querySelector('.advisor-info-body');
+    const backdrop = document.querySelector('.advisor-panel-backdrop');
+    const closeBtn = document.querySelector('.advisor-panel-close-btn');
+    if (!btn || !panel) return;
+
+    const open = () => {
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.querySelector('.btn-label').textContent = 'Read Less';
+      if (backdrop) backdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.querySelector('.btn-label').textContent = 'Read More';
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+
+    btn.addEventListener('click', () => panel.classList.contains('is-open') ? close() : open());
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (backdrop) backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  }
+
 })();

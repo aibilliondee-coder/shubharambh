@@ -279,11 +279,30 @@ $page_robots      = $page_robots ?? 'index, follow';
 
 <div class="nav-backdrop" aria-hidden="true"></div>
 
-<!-- Notification Banner -->
-<div class="notif-banner" role="alert" aria-live="polite">
-  <span class="notif-banner__text">&#x1F525; Limited Time Offer — <strong>Book Your Plot Today</strong> &amp; Get Exclusive Pre-Launch Prices in Noida!</span>
+<!-- Notification Ticker Banner -->
+<div class="notif-banner" role="marquee" aria-live="off">
+  <div class="notif-ticker-track">
+    <div class="notif-ticker-inner">
+      <span>&#x1F525; Limited Time Offer — <strong>Book Your Plot Today</strong> &amp; Get Exclusive Pre-Launch Prices in Noida!</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x1F3E1; Premium Residential &amp; Commercial Properties in <strong>Noida, Greater Noida &amp; Gurgaon</strong></span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x2714;&#xFE0F; RERA-Registered Consultancy — <strong>500+ Happy Families</strong> Served Since 2014</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x1F4DE; Call Now: <strong><?= e($settings['phone_primary']) ?></strong> — Free Property Consultation!</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <!-- Duplicate for seamless loop -->
+      <span>&#x1F525; Limited Time Offer — <strong>Book Your Plot Today</strong> &amp; Get Exclusive Pre-Launch Prices in Noida!</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x1F3E1; Premium Residential &amp; Commercial Properties in <strong>Noida, Greater Noida &amp; Gurgaon</strong></span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x2714;&#xFE0F; RERA-Registered Consultancy — <strong>500+ Happy Families</strong> Served Since 2014</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+      <span>&#x1F4DE; Call Now: <strong><?= e($settings['phone_primary']) ?></strong> — Free Property Consultation!</span>
+      <span class="notif-ticker-sep">&#9670;</span>
+    </div>
+  </div>
   <a href="<?= e(url('contact.php')) ?>" class="notif-banner__cta">Enquire Now</a>
-  <button class="notif-banner__close" aria-label="Close notification" type="button">&#10005;</button>
 </div>
 
 <main id="main">
