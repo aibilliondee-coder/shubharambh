@@ -77,7 +77,7 @@ include __DIR__ . '/../includes/header.php';
   <div class="pd-slider" id="pdSlider">
     <?php foreach ($galleryImgs as $i => $gImg): ?>
     <div class="pd-slide <?= $i === 0 ? 'active' : '' ?>">
-      <img src="<?= e($gImg) ?>" alt="<?= e($project['name']) ?> — Image <?= $i+1 ?>"
+      <img src="<?= e($gImg) ?>" alt="<?= e($project['name']) ?> by <?= e($project['builder']) ?> — <?= e($project['property_type']) ?> in <?= e($project['location']) ?> | Gallery Image <?= $i+1 ?>"
            loading="<?= $i === 0 ? 'eager' : 'lazy' ?>">
     </div>
     <?php endforeach; ?>
