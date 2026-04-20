@@ -409,5 +409,181 @@ Added on every page in:
 | `public/projects.php` | `ORDER BY sort_order DESC` default sort |
 | `public/assets/css/style.css` | Careers page CSS, `--f-sans` + `--f-serif` → DM Sans, font comment updated |
 | `sql/seed.sqlite.sql` | T&T The Blue + Yatharth HighLife INSERT statements added |
-| `public/uploads/projects/tnt-the-blue.webp` | 
-| `public/uploads/projects/yatharth-highlife.webp`  |
+| `public/uploads/projects/tnt-the-blue.webp` | Cover image downloaded from official site |
+| `public/uploads/projects/yatharth-highlife.webp` | Cover image downloaded from moneytreerealty.com |
+
+---
+
+## 🗓️ Session 4 — 20 April 2026
+
+---
+
+## 📝 20. Blog System — Built from Scratch
+
+### ✅ Database Table — `blogs`
+- New SQLite table: `id, slug (UNIQUE), title, excerpt, body (HTML), cover_image, category, author, read_time, is_published, sort_order, published_at, created_at, updated_at`
+- 6 blog posts seeded with real Delhi NCR real estate content
+
+### ✅ Blog Listing Page — `public/blogs.php`
+- Category filter bar (All / Finance & Loans / Investment Guide / Legal & Compliance / Location Guide / Project Reviews)
+- Filter bar: horizontal scroll on mobile (no wrapping)
+- Pagination: 9 posts per page
+- Blog cards: image, category badge, read time, author, title, excerpt (clamped 2 lines on mobile), Read More link
+- `$page_active = 'blog'` — Blog nav link highlighted
+
+### ✅ Single Post Page — `public/blog.php`
+- Slug-based routing via `?slug=` GET param
+- Two-column layout: main content + sticky sidebar
+- Main: category badge, read time + author meta, H1 title, excerpt (gold left border), cover image (`eager` load), prose body
+- Share bar: WhatsApp / Facebook / LinkedIn buttons
+- CTA box: "Looking for Best Property in Noida?" with Free Consultation button
+- Sidebar: author card (Shubharambh Infra Advisors), related posts (same category, fallback to any), quick contact (Call + WhatsApp)
+- Related posts: thumbnail + title + date
+
+### ✅ Homepage Blog Section — `public/index.php`
+- New "Latest from Our Blog" section added before testimonials
+- Shows 6 most recent published posts (ORDER BY sort_order DESC)
+- "View All Blogs" button shown only when total posts > 6
+
+### ✅ Navigation — Blog Link Added
+- **Header nav:** Blog link added between Projects and Careers
+- **Footer Quick Links:** Blog link added
+
+### ✅ Blog CSS
+- `.blog-grid` — 3-col → 2-col → 1-col responsive
+- `.blog-card` — hover lift, gold border on hover, image scale on hover
+- `.blog-filter-bar` — pill buttons, gold active state
+- `.blog-post-layout` — 2-col with sticky sidebar
+- `.prose` — styled h2/h3/p/ul/li for blog body content
+- `.blog-share`, `.share-btn` — WhatsApp/FB/LinkedIn color buttons
+- `.blog-cta-box` — gradient CTA inside post
+- `.blog-post-sidebar`, `.blog-author`, `.blog-related-*` — sidebar components
+
+---
+
+## 📸 21. Blog Cover Images — Real Contextual Photos
+
+### ✅ 6 images downloaded from Unsplash — relevant to each topic
+
+| Blog Post | Image Theme |
+|---|---|
+| Best Property Advisor in Noida | Professional advisor meeting client |
+| Why Noida is Best Place to Invest (2026) | Noida city / skyline |
+| RERA Registered Property | Legal document signing |
+| Complete Home Loan Guide | House keys + home |
+| Top 5 Luxury Projects Noida Expressway | Luxury apartment building |
+| Residential vs Commercial Investment | Commercial high-rise |
+
+- All blog card images: `loading="lazy"`
+- Single post cover: `loading="eager"` (above fold)
+
+---
+
+## ✍️ 22. Blog Content — Real Delhi NCR Data
+
+### ✅ All 6 posts updated with genuine real estate content
+- **No fake author** — all posts show "Shubharambh Infra Advisors" (removed "Mohit Khari")
+- **No fake dates** — published_at removed from display (card meta + single post)
+- **Year corrected** — all content updated from 2025 → 2026 including slugs
+- Real data embedded: UP-RERA registration numbers (UPRERAPRJ559147, UPRERAPRJ4699, UPRERAPRJ619773, UPRERAPRJ4081), actual price ranges (₹4,500–₹12,500/sq ft), real developers (Godrej, ATS, M3M, Mahagun, Gaurs), Jewar Airport, Aqua Line Metro, RBI repo rate 6.0%, tax sections 24(b) and 80C
+
+### ✅ Greater Noida West blog post deleted (irrelevant to Shubharambh focus areas)
+
+### ✅ New blog: "Best Property Advisor in Noida" (main keyword blog)
+- slug: `best-property-advisor-in-noida`
+- sort_order: 100 (shows first on all listings)
+- 8-min read, ~900 words targeting main SEO keyword
+- Covers: why you need an advisor, 4 must-haves (RERA, local expertise, track record, transparency), red flags, Shubharambh credentials
+- Mentions: 500+ families, since 2014, Sector 150/152/146, zero brokerage, free consultation, +91 9911600100
+
+---
+
+## 💼 23. Careers Page — Major Upgrades
+
+### ✅ CV / Resume Upload Added
+- File input accepts PDF, DOC, DOCX only (max 5 MB)
+- Server-side MIME type validation via `finfo_file()` (not just extension)
+- Stored in `public/uploads/cv/` with randomised filename: `cv_[timestamp]_[hex].ext`
+- Custom drag-and-drop UI: dashed border, filename preview on select
+
+### ✅ Dedicated DB Table — `job_applications`
+- Separate from general `inquiries` table
+- Fields: `full_name, email, phone, position, experience, cover_letter, cv_path, ip_address, user_agent, status, created_at`
+- All form submissions now stored here
+
+### ✅ Rate Limiting — 1 Submission per IP per 24 Hours
+- Checked against `job_applications` table: `WHERE ip_address = ? AND created_at >= datetime('now', '-24 hours')`
+- Returns friendly error: "You have already submitted an application in the last 24 hours"
+- Resets automatically after 24 hours — no manual intervention needed
+
+### ✅ PRG Pattern — No Double Submit on Refresh
+- POST → DB insert → `header('Location: ...')` redirect → GET page with flash message
+- Reloading the page after submit never re-sends the form data
+- Flash message stored in `$_SESSION['career_flash']`, cleared after one display
+
+### ✅ Form Fields Cleared After Submit
+- No stale POST data shown in fields after redirect (was showing old values before)
+
+---
+
+## 🏗️ 24. Project Detail Page — Full Redesign
+
+### ✅ Hero Image Slider
+- Full-width hero replacing old single static image
+- Auto-advances every 3 seconds
+- Prev / Next arrow buttons with backdrop-blur glass effect
+- Dot navigation (bottom center)
+- Thumbnail strip (bottom) — click any thumb to jump to that image
+- First image: `loading="eager"` | All others: `loading="lazy"`
+- Smooth CSS `opacity` transition between slides (0.65s ease)
+
+### ✅ Gallery System — 3–4 Images per Project
+- New `gallery` column added to `projects` table (JSON array of image paths)
+- All 13 projects updated with gallery images
+
+### ✅ New Layout — Landing Page Style
+- **Stats bar:** Config / Sizes / Possession / City with SVG icons in 4-column grid
+- **Key Highlights:** 2-column checklist with gold circle icons
+- **Amenities:** Pill-style chip grid (3-col → 2-col → 1-col responsive)
+- **Connectivity:** Left gold border accent cards
+- **Sticky sidebar:** Price block → details list → CTA stack (Enquire / WhatsApp / Call / Shortlist)
+- 2-column layout (content + sidebar) → stacks on mobile with sidebar on top
+
+### ✅ Real Images Downloaded from Official Developer Websites
+
+| Project | Source | Images |
+|---|---|---|
+| T&T The Blue | theblue.tandtgroup.in | 4 — exterior render, interior, site photo, amenity |
+| Yatharth HighLife | moneytreerealty.com | 3 — official hero renders |
+| Corbett Eye | nprinfra.com | 1 — real project render |
+| Shubh Kadam | globalbirthdevelopers.com | 4 — Jim Corbett resort renders |
+| Uniwest Arcade | uniwestarcade.com | 4 — night/day renders + interior |
+| Uniwest Hub / Aero Hub | uniwestaerohub.com | 4 — official project images |
+
+### ✅ Alt Tags — All Project Images
+- Slider: `"[Project Name] by [Builder] — [Property Type] in [Location] | Gallery Image N"`
+- Thumbnails: `"[Project Name] thumbnail N"`
+- Related project cards: `"[Project Name] by [Builder]"`
+
+### ⏳ Pending Fix (Next Session)
+- Some project cover images are showing the **developer's logo** instead of an actual render/photo
+- Will be fixed in next session by downloading proper render images for remaining projects
+
+---
+
+## 📁 Files Modified (Session 4)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | Blog nav link, cache-bust versions updated (20260419b → 20260420a → 20260420b → 20260420c) |
+| `includes/footer.php` | Blog link in Quick Links |
+| `public/index.php` | Homepage blog section (6 cards + View All button), date removed from blog cards |
+| `public/blogs.php` | **NEW FILE** — blog listing with filter + pagination |
+| `public/blog.php` | **NEW FILE** — single post with slider, share bar, sidebar |
+| `public/careers.php` | CV upload field, PRG pattern, rate limit, `job_applications` table, flash messages |
+| `public/project.php` | Full redesign — hero slider, gallery, new layout, real images |
+| `public/assets/css/style.css` | Blog CSS, CV upload CSS, project detail redesign CSS, responsive improvements |
+| `storage/shubharambh.sqlite` | New tables: `blogs`, `job_applications`; new column: `projects.gallery` |
+| `public/uploads/blog/` | 7 blog cover images (advisor, noida, rera, homeloan, expressway, resvscom) |
+| `public/uploads/projects/` | 30+ new project images from official developer websites |
+| `public/uploads/cv/` | **NEW FOLDER** — CV/resume uploads from careers form |
