@@ -52,6 +52,7 @@ $whatsappHref = whatsapp_url($settings['phone_whatsapp'], $whatsappMsg);
           <li><a href="<?= e(url('about.php'))           ?>">About Us</a></li>
           <li><a href="<?= e(url('projects.php'))        ?>">All Projects</a></li>
           <li><a href="<?= e(url('emi-calculator.php'))  ?>">EMI Calculator</a></li>
+          <li><a href="<?= e(url('blogs.php'))           ?>">Blog</a></li>
           <li><a href="<?= e(url('careers.php'))         ?>">Careers</a></li>
           <li><a href="<?= e(url('contact.php'))         ?>">Contact</a></li>
           <li><a href="<?= e(url('privacy-policy.php'))  ?>">Privacy Policy</a></li>

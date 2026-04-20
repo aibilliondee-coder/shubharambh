@@ -257,6 +257,7 @@ $page_robots      = $page_robots ?? 'index, follow';
         <li><a href="<?= e(url('about.php'))    ?>" class="<?= $page_active === 'about'    ? 'active' : '' ?>">About</a></li>
         <li><a href="<?= e(url('projects.php')) ?>" class="<?= $page_active === 'projects' ? 'active' : '' ?>">Projects</a></li>
         <li><a href="<?= e(url('emi-calculator.php')) ?>" class="<?= $page_active === 'emi' ? 'active' : '' ?>">EMI Calc</a></li>
+        <li><a href="<?= e(url('blogs.php'))    ?>" class="<?= $page_active === 'blog'     ? 'active' : '' ?>">Blog</a></li>
         <li><a href="<?= e(url('careers.php'))  ?>" class="<?= $page_active === 'careers'  ? 'active' : '' ?>">Careers</a></li>
         <li><a href="<?= e(url('contact.php'))  ?>" class="<?= $page_active === 'contact'  ? 'active' : '' ?>">Contact</a></li>
         <li class="nav-drawer-footer" aria-hidden="true">
