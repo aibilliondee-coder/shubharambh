@@ -72,7 +72,6 @@ include __DIR__ . '/../includes/header.php';
     <?php else: ?>
     <div class="blog-grid">
       <?php foreach ($blogs as $b):
-        $date = date('d M Y', strtotime($b['published_at']));
         $img  = !empty($b['cover_image']) ? upload_url($b['cover_image']) : asset('img/placeholders/blog.jpg');
       ?>
       <article class="blog-card reveal">
@@ -82,9 +81,9 @@ include __DIR__ . '/../includes/header.php';
         </a>
         <div class="blog-card__body">
           <div class="blog-card__meta">
-            <span><?= e($date) ?></span>
-            <span class="blog-card__dot">·</span>
             <span><?= (int)$b['read_time'] ?> min read</span>
+            <span class="blog-card__dot">·</span>
+            <span>Shubharambh Infra Advisors</span>
           </div>
           <h2 class="blog-card__title">
             <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>"><?= e($b['title']) ?></a>

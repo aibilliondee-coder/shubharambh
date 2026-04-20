@@ -30,7 +30,6 @@ try {
     header('Location: ' . url('blogs.php')); exit;
 }
 
-$date = date('d M Y', strtotime($post['published_at']));
 $img  = !empty($post['cover_image']) ? upload_url($post['cover_image']) : asset('img/placeholders/blog.jpg');
 
 $page_title       = e($post['title']) . ' — Best Property Advisor in Noida | Shubharambh';
@@ -62,7 +61,7 @@ include __DIR__ . '/../includes/header.php';
       <!-- Category + meta -->
       <div class="blog-post-top">
         <span class="blog-post-cat"><?= e($post['category']) ?></span>
-        <span class="blog-post-meta"><?= e($date) ?> &nbsp;·&nbsp; <?= (int)$post['read_time'] ?> min read &nbsp;·&nbsp; By <?= e($post['author']) ?></span>
+        <span class="blog-post-meta"><?= (int)$post['read_time'] ?> min read &nbsp;·&nbsp; Shubharambh Infra Advisors</span>
       </div>
 
       <h1 class="blog-post-title"><?= e($post['title']) ?></h1>
@@ -112,11 +111,9 @@ include __DIR__ . '/../includes/header.php';
       <!-- Author card -->
       <div class="blog-sidebar-card">
         <div class="blog-author">
-          <div class="blog-author__avatar">
-            <?= strtoupper(substr($post['author'], 0, 1)) ?>
-          </div>
+          <div class="blog-author__avatar">S</div>
           <div>
-            <strong><?= e($post['author']) ?></strong>
+            <strong>Shubharambh Infra Advisors</strong>
             <span>Shubharambh Infra Advisors</span>
           </div>
         </div>
