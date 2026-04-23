@@ -457,6 +457,59 @@ include __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
+<!-- ==========  BLOG SECTION  ========== -->
+<?php
+try {
+    $recentBlogs = db()->query("SELECT id, slug, title, excerpt, category, author, read_time, cover_image, published_at FROM blogs WHERE is_published = 1 ORDER BY sort_order DESC, published_at DESC LIMIT 6")->fetchAll();
+    $blogTotal   = (int)db()->query("SELECT COUNT(*) FROM blogs WHERE is_published = 1")->fetchColumn();
+} catch (Throwable $e) { $recentBlogs = []; $blogTotal = 0; }
+?>
+<?php if (!empty($recentBlogs)): ?>
+<section class="section section--soft" id="blog">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Expert Insights</span>
+      <h2>Real Estate Blog & <span class="accent">Property Guides</span></h2>
+      <div class="arch-divider" aria-hidden="true"></div>
+      <p>Investment tips, market updates and property guides from the best property advisor in Noida</p>
+    </div>
+
+    <div class="blog-grid blog-grid--home reveal">
+      <?php foreach ($recentBlogs as $b):
+        $bimg  = !empty($b['cover_image']) ? upload_url($b['cover_image']) : asset('img/placeholders/blog.jpg');
+      ?>
+      <article class="blog-card">
+        <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>" class="blog-card__img-wrap">
+          <img src="<?= e($bimg) ?>" alt="<?= e($b['title']) ?>" loading="lazy">
+          <span class="blog-card__cat"><?= e($b['category']) ?></span>
+        </a>
+        <div class="blog-card__body">
+          <div class="blog-card__meta">
+            <span><?= (int)$b['read_time'] ?> min read</span>
+            <span class="blog-card__dot">·</span>
+            <span>Shubharambh Infra Advisors</span>
+          </div>
+          <h3 class="blog-card__title">
+            <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>"><?= e($b['title']) ?></a>
+          </h3>
+          <p class="blog-card__excerpt"><?= e(mb_substr($b['excerpt'], 0, 100)) ?>…</p>
+          <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>" class="blog-card__read">
+            Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($blogTotal > 6): ?>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="<?= e(url('blogs.php')) ?>" class="btn btn-outline">View All Blogs</a>
+    </div>
+    <?php endif; ?>
+  </div>
+</section>
+<?php endif; ?>
+
 <!-- ==========  TESTIMONIALS  ========== -->
 <?php if (!empty($testimonials)): ?>
 <section class="section" id="testimonials">

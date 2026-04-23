@@ -7,49 +7,110 @@ require_once __DIR__ . '/../includes/settings.php';
 start_session_once();
 $settings = load_settings();
 
-$success = false;
-$error   = '';
+// PRG: show flash message after redirect
+$flash_success = false;
+$flash_error   = '';
+if (isset($_SESSION['career_flash'])) {
+    $flash = $_SESSION['career_flash'];
+    unset($_SESSION['career_flash']);
+    if ($flash === 'success') $flash_success = true;
+    else $flash_error = $flash;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $redirect_base = url('careers.php') . '#apply-form';
+
     // CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
-        $error = 'Invalid request. Please try again.';
-    } elseif (!empty($_POST['honeypot'])) {
-        $success = true; // silently pass
-    } else {
-        $name     = trim($_POST['full_name']   ?? '');
-        $email    = trim($_POST['email']        ?? '');
-        $phone    = trim($_POST['phone']        ?? '');
-        $position = trim($_POST['position']     ?? '');
-        $exp      = trim($_POST['experience']   ?? '');
-        $message  = trim($_POST['cover_letter'] ?? '');
-
-        if (!$name || !$email || !$phone || !$position) {
-            $error = 'Please fill in all required fields.';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = 'Please enter a valid email address.';
-        } else {
-            try {
-                db()->prepare(
-                    'INSERT INTO inquiries (name, email, phone, city, message, source, ip, user_agent, status, created_at)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime("now"))'
-                )->execute([
-                    $name,
-                    $email,
-                    $phone,
-                    'N/A',
-                    "Position: $position\nExperience: $exp\nCover Letter: $message",
-                    'careers',
-                    $_SERVER['REMOTE_ADDR'] ?? '',
-                    $_SERVER['HTTP_USER_AGENT'] ?? '',
-                    'new',
-                ]);
-                $success = true;
-            } catch (Throwable $e) {
-                $error = 'Something went wrong. Please try again or call us directly.';
-            }
-        }
+        $_SESSION['career_flash'] = 'Invalid request. Please try again.';
+        header('Location: ' . $redirect_base); exit;
     }
+
+    // Honeypot
+    if (!empty($_POST['honeypot'])) {
+        $_SESSION['career_flash'] = 'success';
+        header('Location: ' . $redirect_base); exit;
+    }
+
+    // Rate limit: 1 submission per IP per 24 hours
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    $recent = db()->prepare(
+        "SELECT COUNT(*) FROM job_applications WHERE ip_address = ? AND created_at >= datetime('now', '-24 hours')"
+    );
+    $recent->execute([$ip]);
+    if ((int)$recent->fetchColumn() >= 1) {
+        $_SESSION['career_flash'] = 'You have already submitted an application in the last 24 hours. Please try again tomorrow.';
+        header('Location: ' . $redirect_base); exit;
+    }
+
+    $name     = trim($_POST['full_name']   ?? '');
+    $email    = trim($_POST['email']        ?? '');
+    $phone    = trim($_POST['phone']        ?? '');
+    $position = trim($_POST['position']     ?? '');
+    $exp      = trim($_POST['experience']   ?? '');
+    $message  = trim($_POST['cover_letter'] ?? '');
+
+    if (!$name || !$email || !$phone || !$position) {
+        $_SESSION['career_flash'] = 'Please fill in all required fields.';
+        header('Location: ' . $redirect_base); exit;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['career_flash'] = 'Please enter a valid email address.';
+        header('Location: ' . $redirect_base); exit;
+    }
+
+    // CV upload
+    $cv_path = null;
+    if (!empty($_FILES['cv']['name'])) {
+        $file     = $_FILES['cv'];
+        $allowed  = ['pdf' => 'application/pdf', 'doc' => 'application/msword', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        $ext      = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $max_size = 5 * 1024 * 1024; // 5 MB
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $_SESSION['career_flash'] = 'CV upload failed. Please try again.';
+            header('Location: ' . $redirect_base); exit;
+        }
+        if (!array_key_exists($ext, $allowed)) {
+            $_SESSION['career_flash'] = 'Only PDF, DOC, or DOCX files are accepted for CV upload.';
+            header('Location: ' . $redirect_base); exit;
+        }
+        if ($file['size'] > $max_size) {
+            $_SESSION['career_flash'] = 'CV file size must be under 5 MB.';
+            header('Location: ' . $redirect_base); exit;
+        }
+        // Validate MIME server-side
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime  = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+        if (!in_array($mime, array_values($allowed))) {
+            $_SESSION['career_flash'] = 'Invalid file type. Only PDF, DOC, or DOCX accepted.';
+            header('Location: ' . $redirect_base); exit;
+        }
+
+        $filename = 'cv_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+        $dest     = __DIR__ . '/uploads/cv/' . $filename;
+        if (!move_uploaded_file($file['tmp_name'], $dest)) {
+            $_SESSION['career_flash'] = 'Failed to save CV. Please try again.';
+            header('Location: ' . $redirect_base); exit;
+        }
+        $cv_path = 'cv/' . $filename;
+    }
+
+    try {
+        db()->prepare(
+            'INSERT INTO job_applications (full_name, email, phone, position, experience, cover_letter, cv_path, ip_address, user_agent, status, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime("now"))'
+        )->execute([
+            $name, $email, $phone, $position, $exp, $message,
+            $cv_path, $ip, $_SERVER['HTTP_USER_AGENT'] ?? '', 'new',
+        ]);
+        $_SESSION['career_flash'] = 'success';
+    } catch (Throwable $e) {
+        $_SESSION['career_flash'] = 'Something went wrong. Please try again or call us directly.';
+    }
+
+    header('Location: ' . $redirect_base); exit;
 }
 
 // Regenerate CSRF token
@@ -254,7 +315,7 @@ include __DIR__ . '/../includes/header.php';
 
     <div class="careers-form-wrap reveal">
 
-      <?php if ($success): ?>
+      <?php if ($flash_success): ?>
         <div class="careers-success">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
           <h3>Application Submitted!</h3>
@@ -263,53 +324,62 @@ include __DIR__ . '/../includes/header.php';
         </div>
       <?php else: ?>
 
-        <?php if ($error): ?>
-          <div class="form-error-banner"><?= e($error) ?></div>
+        <?php if ($flash_error): ?>
+          <div class="form-error-banner"><?= e($flash_error) ?></div>
         <?php endif; ?>
 
-        <form class="careers-form" method="POST" action="<?= e(url('careers.php')) ?>#apply-form" novalidate>
+        <form class="careers-form" method="POST" action="<?= e(url('careers.php')) ?>#apply-form"
+              enctype="multipart/form-data" novalidate>
           <input type="hidden" name="csrf_token" value="<?= e($_SESSION['csrf_token']) ?>">
           <input type="text" name="honeypot" class="honeypot" tabindex="-1" autocomplete="off">
 
           <div class="careers-form__grid">
             <div class="form-field">
               <label for="cf-name">Full Name <span class="req">*</span></label>
-              <input type="text" id="cf-name" name="full_name" placeholder="Your full name" required
-                value="<?= e($_POST['full_name'] ?? '') ?>">
+              <input type="text" id="cf-name" name="full_name" placeholder="Your full name" required>
             </div>
             <div class="form-field">
               <label for="cf-email">Email Address <span class="req">*</span></label>
-              <input type="email" id="cf-email" name="email" placeholder="you@example.com" required
-                value="<?= e($_POST['email'] ?? '') ?>">
+              <input type="email" id="cf-email" name="email" placeholder="you@example.com" required>
             </div>
             <div class="form-field">
               <label for="cf-phone">Phone Number <span class="req">*</span></label>
-              <input type="tel" id="cf-phone" name="phone" placeholder="+91 9XXXXXXXXX" required
-                value="<?= e($_POST['phone'] ?? '') ?>">
+              <input type="tel" id="cf-phone" name="phone" placeholder="+91 9XXXXXXXXX" required>
             </div>
             <div class="form-field">
               <label for="cf-position">Position Applying For <span class="req">*</span></label>
               <select id="cf-position" name="position" required>
-                <option value="" disabled <?= empty($_POST['position']) ? 'selected' : '' ?>>Select a position</option>
-                <option value="Senior Property Advisor"      <?= ($_POST['position'] ?? '') === 'Senior Property Advisor'      ? 'selected' : '' ?>>Senior Property Advisor</option>
-                <option value="Digital Marketing Executive"  <?= ($_POST['position'] ?? '') === 'Digital Marketing Executive'  ? 'selected' : '' ?>>Digital Marketing Executive</option>
-                <option value="Property Consultant (Fresher)"<?= ($_POST['position'] ?? '') === 'Property Consultant (Fresher)'? 'selected' : '' ?>>Property Consultant (Fresher)</option>
-                <option value="CRM & Operations Executive"   <?= ($_POST['position'] ?? '') === 'CRM & Operations Executive'   ? 'selected' : '' ?>>CRM &amp; Operations Executive</option>
-                <option value="Other"                        <?= ($_POST['position'] ?? '') === 'Other'                        ? 'selected' : '' ?>>Other / Open Application</option>
+                <option value="" disabled selected>Select a position</option>
+                <option value="Senior Property Advisor">Senior Property Advisor</option>
+                <option value="Digital Marketing Executive">Digital Marketing Executive</option>
+                <option value="Property Consultant (Fresher)">Property Consultant (Fresher)</option>
+                <option value="CRM & Operations Executive">CRM &amp; Operations Executive</option>
+                <option value="Other">Other / Open Application</option>
               </select>
             </div>
             <div class="form-field">
               <label for="cf-exp">Years of Experience</label>
               <select id="cf-exp" name="experience">
-                <option value="Fresher"  <?= ($_POST['experience'] ?? '') === 'Fresher'  ? 'selected' : '' ?>>Fresher (0 years)</option>
-                <option value="1-2 years"<?= ($_POST['experience'] ?? '') === '1-2 years'? 'selected' : '' ?>>1–2 Years</option>
-                <option value="3-5 years"<?= ($_POST['experience'] ?? '') === '3-5 years'? 'selected' : '' ?>>3–5 Years</option>
-                <option value="5+ years" <?= ($_POST['experience'] ?? '') === '5+ years' ? 'selected' : '' ?>>5+ Years</option>
+                <option value="Fresher">Fresher (0 years)</option>
+                <option value="1-2 years">1–2 Years</option>
+                <option value="3-5 years">3–5 Years</option>
+                <option value="5+ years">5+ Years</option>
               </select>
+            </div>
+            <div class="form-field">
+              <label for="cf-cv">Upload CV / Resume <span class="careers-cv-hint">(PDF, DOC or DOCX — max 5 MB)</span></label>
+              <div class="cv-upload-wrap">
+                <input type="file" id="cf-cv" name="cv" accept=".pdf,.doc,.docx" class="cv-file-input">
+                <label for="cf-cv" class="cv-upload-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span id="cv-label-text">Choose file or drag & drop</span>
+                </label>
+              </div>
             </div>
             <div class="form-field form-field--full">
               <label for="cf-cover">Cover Letter / Why do you want to join us?</label>
-              <textarea id="cf-cover" name="cover_letter" rows="5" placeholder="Tell us a little about yourself and why you'd be a great fit for the best property advisory team in Noida..."><?= e($_POST['cover_letter'] ?? '') ?></textarea>
+              <textarea id="cf-cover" name="cover_letter" rows="5"
+                placeholder="Tell us a little about yourself and why you'd be a great fit for the best property advisory team in Noida..."></textarea>
             </div>
           </div>
 
@@ -324,5 +394,17 @@ include __DIR__ . '/../includes/header.php';
     </div>
   </div>
 </section>
+
+<script>
+// Show selected filename in CV upload label
+document.getElementById('cf-cv')?.addEventListener('change', function() {
+  const label = document.getElementById('cv-label-text');
+  if (this.files && this.files[0]) {
+    label.textContent = this.files[0].name;
+  } else {
+    label.textContent = 'Choose file or drag & drop';
+  }
+});
+</script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
