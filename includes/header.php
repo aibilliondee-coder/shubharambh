@@ -64,7 +64,7 @@ $page_robots      = $page_robots ?? 'index, follow';
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
 
 <!-- Stylesheet -->
-<link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>?v=20260424d">
+<link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>?v=20260424e">
 
 <!-- JSON-LD — @graph: Organization + RealEstateAgent (sitewide, all pages) -->
 <?php

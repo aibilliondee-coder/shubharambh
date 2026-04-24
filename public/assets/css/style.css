@@ -2697,12 +2697,12 @@ input.honeypot {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
-  color: var(--c-muted);
+  color: rgba(255,255,255,0.65);
   font-size: 0.82rem;
 }
 
 .footer-bottom a {
-  color: var(--c-muted);
+  color: rgba(255,255,255,0.65);
 }
 
 .footer-bottom a:hover {
