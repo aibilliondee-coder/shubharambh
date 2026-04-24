@@ -608,6 +608,92 @@ try {
   </div>
 </section>
 
+<!-- ==========  FIND US  ========== -->
+<section class="section section--soft" id="find-us">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Location</span>
+      <h2>Find Us at <span class="accent">Logix Technova, Noida</span></h2>
+      <div class="arch-divider" aria-hidden="true"></div>
+      <p>We are centrally located in Sector 132, Noida — just off the Noida–Greater Noida Expressway with easy metro connectivity.</p>
+    </div>
+
+    <div class="map-section reveal">
+
+      <!-- Info cards row -->
+      <div class="map-info-cards">
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <strong>Office Address</strong>
+            <span>B-220, Logix Technova, Sector 132<br>Noida, Uttar Pradesh – 201304</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <strong>Nearest Metro</strong>
+            <span>Sector 137 Metro Station<br>Aqua Line — 5 min drive</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </div>
+          <div>
+            <strong>Expressway Access</strong>
+            <span>Noida–Greater Noida Expressway<br>Sector 132 Exit — 2 min</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <strong>Working Hours</strong>
+            <span>Mon – Sat: 10:00 AM – 7:00 PM<br>Sunday: By Appointment</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map embed -->
+      <div class="map-embed-wrap">
+        <div class="map-embed-overlay">
+          <div class="map-pin-label">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Shubharambh Infra Advisors
+          </div>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d875.3!2d77.3769383!3d28.5084976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce99f97f93a17%3A0x1ef37cdad52ed565!2sShubharambh%20Infra%20Advisors%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1713600000000!5m2!1sen!2sin"
+          width="100%"
+          height="460"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Shubharambh Infra Advisors Location — Logix Technova, Sector 132, Noida"
+          aria-label="Google Map showing Shubharambh Infra Advisors office location">
+        </iframe>
+      </div>
+
+      <!-- Direction button -->
+      <div style="text-align:center;margin-top:1.5rem;">
+        <a href="https://www.google.com/maps/dir//Shubharambh+Infra+Advisors+Pvt.+Ltd.,+LOGIX+TECHNOVA,+B-220,+Block+B,+Sector+132,+Noida,+Uttar+Pradesh+201304/@28.5085151,77.3793737,17z"
+           target="_blank" rel="noopener" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="margin-right:0.4rem;"><path d="M3 12h18M3 6l9-4 9 4M3 18l9 4 9-4"/></svg>
+          Get Directions on Google Maps
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ==========  CONTACT  ========== -->
 <section class="section" id="contact">
   <div class="container">
