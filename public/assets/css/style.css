@@ -6227,3 +6227,113 @@ input.honeypot {
   .map-info-cards { grid-template-columns: 1fr; gap: 0.75rem; }
   .map-embed-wrap iframe { height: 340px; }
 }
+
+/* ============================================================
+   Footer Mobile Responsive Fix
+   ============================================================ */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* About col: full width on top */
+  .footer-about {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1.25rem;
+    align-items: start;
+  }
+  .footer-about img {
+    max-height: 44px;
+    margin-bottom: 0;
+    grid-row: 1;
+  }
+  .footer-about p {
+    font-size: 0.82rem;
+    margin-bottom: 0.75rem;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+  .footer-socials {
+    grid-column: 1 / -1;
+    margin-top: 0.85rem;
+  }
+  .footer-socials a {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Quick Links + Services: side by side 2 cols */
+  .footer-col:not(.newsletter-col) {
+    grid-column: auto;
+  }
+  .footer-col h4 {
+    font-size: 0.68rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.6rem;
+  }
+  .footer-col li { margin-bottom: 0.5rem; }
+  .footer-col a { font-size: 0.83rem; }
+
+  /* Contact + Newsletter: full width */
+  .footer-col.newsletter-col {
+    grid-column: 1 / -1;
+  }
+
+  /* Newsletter inline on mobile */
+  .newsletter-form {
+    max-width: 100%;
+    flex-wrap: nowrap;
+  }
+  .newsletter-form input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.85rem;
+    padding: 0.65rem 0.85rem;
+    min-height: 44px;
+  }
+  .newsletter-form button {
+    min-height: 44px;
+    padding: 0 1rem;
+    font-size: 0.72rem;
+    flex-shrink: 0;
+  }
+
+  /* RERA notice smaller */
+  .rera-notice {
+    font-size: 0.72rem;
+    padding: 0.75rem 0.9rem;
+  }
+
+  /* Footer bottom */
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    padding-top: 1.25rem;
+  }
+
+  /* Contact items compact */
+  .footer-contact li {
+    font-size: 0.83rem;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .footer-about {
+    grid-template-columns: 1fr;
+  }
+  .footer-about p { grid-column: 1; grid-row: 2; }
+  .footer-about img { grid-row: 1; max-height: 40px; }
+  .footer-col:not(.newsletter-col) { grid-column: 1; }
+}
