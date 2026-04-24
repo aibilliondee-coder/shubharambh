@@ -5988,7 +5988,7 @@ input.honeypot {
 }
 .pd-stat {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.65rem;
 }
 .pd-stat svg {
@@ -5997,8 +5997,8 @@ input.honeypot {
   stroke: var(--c-gold);
 }
 .pd-stat div { display: flex; flex-direction: column; min-width: 0; }
-.pd-stat span { font-size: 0.85rem; font-weight: 600; color: var(--c-off-white); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pd-stat small { font-size: 0.7rem; color: var(--c-muted); margin-top: 0.1rem; }
+.pd-stat span { font-size: 0.85rem; font-weight: 600; color: var(--c-off-white); line-height: 1.3; word-break: break-word; }
+.pd-stat small { font-size: 0.7rem; color: var(--c-muted); margin-top: 0.15rem; }
 
 /* Sections */
 .pd-section {
