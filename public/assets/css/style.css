@@ -1434,19 +1434,24 @@ p {
 }
 .project-card .specs div {
   text-align: center;
-  padding: 0.55rem 0.25rem;
+  padding: 0.55rem 0.35rem;
   border-right: 1px solid var(--c-line);
   background: rgba(255,255,255,0.02);
+  min-width: 0;
+  overflow: hidden;
 }
 .project-card .specs div:last-child { border-right: none; }
 .project-card .specs .v {
   display: block;
   color: var(--c-off-white);
   font-weight: 600;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   margin-bottom: 0.15rem;
   line-height: 1.2;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .project-card .specs .l {
   display: block;
