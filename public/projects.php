@@ -64,7 +64,7 @@ try {
 $count = count($allProjects);
 
 $page_title       = 'Properties in Noida &amp; Delhi NCR | Shubharambh Infra Advisors — Best Property Advisor in Noida';
-$page_description = 'Explore ' . $count . '+ luxury residential, commercial and investment properties in Noida — curated by the best property advisor in Noida, Shubharambh Infra Advisors, across Delhi NCR and Uttarakhand.';
+$page_description = 'Explore ' . $count . '+ residential, commercial & investment properties in Noida. Curated by Shubharambh Infra Advisors — best property advisor in Delhi NCR.';
 $page_active      = 'projects';
 $page_canonical   = url('projects.php');
 

@@ -44,7 +44,7 @@ try {
 }
 
 $page_title       = 'Best Property Advisor in Noida — ' . $settings['company_name'];
-$page_description = 'Best property advisor in Noida — Shubharambh Infra Advisors, RERA-registered real estate consultancy. Luxury residential, commercial and investment properties across Delhi NCR, Gurgaon and Uttarakhand.';
+$page_description = 'Best property advisor in Noida — Shubharambh Infra Advisors. RERA-registered consultancy for residential, commercial & investment properties across Delhi NCR.';
 $page_active      = 'home';
 $page_canonical   = url('index.php');
 

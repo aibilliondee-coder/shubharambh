@@ -35,7 +35,7 @@ try {
 }
 
 $page_title       = 'Real Estate Blog — Best Property Advisor in Noida | Shubharambh Infra Advisors';
-$page_description = 'Expert real estate insights, investment guides, RERA updates, and property market analysis from Shubharambh Infra Advisors — the best property advisor in Noida and Delhi NCR.';
+$page_description = 'Real estate insights, investment guides & RERA updates from Shubharambh Infra Advisors — best property advisor in Noida, Delhi NCR.';
 $page_active      = 'blog';
 include __DIR__ . '/../includes/header.php';
 ?>
