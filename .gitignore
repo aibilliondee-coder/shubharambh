@@ -20,6 +20,8 @@ storage/*.sqlite-journal
 # User uploads (keep folder, ignore contents)
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/team/
+!public/uploads/team/**
 
 # Logs
 *.log

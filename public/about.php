@@ -16,7 +16,7 @@ try {
 }
 
 $page_title       = 'About Shubharambh Infra Advisors — Best Property Advisor in Noida';
-$page_description = 'Meet the best property advisor in Noida — Shubharambh Infra Advisors, a RERA-registered real estate consultancy led by Mr. Mohit Khari, serving Delhi NCR and Uttarakhand for over a decade.';
+$page_description = 'Meet Shubharambh Infra Advisors — best property advisor in Noida. RERA-registered consultancy serving Delhi NCR & Uttarakhand since 2014.';
 $page_active      = 'about';
 include __DIR__ . '/../includes/header.php';
 ?>

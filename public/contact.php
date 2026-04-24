@@ -17,7 +17,7 @@ try {
 }
 
 $page_title       = 'Contact Shubharambh Infra Advisors — Best Property Advisor in Noida';
-$page_description = 'Contact Shubharambh Infra Advisors — the best property advisor in Noida. Visit our office or reach out by phone, WhatsApp, or email for expert real estate guidance.';
+$page_description = 'Contact Shubharambh Infra Advisors — best property advisor in Noida. Call, WhatsApp or visit our Sector 132 office for free property consultation.';
 $page_active      = 'contact';
 $page_canonical   = url('contact.php');
 include __DIR__ . '/../includes/header.php';

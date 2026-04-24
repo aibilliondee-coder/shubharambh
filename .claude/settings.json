@@ -24,7 +24,15 @@
       "WebFetch(domain:nprinfra.com)",
       "WebFetch(domain:globalbirthdevelopers.com)",
       "WebFetch(domain:uniwestarcade.com)",
-      "WebFetch(domain:uniwestaerohub.com)"
+      "WebFetch(domain:uniwestaerohub.com)",
+      "Bash(cp c:/xampp/htdocs/shubharambh/public/assets/css/style.css \"c:/Users/shubh/OneDrive/Desktop/SubharambhxAniket/Subharambh_git/shubharambh/public/assets/css/style.css\")",
+      "Bash(cp c:/xampp/htdocs/shubharambh/includes/header.php \"c:/Users/shubh/OneDrive/Desktop/SubharambhxAniket/Subharambh_git/shubharambh/includes/header.php\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "WebFetch(domain:kutumbcity.com)",
+      "WebFetch(domain:kutumbcityharidwar.com)",
+      "WebFetch(domain:svgtownsquare.info)",
+      "WebFetch(domain:www.svgtownsquarealpha2.com)"
     ],
     "additionalDirectories": [
       "c:\\xampp\\htdocs\\shubharambh\\includes",
