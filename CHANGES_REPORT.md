@@ -587,3 +587,155 @@ Added on every page in:
 | `public/uploads/blog/` | 7 blog cover images (advisor, noida, rera, homeloan, expressway, resvscom) |
 | `public/uploads/projects/` | 30+ new project images from official developer websites |
 | `public/uploads/cv/` | **NEW FOLDER** — CV/resume uploads from careers form |
+
+---
+
+## 🗓️ Session 5 — 24 April 2026
+
+---
+
+## 🗺️ 25. Homepage — Google Map Section
+
+### ✅ New "Find Us" section added before Contact
+- Google Maps iframe embed — exact coordinates: 28.5085151, 77.3793737 (Logix Technova, Sector 132, Noida)
+- 4 info cards: Office Address / Nearest Metro (Sector 137 Aqua Line) / Expressway Access (Sector 132 Exit) / Working Hours
+- Gold pin label overlay: "Shubharambh Infra Advisors" highlighted on map
+- "Get Directions" button linking to Google Maps navigation
+- Map height: 560px desktop / 460px tablet / 340px mobile
+- Dark navy theme with gold accent borders matching site design
+- Fully responsive: 4-col → 2-col → 1-col info cards
+
+---
+
+## 📱 26. Footer — Mobile Responsive Fix
+
+### ✅ Complete mobile footer redesign
+- Quick Links + Services: side by side in 2-column grid (was stacked 1-col)
+- About section: logo + text horizontal row, social icons full-width below
+- Newsletter: inline flex (no wrapping on mobile)
+- Contact + Get In Touch: full width below 2-col grid
+- Footer bottom text: centered on mobile, visibility fixed (rgba white 65% instead of muted)
+- 420px: collapses to full 1-col stack
+
+---
+
+## 🔍 27. SEO — Meta Description Lengths Fixed
+
+### ✅ All pages now within 100–160 character limit
+
+| Page | Before | After |
+|---|---|---|
+| index.php | 201ch | 158ch |
+| about.php | 188ch | 137ch |
+| blogs.php | 174ch | 131ch |
+| careers.php | 222ch | 156ch |
+| contact.php | 164ch | 146ch |
+| projects.php | 161ch | 145ch |
+| emi-calculator.php | 145ch | 145ch ✅ |
+
+---
+
+## 🚫 28. Nav — EMI Calculator Removed from Header
+
+### ✅ EMI Calc link removed from header navigation
+- Remains accessible via Footer Quick Links
+- Header nav now: HOME / ABOUT / PROJECTS / BLOG / CAREERS / CONTACT
+
+---
+
+## 🖼️ 29. Project Images — Real Photos from Developer Websites
+
+### ✅ Logo images replaced with actual renders/photos
+
+| Project | Source | Fix |
+|---|---|---|
+| T&T The Blue | theblue.tandtgroup.in | Replaced logo/text image with actual building render |
+| Corbett Eye | globalbirthdevelopers.com | Real resort photos |
+| SVG Town Square | shrivinayaka.com | Official architectural renders |
+| Kutumbh City | kutumbcityharidwar.com | Aerial drone photos (Feb 2026) |
+| Eternia | eternia.greatvaluerealty.com | Official tower renders |
+| Shubh Kadam | globalbirthdevelopers.com | Resort renders confirmed |
+
+### ✅ User-uploaded images integrated for 8 projects
+- Corbett Eye: plot1–3 (user's own photos)
+- Yatharth HighLife: HighLife1–3 (user's own photos)
+- Shubh Kadam: ShubhKadam1–4 (user's own photos)
+- Uniwest Arcade: UniwsestArcade1–3 (user's own photos)
+- Uniwest Aero Hub: uniwest1–3 (user's own photos)
+- Eternia: eternia1–3 (user's own photos)
+- ONE FNG: ONEFNG1–3 (user's own photos)
+- M3M The Line: m3mline1–3 (user's own photos)
+- M3M The Cullinan: M3MTheCullinan1–3 (user's own photos)
+
+### ✅ Projects hidden from index + projects page
+- Kutumbh City: `is_active=0, is_featured=0`
+- Uniwest Hub: `is_active=0, is_featured=0` (duplicate of Aero Hub)
+
+---
+
+## 👤 30. Team Photo — Mohit Khari Updated
+
+### ✅ New photo uploaded and tracked in git
+- File: `public/uploads/team/mohit-khari.jpg`
+- `.gitignore` updated: `!public/uploads/team/` exception added
+- Team folder now tracked in git — deploys on `git pull`
+- DB updated: `team_members` table photo path updated
+
+---
+
+## 🏗️ 31. Project Cards — Full Redesign (index + projects page)
+
+### ✅ New card design — price on image overlay
+- Price moved from card body to image overlay (bottom-left, gold text on dark gradient)
+- Image ratio: 16:10 → 4:3 (better for property photos)
+- Specs bar: boxed grid with border separators (no misalignment)
+- Config text: `white-space: nowrap` + `text-overflow: ellipsis` — no wrapping
+- All config values shortened in DB: "High-street retail shops, anchor spaces..." → "Retail & Studios"
+- Hover: subtle translateY(-5px) + gold border glow
+
+---
+
+## 🏠 32. Project Slug Pages — Stats Bar Redesign
+
+### ✅ Complete stats bar redesign
+- Removed SVG icons — label (gold uppercase) on top, value (white bold) below
+- Border-separated cells — no random gaps
+- `word-break: break-word` for long values
+- Sidebar: shortened `property_type` and `sizes` for clean display
+- Stats bar: full values shown with proper wrapping
+- Responsive: 2×2 grid on tablet/mobile with border-bottom separators
+
+---
+
+## 🔍 33. SEO — Blog Pages Noindex
+
+### ✅ noindex, nofollow added to all blog pages
+- `blogs.php`: `$page_robots = 'noindex, nofollow'`
+- `blog.php`: `$page_robots = 'noindex, nofollow'`
+- Google will not index any blog listing or single blog post pages
+
+---
+
+## 🔀 34. Git — UAT Merged to Main
+
+### ✅ main branch synced with uat
+- `git reset --hard origin/uat` + `git push origin main --force`
+- Both branches now identical
+- `uploads/team/` folder tracked in git with `.gitignore` exception
+
+---
+
+## 📁 Files Modified (Session 5)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | EMI Calc removed from nav, cache-bust versions (20260424a–l) |
+| `public/index.php` | Google Map section added, project card price overlay |
+| `public/projects.php` | Project card price overlay, config text shortened |
+| `public/project.php` | Stats bar redesign (label/value, no icons), sidebar data shortened |
+| `public/blogs.php` | `noindex, nofollow` added |
+| `public/blog.php` | `noindex, nofollow` added |
+| `public/assets/css/style.css` | Map section CSS, footer mobile CSS, project card redesign, stats bar redesign |
+| `public/uploads/team/mohit-khari.jpg` | New team photo added and tracked in git |
+| `.gitignore` | `!public/uploads/team/` exception added |
+| `storage/shubharambh.sqlite` | Projects: config/sizes/property_type shortened; Kutumbh City + Uniwest Hub hidden; team photo updated; 9 projects gallery updated with user images |
