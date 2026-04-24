@@ -6217,7 +6217,7 @@ input.honeypot {
   letter-spacing: 0.02em;
 }
 .map-pin-label svg { fill: var(--c-navy); }
-.map-embed-wrap iframe { display: block; }
+.map-embed-wrap iframe { display: block; height: 560px; }
 
 /* Responsive */
 @media (max-width: 1024px) {
@@ -6225,5 +6225,5 @@ input.honeypot {
 }
 @media (max-width: 600px) {
   .map-info-cards { grid-template-columns: 1fr; gap: 0.75rem; }
-  .map-embed-wrap iframe { height: 320px; }
+  .map-embed-wrap iframe { height: 340px; }
 }
