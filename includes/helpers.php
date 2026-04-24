@@ -44,7 +44,13 @@ function e($value): string
 // ---------------------------------------------------------------------------
 function url(string $path = ''): string
 {
-    return rtrim(SITE_URL, '/') . '/' . ltrim($path, '/');
+    $clean = ltrim($path, '/');
+    // Strip .php from page paths so all links use extensionless URLs.
+    // Leave api/* alone — those endpoints keep their .php extension.
+    if (!str_starts_with($clean, 'api/')) {
+        $clean = preg_replace('/\.php(?=$|[?#])/', '', $clean);
+    }
+    return rtrim(SITE_URL, '/') . '/' . $clean;
 }
 
 function asset(string $path): string
