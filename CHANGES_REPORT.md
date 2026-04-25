@@ -739,3 +739,187 @@ Added on every page in:
 | `public/uploads/team/mohit-khari.jpg` | New team photo added and tracked in git |
 | `.gitignore` | `!public/uploads/team/` exception added |
 | `storage/shubharambh.sqlite` | Projects: config/sizes/property_type shortened; Kutumbh City + Uniwest Hub hidden; team photo updated; 9 projects gallery updated with user images |
+
+---
+
+## 🗓️ Session 6 — 25 April 2026
+
+---
+
+## 📩 35. Project Enquiry Popup Modal — Built from Scratch
+
+### ✅ New dark modal popup on all project pages
+- Fields: Full Name, Phone Number, Email Address
+- Heading: "Get Exclusive Offers" with gold border and company logo
+- All CTA buttons on project pages now trigger this modal instead of linking out
+- `sp-enquiry-trigger` class + `data-source` attribute on every CTA wires it to the popup
+
+### ✅ Database — `project_enquiries` table (NEW)
+- Fields: `id, project_id, name, phone, email, source, ip, user_agent, created_at`
+- Auto-created on first submission (no manual migration needed)
+- Separate from general `inquiries` table — cleaner data separation
+
+### ✅ Per-project rate limiting
+- Max **2 submissions per email/phone/IP** per project per 24 hours
+- Different projects are independent — user can enquire on multiple projects freely
+- Returns friendly error if rate limit hit
+
+### ✅ CSRF protection
+- Token generated via `csrf_field()` → `name="csrf"`
+- Verified server-side via `csrf_verify($_POST['csrf'])`
+- Fixed bug: was using wrong function name `verify_csrf_token()` causing "Network error" on submit
+
+### ✅ API endpoint — `public/api/project_enquiry_submit.php` (NEW)
+- Accepts POST: name, phone, email, source, project_id, csrf
+- Validates all fields, rate limits, stores to DB
+- Returns JSON response (success/error)
+
+---
+
+## 🏠 36. Hero Form — Merged with Popup Modal
+
+### ✅ Hero floating form pre-fills and submits via popup
+- Hero card: Full Name / Email / Phone fields inline
+- "Send Message" validates hero inputs, copies values into modal fields, then auto-submits
+- Data goes to same `project_enquiries` table via same API endpoint
+- Success/error toast shown — same UX as popup
+
+---
+
+## 🗺️ 37. Floor Plan / Site Layout Section — New Section on Project Pages
+
+### ✅ Smart section type detection
+- **Plot projects** → shows "Site Layout" (aerial map SVG placeholder)
+- **Commercial projects** (retail/office/studio) → shows "Unit Layout"
+- **BHK apartments** → shows "Floor Plans" with per-BHK cards
+
+### ✅ Floor plan cards — per-BHK layout
+- One card per BHK type (3 BHK / 4 BHK / 5 BHK etc.)
+- Each card shows: BHK label + size
+- Image blurred with lock icon overlay (teaser UX — unlock on enquiry)
+- Sizes parsed from DB string — `short_sizes()` function added to collapse verbose ranges
+
+### ✅ New placeholder SVGs created
+- `public/assets/img/floor-plan-placeholder.svg` — architectural floor plan layout
+- `public/assets/img/site-layout-placeholder.svg` — aerial plot map with roads, plots, compass, legend
+
+---
+
+## 📊 38. Stats Strip — Icon Redesign
+
+### ✅ Stats cells now have gold icon boxes
+- Each stat: gold square icon box (left) + label/value (right)
+- Icons: grid (Configuration), ruler (Sizes), calendar (Possession), currency (Price)
+- Border separators between cells
+- Mobile: 2×2 grid layout
+
+### ✅ Sizes display — `short_sizes()` function
+- Verbose sizes like "3 BHK: 3,217 sq ft | 4 BHK: 4,315 sq ft | 5 BHK: 5,990–6,220 sq ft" collapsed to "3,217–6,220 sq ft"
+- Strips all non-numeric, finds min/max, formats cleanly
+
+---
+
+## 📱 39. Mobile Sticky Bar — Project Pages
+
+### ✅ Fixed bottom bar on mobile for project pages
+- 3 buttons: **Call** (gold border) / **Enquiry** (gold fill, triggers popup) / **WhatsApp** (green border)
+- `body.page-project-detail { padding-bottom: 70px }` on mobile — content not hidden behind bar
+- Added in `includes/footer_project.php`
+
+---
+
+## 📦 40. Three New Projects Added
+
+### ✅ T&T The Blue
+- Dynamic slug page: `/projects/tnt-the-blue`
+- Stats: 3/4/5 BHK | 2,048–6,220 sq ft | Dec 2027 | ₹2.8 Cr+
+- Floor plan cards: 3 BHK / 4 BHK / 5 BHK
+
+### ✅ Yatharth HighLife TechZone 4
+- Dynamic slug page: `/projects/yatharth-highlife-techzone-4`
+- Stats: 1/2 BHK | 941–1,454 sq ft | 2030 | ₹90 Lakh+
+
+### ✅ Corbett Eye
+- Dynamic slug page: `/projects/corbett-eye`
+- Plot project — Site Layout section instead of Floor Plans
+- RERA badge removed (no valid RERA — DB `rera_id` cleared to empty string)
+
+---
+
+## 🔗 41. Clean URLs — Sitewide (.php Removed)
+
+### ✅ `.htaccess` updated
+- New rewrite rule: `/projects/tnt-the-blue` → `project.php?slug=tnt-the-blue`
+- Internal rewrite fixed: `%{REQUEST_FILENAME}.php -f` (was `DOCUMENT_ROOT/$1.php` — broken on XAMPP subdirectory)
+
+### ✅ All navigation links cleaned — no more `.php` in hover URLs
+
+| File | Links Updated |
+|---|---|
+| `includes/header.php` | All nav links, logo href, notification banner CTA |
+| `includes/footer.php` | Quick Links, Services, Privacy/Terms, shortlist bar, sticky mobile bar |
+| `includes/footer_project.php` | All quick links, Privacy/Terms, logo href |
+| `includes/header_project.php` | Logo href |
+| `public/index.php` | All internal links + featured project card URLs |
+| `public/about.php` | Breadcrumb + CTA buttons |
+| `public/projects.php` | Breadcrumb, filter form, clear filters links, canonical, JSON-LD |
+| `public/blogs.php` | Breadcrumb, filter bar, all blog card links |
+| `public/blog.php` | Breadcrumb, redirects, social share URLs, related post links |
+| `public/contact.php` | Breadcrumb, privacy policy link |
+| `public/careers.php` | Breadcrumb, form action, back to home, redirect base |
+| `public/emi-calculator.php` | Breadcrumb, CTA button |
+| `public/privacy-policy.php` | Breadcrumb |
+| `public/terms.php` | Breadcrumb |
+| `public/404.php` | Back to Home + View Projects buttons |
+| `public/project.php` | Canonical URL, breadcrumb JSON-LD, featured project cards |
+
+---
+
+## 🔗 43. Internal Links — Open in New Tab (Sitewide)
+
+### ✅ All internal page links now open in a new tab
+- Every internal link across the site (`/about`, `/projects`, `/contact`, `/blog`, project pages, etc.) opens in `target="_blank"`
+- Applied sitewide — header nav, footer, project cards, CTA buttons, blog cards, breadcrumbs
+- External links (WhatsApp, Facebook, Google Maps, developer websites) were already `target="_blank"` — unchanged
+
+---
+
+## 🐛 42. Bug Fixes (Session 6)
+
+| Bug | Fix |
+|---|---|
+| "Network error" on popup form submit | Wrong function `verify_csrf_token()` → correct `csrf_verify($_POST['csrf'])` |
+| RERA badge showing on Corbett Eye (no RERA) | DB `rera_id` cleared from "Not listed" to `''`; badge only shows when `rera_id` non-empty |
+| `foreach` destructuring syntax error in floor plan cards | Fixed: `foreach ($fpCards as $fpLabel => $fpSize)` with separate counter `$fi` |
+| `.htaccess` clean URLs not working on XAMPP localhost | `%{DOCUMENT_ROOT}/$1.php` → `%{REQUEST_FILENAME}.php` (works in subdirectory) |
+| Double `<?php` tag in project.php after edit | Removed duplicate opening tag |
+
+---
+
+## 📁 Files Modified (Session 6)
+
+| File | Changes |
+|---|---|
+| `public/project.php` | Popup modal HTML+JS, hero form merge, floor plan section, stats icon redesign, short_sizes(), all CTAs → sp-enquiry-trigger, clean URL updates |
+| `public/api/project_enquiry_submit.php` | **NEW FILE** — enquiry API with rate limiting + CSRF |
+| `public/assets/css/style.css` | Stats icon redesign, floor plan cards, popup modal, mobile sticky bar, mobile UI fixes |
+| `public/assets/img/floor-plan-placeholder.svg` | **NEW FILE** — architectural floor plan SVG |
+| `public/assets/img/site-layout-placeholder.svg` | **NEW FILE** — aerial plot map SVG |
+| `includes/footer_project.php` | Mobile sticky bar (Call/Enquiry/WhatsApp), clean URL links |
+| `includes/header_project.php` | Logo href clean URL |
+| `includes/header.php` | All nav links → clean URLs |
+| `includes/footer.php` | All links → clean URLs (Quick Links, Services, Privacy/Terms, shortlist bar) |
+| `public/index.php` | Featured project cards → clean URLs (`/projects/` + slug) |
+| `public/projects.php` | Project card links → clean URLs |
+| `public/assets/js/main.js` | Search results link → `/projects/` + slug |
+| `public/.htaccess` | Project slug rewrite rule added; internal rewrite fix |
+| `public/about.php` | Clean URL links |
+| `public/blogs.php` | Clean URL links |
+| `public/blog.php` | Clean URL links |
+| `public/contact.php` | Clean URL links |
+| `public/careers.php` | Clean URL links |
+| `public/emi-calculator.php` | Clean URL links |
+| `public/privacy-policy.php` | Clean URL links |
+| `public/terms.php` | Clean URL links |
+| `public/404.php` | Clean URL links |
+| `storage/shubharambh.sqlite` | `rera_id` cleared for Corbett Eye; placeholder strings removed from all projects |

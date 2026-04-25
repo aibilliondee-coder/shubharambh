@@ -32,7 +32,15 @@
       "WebFetch(domain:kutumbcity.com)",
       "WebFetch(domain:kutumbcityharidwar.com)",
       "WebFetch(domain:svgtownsquare.info)",
-      "WebFetch(domain:www.svgtownsquarealpha2.com)"
+      "WebFetch(domain:www.svgtownsquarealpha2.com)",
+      "Bash(grep -n 'foreach \\($connectivity' c:/xampp/htdocs/shubharambh/public/project.php)",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' -r \"define\\('APP_ROOT','C:/xampp/htdocs/shubharambh'\\); define\\('DB_DRIVER','sqlite'\\); define\\('DB_SQLITE_PATH',APP_ROOT.'/storage/shubharambh.sqlite'\\); require_once 'C:/xampp/htdocs/shubharambh/includes/db.php'; `$db = db\\(\\); `$tables = `$db->query\\('SELECT name FROM sqlite_master WHERE type=''table'''\\)->fetchAll\\(PDO::FETCH_COLUMN\\); print_r\\(`$tables\\);\")",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\check_tables.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' -l 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\public\\\\project.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\append_mobile2.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_rera.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\check_all_projects.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_all_projects.php')"
     ],
     "additionalDirectories": [
       "c:\\xampp\\htdocs\\shubharambh\\includes",
