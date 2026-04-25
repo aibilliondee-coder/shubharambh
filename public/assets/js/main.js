@@ -598,6 +598,31 @@
   }
 
   // ------------------------------------------------------------------
+  // Open all internal links in new tab
+  // (skip: tel:, mailto:, wa.me, #anchors, javascript:, already target=_blank,
+  //  data-modal-open, data-no-target, fav buttons)
+  // ------------------------------------------------------------------
+  function initLinksNewTab() {
+    $$('a[href]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (!href) return;
+      if (a.hasAttribute('target')) return;
+      if (a.hasAttribute('data-modal-open')) return;
+      if (a.hasAttribute('data-no-target')) return;
+      if (href.startsWith('#')) return;
+      if (href.startsWith('tel:')) return;
+      if (href.startsWith('mailto:')) return;
+      if (href.startsWith('javascript:')) return;
+      if (href.startsWith('whatsapp:')) return;
+      a.setAttribute('target', '_blank');
+      const rel = a.getAttribute('rel') || '';
+      if (!rel.includes('noopener')) {
+        a.setAttribute('rel', (rel + ' noopener').trim());
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------
   // AJAX form submissions
   // ------------------------------------------------------------------
   function initForms() {
@@ -668,6 +693,7 @@ initStickyHeader();
     initHeroSearch();
     initTestimonials();
     initAnchors();
+    initLinksNewTab();
 
     // Non-critical — defer to idle so main thread is free during LCP
     const idle = window.requestIdleCallback || (fn => setTimeout(fn, 100));
