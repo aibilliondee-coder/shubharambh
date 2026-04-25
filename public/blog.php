@@ -34,6 +34,7 @@ $img  = !empty($post['cover_image']) ? upload_url($post['cover_image']) : asset(
 
 $page_title       = e($post['title']) . ' — Best Property Advisor in Noida | Shubharambh';
 $page_description = e(mb_substr(strip_tags($post['excerpt']), 0, 160));
+$page_robots      = 'noindex, nofollow';
 $page_active      = 'blog';
 $page_canonical   = url('blog.php') . '?slug=' . urlencode($slug);
 include __DIR__ . '/../includes/header.php';
