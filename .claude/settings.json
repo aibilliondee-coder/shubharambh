@@ -40,7 +40,8 @@
       "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\append_mobile2.php')",
       "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_rera.php')",
       "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\check_all_projects.php')",
-      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_all_projects.php')"
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_all_projects.php')",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\sqlite3.exe\" \"C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\storage\\\\shubharambh.sqlite\" \"SELECT id, name, slug, configurations, sizes, possession, price_display, rera_id, property_type, is_active FROM projects ORDER BY sort_order DESC;\")"
     ],
     "additionalDirectories": [
       "c:\\xampp\\htdocs\\shubharambh\\includes",

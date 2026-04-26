@@ -16,17 +16,16 @@ try {
     $where  = 'WHERE is_published = 1';
     $params = [];
     if ($cat !== '') {
-        $where  .= ' AND category = ?';
-        $params[] = $cat;
+        $where  .= ' AND category = :cat';
+        $params[':cat'] = $cat;
     }
-    $total = (int)db()->prepare("SELECT COUNT(*) FROM blogs $where")->execute($params) ? db()->prepare("SELECT COUNT(*) FROM blogs $where")->execute($params) : 0;
     $countStmt = db()->prepare("SELECT COUNT(*) FROM blogs $where");
     $countStmt->execute($params);
     $total = (int)$countStmt->fetchColumn();
     $pages = max(1, (int)ceil($total / $limit));
 
-    $stmt = db()->prepare("SELECT id, slug, title, excerpt, category, author, read_time, cover_image, published_at FROM blogs $where ORDER BY sort_order DESC, published_at DESC LIMIT ? OFFSET ?");
-    $stmt->execute(array_merge($params, [$limit, $offset]));
+    $stmt = db()->prepare("SELECT id, slug, title, excerpt, category, author, read_time, cover_image, published_at FROM blogs $where ORDER BY sort_order DESC, published_at DESC LIMIT :lim OFFSET :off");
+    $stmt->execute($params + [':lim' => $limit, ':off' => $offset]);
     $blogs = $stmt->fetchAll();
 
     $cats = db()->query("SELECT DISTINCT category FROM blogs WHERE is_published = 1 ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);

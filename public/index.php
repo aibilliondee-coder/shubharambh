@@ -82,6 +82,7 @@ include __DIR__ . '/../includes/header.php';
       'projects/mahindracodenamegreenlife1.webp',
   ];
   $heroSlides = array_values(array_filter($heroSlides, fn($p) => file_exists(APP_ROOT . '/public/uploads/' . $p)));
+  if (empty($heroSlides)) $heroSlides = ['projects/m3mcullinan-1.webp'];
   $heroVideo  = APP_ROOT . '/public/assets/video/hero.mp4';
   $hasHeroVideo = is_file($heroVideo);
 ?>

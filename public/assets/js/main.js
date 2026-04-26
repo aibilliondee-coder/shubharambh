@@ -319,7 +319,7 @@
     if (!els.length) return;
 
     const animate = (el) => {
-      const target = parseFloat(el.getAttribute('data-counter')) || 0;
+      const target = parseFloat(el.getAttribute('data-counter')); if (!isFinite(target)) return;
       const suffix = el.getAttribute('data-suffix') || '';
       const duration = 1400;
       const start = performance.now();
@@ -727,7 +727,7 @@ initStickyHeader();
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden', 'false');
       btn.setAttribute('aria-expanded', 'true');
-      btn.querySelector('.btn-label').textContent = 'Read Less';
+      const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = 'Read Less';
       if (backdrop) backdrop.classList.add('is-open');
       document.body.style.overflow = 'hidden';
     };
@@ -735,7 +735,7 @@ initStickyHeader();
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
       btn.setAttribute('aria-expanded', 'false');
-      btn.querySelector('.btn-label').textContent = 'Read More';
+      const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = 'Read More';
       if (backdrop) backdrop.classList.remove('is-open');
       document.body.style.overflow = '';
     };

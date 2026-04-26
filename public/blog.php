@@ -75,7 +75,7 @@ include __DIR__ . '/../includes/header.php';
 
       <!-- Body content -->
       <div class="blog-post-body prose">
-        <?= $post['body'] ?>
+        <?= $post['body'] /* trusted admin-authored HTML — intentionally not escaped */ ?>
       </div>
 
       <!-- Share bar -->
