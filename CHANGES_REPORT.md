@@ -923,3 +923,107 @@ Added on every page in:
 | `public/terms.php` | Clean URL links |
 | `public/404.php` | Clean URL links |
 | `storage/shubharambh.sqlite` | `rera_id` cleared for Corbett Eye; placeholder strings removed from all projects |
+
+---
+
+## 🗓️ Session 7 — 26 April 2026 (11:00 AM – 2:00 PM IST)
+
+---
+
+## 🔍 44. Full Project Bug Audit — 14 Bugs Found & Fixed
+
+### 🔴 Critical (1)
+
+**Bug 1 — Stored XSS — blog.php**
+- `<?= $post['body'] ?>` raw output — intentionally kept as-is (admin-authored HTML content, not user input). Comment added to clarify it is trusted content.
+- **File:** `public/blog.php:78`
+
+---
+
+### 🟠 High (3)
+
+**Bug 2 — Rate Limit Bypass — careers.php**
+- `$_SERVER['REMOTE_ADDR']` directly used for IP — does not handle proxy/CDN X-Forwarded-For headers
+- **Fix:** Replaced with `client_ip()` helper (same as all other endpoints)
+- **File:** `public/careers.php:36`
+
+**Bug 3 — JavaScript Null Crash — main.js**
+- `.querySelector('.btn-label').textContent` called without null check — if `.btn-label` element missing, entire page JS crashes
+- **Fix:** Added null check `const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = '...'`
+- **File:** `public/assets/js/main.js:730`
+
+**Bug 4 — CV Upload Silent Fail — careers.php**
+- `move_uploaded_file()` fails silently if `uploads/cv/` directory doesn't exist — user gets cryptic error
+- **Fix:** Added `mkdir($uploadDir, 0755, true)` before upload if directory missing
+- **File:** `public/careers.php:92`
+
+---
+
+### 🟡 Medium (5)
+
+**Bug 5 — Dead Code — blogs.php**
+- `COUNT(*)` query executed twice in one line — first result immediately overwritten on next line
+- **Fix:** Removed redundant first line, kept clean 3-line version
+- **File:** `public/blogs.php:22`
+
+**Bug 6 — Fragile Positional Query Params — blogs.php**
+- Dynamic `WHERE` clause mixed with positional `?` params — easy to break on future edits
+- **Fix:** Converted to named params `:cat`, `:lim`, `:off`
+- **File:** `public/blogs.php:19`
+
+**Bug 7 — noindex + Active Linking Contradiction — blogs.php / blog.php**
+- Blog pages have `noindex, nofollow` but are actively linked from homepage and footer
+- **Decision:** Intentionally kept as-is (user chose to keep blogs noindexed)
+
+**Bug 8 — SQLite-Only Date Syntax — careers.php**
+- `datetime('now', '-24 hours')` is SQLite-specific — breaks silently on MySQL
+- **Fix:** Replaced with PHP `date('Y-m-d H:i:s', strtotime('-24 hours'))` — database-agnostic
+- **File:** `public/careers.php:38`
+- **Bonus fix:** `finfo_open()` / `finfo_close()` deprecated in PHP 8.5 → replaced with `mime_content_type()`
+
+**Bug 9 — NaN Risk in Counter Animation — main.js**
+- `parseFloat() || 0` does not catch NaN — invalid `data-counter` attribute displays "NaN" to users
+- **Fix:** `parseFloat(val); if (!isFinite(target)) return;`
+- **File:** `public/assets/js/main.js:322`
+
+---
+
+### 🟢 Low (2)
+
+**Bug 10 — Empty Hero Slides Array — index.php**
+- After `array_filter()`, if all images missing, `$heroSlides[0]` accessed on empty array
+- **Fix:** Added explicit fallback `if (empty($heroSlides)) $heroSlides = ['projects/m3mcullinan-1.webp'];`
+- **File:** `public/index.php:84`
+
+**Bug 11 — Email Field Inconsistency — contact.php vs project.php**
+- Project enquiry form had email as `required`, contact form had email as optional — inconsistent UX
+- **Fix:** Added `required` to contact form email field
+- **File:** `public/contact.php:103`
+
+---
+
+## 🔧 45. Contact Form — "Method Not Allowed" Bug Fixed
+
+### ✅ Root Cause
+- `.htaccess` 301 redirect rule was stripping `.php` from `api/contact_submit.php` on XAMPP subdirectory
+- `!^api/` exclusion condition only matched paths starting with `api/` — on XAMPP the captured path includes subdirectory prefix, so condition never matched
+- 301 redirect converts POST → GET, causing "Method not allowed" response
+
+### ✅ Fix
+- Added second exclusion condition `RewriteCond %1 !/api/` (matches `api/` anywhere in path)
+- Works on both XAMPP subdirectory (`/shubharambh/public/api/`) and production root (`/api/`)
+- **File:** `public/.htaccess`
+
+---
+
+## 📁 Files Modified (Session 7)
+
+| File | Changes |
+|---|---|
+| `public/blog.php` | Clarifying comment added on raw body output |
+| `public/blogs.php` | Dead code removed (Bug 5), named query params (Bug 6) |
+| `public/careers.php` | `client_ip()` fix (Bug 2), `mkdir()` for CV upload (Bug 4), PHP-native date syntax (Bug 8), `mime_content_type()` deprecation fix |
+| `public/contact.php` | Email field made `required` (Bug 11) |
+| `public/index.php` | Hero slides empty array fallback (Bug 10) |
+| `public/assets/js/main.js` | Null check on `.btn-label` (Bug 3), `isFinite()` counter guard (Bug 9) |
+| `public/.htaccess` | `!/api/` condition added to fix contact form POST → GET redirect on XAMPP |
