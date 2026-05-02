@@ -14,14 +14,42 @@
       "WebFetch(domain:theblue.tandtgroup.in)",
       "WebFetch(domain:moneytreerealty.com)",
       "Bash(curl -L -o \"c:/xampp/htdocs/shubharambh/public/uploads/projects/tnt-the-blue.webp\" \"https://theblue.tandtgroup.in/wp-content/uploads/2025/01/IMG-20250124-WA0002-1024x621.jpg\" --max-time 30 -s)",
-      "Bash(curl -L -o \"c:/xampp/htdocs/shubharambh/public/uploads/projects/yatharth-highlife.webp\" \"https://moneytreerealty.com/storage/images/conversions/yatharthhighlife1-hero.webp\" --max-time 30 -s)"
+      "Bash(curl -L -o \"c:/xampp/htdocs/shubharambh/public/uploads/projects/yatharth-highlife.webp\" \"https://moneytreerealty.com/storage/images/conversions/yatharthhighlife1-hero.webp\" --max-time 30 -s)",
+      "Bash(c:/xampp/php/php.exe c:/xampp/htdocs/shubharambh/update_galleries.php)",
+      "Bash(rm c:/xampp/htdocs/shubharambh/update_galleries.php)",
+      "Bash(curl -s \"https://theblue.tandtgroup.in/\")",
+      "Bash(curl -s \"https://globalbirthdevelopers.com/shubh-kadam-jim-corbett-park-resort/\")",
+      "Bash(curl -s \"https://uniwestarcade.com/\")",
+      "Bash(curl -s \"https://uniwestaerohub.com/\")",
+      "WebFetch(domain:nprinfra.com)",
+      "WebFetch(domain:globalbirthdevelopers.com)",
+      "WebFetch(domain:uniwestarcade.com)",
+      "WebFetch(domain:uniwestaerohub.com)",
+      "Bash(cp c:/xampp/htdocs/shubharambh/public/assets/css/style.css \"c:/Users/shubh/OneDrive/Desktop/SubharambhxAniket/Subharambh_git/shubharambh/public/assets/css/style.css\")",
+      "Bash(cp c:/xampp/htdocs/shubharambh/includes/header.php \"c:/Users/shubh/OneDrive/Desktop/SubharambhxAniket/Subharambh_git/shubharambh/includes/header.php\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "WebFetch(domain:kutumbcity.com)",
+      "WebFetch(domain:kutumbcityharidwar.com)",
+      "WebFetch(domain:svgtownsquare.info)",
+      "WebFetch(domain:www.svgtownsquarealpha2.com)",
+      "Bash(grep -n 'foreach \\($connectivity' c:/xampp/htdocs/shubharambh/public/project.php)",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' -r \"define\\('APP_ROOT','C:/xampp/htdocs/shubharambh'\\); define\\('DB_DRIVER','sqlite'\\); define\\('DB_SQLITE_PATH',APP_ROOT.'/storage/shubharambh.sqlite'\\); require_once 'C:/xampp/htdocs/shubharambh/includes/db.php'; `$db = db\\(\\); `$tables = `$db->query\\('SELECT name FROM sqlite_master WHERE type=''table'''\\)->fetchAll\\(PDO::FETCH_COLUMN\\); print_r\\(`$tables\\);\")",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\check_tables.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' -l 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\public\\\\project.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\append_mobile2.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_rera.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\check_all_projects.php')",
+      "PowerShell(& 'C:\\\\xampp\\\\php\\\\php.exe' 'C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\fix_all_projects.php')",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\sqlite3.exe\" \"C:\\\\xampp\\\\htdocs\\\\shubharambh\\\\storage\\\\shubharambh.sqlite\" \"SELECT id, name, slug, configurations, sizes, possession, price_display, rera_id, property_type, is_active FROM projects ORDER BY sort_order DESC;\")"
     ],
     "additionalDirectories": [
       "c:\\xampp\\htdocs\\shubharambh\\includes",
       "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\css",
       "c:\\xampp\\htdocs\\shubharambh\\public\\assets\\js",
       "c:\\xampp\\htdocs\\shubharambh\\public",
-      "c:\\xampp\\htdocs\\shubharambh\\sql"
+      "c:\\xampp\\htdocs\\shubharambh\\sql",
+      "c:\\xampp\\htdocs\\shubharambh"
     ]
   }
 }

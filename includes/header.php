@@ -64,7 +64,7 @@ $page_robots      = $page_robots ?? 'index, follow';
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
 
 <!-- Stylesheet -->
-<link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>?v=20260419b">
+<link rel="stylesheet" href="<?= e(asset('css/style.css')) ?>?v=20260425b">
 
 <!-- JSON-LD — @graph: Organization + RealEstateAgent (sitewide, all pages) -->
 <?php
@@ -256,7 +256,8 @@ $page_robots      = $page_robots ?? 'index, follow';
         <li><a href="<?= e(url('index.php'))    ?>" class="<?= $page_active === 'home'     ? 'active' : '' ?>">Home</a></li>
         <li><a href="<?= e(url('about.php'))    ?>" class="<?= $page_active === 'about'    ? 'active' : '' ?>">About</a></li>
         <li><a href="<?= e(url('projects.php')) ?>" class="<?= $page_active === 'projects' ? 'active' : '' ?>">Projects</a></li>
-        <li><a href="<?= e(url('emi-calculator.php')) ?>" class="<?= $page_active === 'emi' ? 'active' : '' ?>">EMI Calc</a></li>
+
+        <li><a href="<?= e(url('blogs.php'))    ?>" class="<?= $page_active === 'blog'     ? 'active' : '' ?>">Blog</a></li>
         <li><a href="<?= e(url('careers.php'))  ?>" class="<?= $page_active === 'careers'  ? 'active' : '' ?>">Careers</a></li>
         <li><a href="<?= e(url('contact.php'))  ?>" class="<?= $page_active === 'contact'  ? 'active' : '' ?>">Contact</a></li>
         <li class="nav-drawer-footer" aria-hidden="true">

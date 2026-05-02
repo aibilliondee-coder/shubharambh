@@ -21,6 +21,7 @@ DirectoryIndex index.php index.html
     # 301 redirect external /foo.php requests to /foo (skip /api/*)
     RewriteCond %{THE_REQUEST} \s/+([^?\s]+?)\.php(\?[^\s]*)?\s [NC]
     RewriteCond %1 !^api/
+    RewriteCond %1 !/api/
     RewriteRule ^ /%1 [R=301,L]
 
     # Internal rewrite /foo → /foo.php when the PHP file exists

@@ -44,7 +44,7 @@ try {
 }
 
 $page_title       = 'Best Property Advisor in Noida — ' . $settings['company_name'];
-$page_description = 'Best property advisor in Noida — Shubharambh Infra Advisors, RERA-registered real estate consultancy. Luxury residential, commercial and investment properties across Delhi NCR, Gurgaon and Uttarakhand.';
+$page_description = 'Best property advisor in Noida — Shubharambh Infra Advisors. RERA-registered consultancy for residential, commercial & investment properties across Delhi NCR.';
 $page_active      = 'home';
 $page_canonical   = url('index.php');
 
@@ -82,6 +82,7 @@ include __DIR__ . '/../includes/header.php';
       'projects/mahindracodenamegreenlife1.webp',
   ];
   $heroSlides = array_values(array_filter($heroSlides, fn($p) => file_exists(APP_ROOT . '/public/uploads/' . $p)));
+  if (empty($heroSlides)) $heroSlides = ['projects/m3mcullinan-1.webp'];
   $heroVideo  = APP_ROOT . '/public/assets/video/hero.mp4';
   $hasHeroVideo = is_file($heroVideo);
 ?>
@@ -286,6 +287,10 @@ include __DIR__ . '/../includes/header.php';
             </button>
             <img src="<?= e($imgPath) ?>" alt="<?= e($p['name']) ?> by <?= e($p['builder']) ?> — <?= e($p['property_type']) ?> in <?= e($p['city']) ?>, Delhi NCR | Shubharambh Infra Advisors" loading="lazy"
                  onerror="this.style.display='none'">
+            <div class="media-price">
+              <small>Starting From</small>
+              <strong><?= e($p['price_display']) ?></strong>
+            </div>
           </div>
           <div class="body">
             <h3><?= e($p['name']) ?></h3>
@@ -457,6 +462,59 @@ include __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
+<!-- ==========  BLOG SECTION  ========== -->
+<?php
+try {
+    $recentBlogs = db()->query("SELECT id, slug, title, excerpt, category, author, read_time, cover_image, published_at FROM blogs WHERE is_published = 1 ORDER BY sort_order DESC, published_at DESC LIMIT 6")->fetchAll();
+    $blogTotal   = (int)db()->query("SELECT COUNT(*) FROM blogs WHERE is_published = 1")->fetchColumn();
+} catch (Throwable $e) { $recentBlogs = []; $blogTotal = 0; }
+?>
+<?php if (!empty($recentBlogs)): ?>
+<section class="section section--soft" id="blog">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Expert Insights</span>
+      <h2>Real Estate Blog & <span class="accent">Property Guides</span></h2>
+      <div class="arch-divider" aria-hidden="true"></div>
+      <p>Investment tips, market updates and property guides from the best property advisor in Noida</p>
+    </div>
+
+    <div class="blog-grid blog-grid--home reveal">
+      <?php foreach ($recentBlogs as $b):
+        $bimg  = !empty($b['cover_image']) ? upload_url($b['cover_image']) : asset('img/placeholders/blog.jpg');
+      ?>
+      <article class="blog-card">
+        <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>" class="blog-card__img-wrap">
+          <img src="<?= e($bimg) ?>" alt="<?= e($b['title']) ?>" loading="lazy">
+          <span class="blog-card__cat"><?= e($b['category']) ?></span>
+        </a>
+        <div class="blog-card__body">
+          <div class="blog-card__meta">
+            <span><?= (int)$b['read_time'] ?> min read</span>
+            <span class="blog-card__dot">·</span>
+            <span>Shubharambh Infra Advisors</span>
+          </div>
+          <h3 class="blog-card__title">
+            <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>"><?= e($b['title']) ?></a>
+          </h3>
+          <p class="blog-card__excerpt"><?= e(mb_substr($b['excerpt'], 0, 100)) ?>…</p>
+          <a href="<?= e(url('blog.php')) ?>?slug=<?= urlencode($b['slug']) ?>" class="blog-card__read">
+            Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($blogTotal > 6): ?>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="<?= e(url('blogs.php')) ?>" class="btn btn-outline">View All Blogs</a>
+    </div>
+    <?php endif; ?>
+  </div>
+</section>
+<?php endif; ?>
+
 <!-- ==========  TESTIMONIALS  ========== -->
 <?php if (!empty($testimonials)): ?>
 <section class="section" id="testimonials">
@@ -551,6 +609,92 @@ include __DIR__ . '/../includes/header.php';
           <p>Yes. We have dedicated NRI services covering remote site visits (video walkthrough), FEMA-compliant documentation, power-of-attorney guidance, and end-to-end purchase support — without requiring you to fly down.</p>
         </div>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- ==========  FIND US  ========== -->
+<section class="section section--soft" id="find-us">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Location</span>
+      <h2>Find Us at <span class="accent">Logix Technova, Noida</span></h2>
+      <div class="arch-divider" aria-hidden="true"></div>
+      <p>We are centrally located in Sector 132, Noida — just off the Noida–Greater Noida Expressway with easy metro connectivity.</p>
+    </div>
+
+    <div class="map-section reveal">
+
+      <!-- Info cards row -->
+      <div class="map-info-cards">
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <strong>Office Address</strong>
+            <span>B-220, Logix Technova, Sector 132<br>Noida, Uttar Pradesh – 201304</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <strong>Nearest Metro</strong>
+            <span>Sector 137 Metro Station<br>Aqua Line — 5 min drive</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </div>
+          <div>
+            <strong>Expressway Access</strong>
+            <span>Noida–Greater Noida Expressway<br>Sector 132 Exit — 2 min</span>
+          </div>
+        </div>
+        <div class="map-info-card">
+          <div class="map-info-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <strong>Working Hours</strong>
+            <span>Mon – Sat: 10:00 AM – 7:00 PM<br>Sunday: By Appointment</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map embed -->
+      <div class="map-embed-wrap">
+        <div class="map-embed-overlay">
+          <div class="map-pin-label">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Shubharambh Infra Advisors
+          </div>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d875.3!2d77.3769383!3d28.5084976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce99f97f93a17%3A0x1ef37cdad52ed565!2sShubharambh%20Infra%20Advisors%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1713600000000!5m2!1sen!2sin"
+          width="100%"
+          height="560"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Shubharambh Infra Advisors Location — Logix Technova, Sector 132, Noida"
+          aria-label="Google Map showing Shubharambh Infra Advisors office location">
+        </iframe>
+      </div>
+
+      <!-- Direction button -->
+      <div style="text-align:center;margin-top:1.5rem;">
+        <a href="https://www.google.com/maps/dir//Shubharambh+Infra+Advisors+Pvt.+Ltd.,+LOGIX+TECHNOVA,+B-220,+Block+B,+Sector+132,+Noida,+Uttar+Pradesh+201304/@28.5085151,77.3793737,17z"
+           target="_blank" rel="noopener" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="margin-right:0.4rem;"><path d="M3 12h18M3 6l9-4 9 4M3 18l9 4 9-4"/></svg>
+          Get Directions on Google Maps
+        </a>
+      </div>
+
     </div>
   </div>
 </section>

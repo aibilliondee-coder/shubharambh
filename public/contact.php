@@ -17,7 +17,7 @@ try {
 }
 
 $page_title       = 'Contact Shubharambh Infra Advisors — Best Property Advisor in Noida';
-$page_description = 'Contact Shubharambh Infra Advisors — the best property advisor in Noida. Visit our office or reach out by phone, WhatsApp, or email for expert real estate guidance.';
+$page_description = 'Contact Shubharambh Infra Advisors — best property advisor in Noida. Call, WhatsApp or visit our Sector 132 office for free property consultation.';
 $page_active      = 'contact';
 $page_canonical   = url('contact.php');
 include __DIR__ . '/../includes/header.php';
@@ -99,8 +99,8 @@ include __DIR__ . '/../includes/header.php';
             <input type="tel" id="cf-phone" name="phone" required pattern="[0-9+\- ]{10,15}">
           </div>
           <div class="form-field">
-            <label for="cf-email">Email</label>
-            <input type="email" id="cf-email" name="email" maxlength="150">
+            <label for="cf-email">Email *</label>
+            <input type="email" id="cf-email" name="email" maxlength="150" required>
           </div>
           <div class="form-field">
             <label for="cf-city">City</label>
