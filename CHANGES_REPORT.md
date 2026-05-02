@@ -1027,3 +1027,66 @@ Added on every page in:
 | `public/index.php` | Hero slides empty array fallback (Bug 10) |
 | `public/assets/js/main.js` | Null check on `.btn-label` (Bug 3), `isFinite()` counter guard (Bug 9) |
 | `public/.htaccess` | `!/api/` condition added to fix contact form POST → GET redirect on XAMPP |
+
+---
+
+## 🗓️ Session 8 — 02 May 2026 
+
+---
+
+## 📄 46. New SEO Landing Page — `best-propery.php`
+
+### ✅ Page created from scratch
+- URL: `/best-propery`
+- Purpose: SEO landing page targeting keyword "Property Advisors in Noida" (2,237 words)
+- Same header/footer as rest of site — no separate template
+- Layout: 2-column (article left + sticky sidebar right) — same as blog post style
+
+### ✅ Page structure (content by content writer — not AI generated)
+- **Hero banner** — eyebrow "Noida Real Estate", H1 "Property Advisors in Noida", breadcrumb
+- **AI Block intro** — hook paragraph above all sections
+- **Section 1** — Why Do You Need a Property Advisor in Noida? (4 H3 sub-sections)
+- **Section 2** — Top-Rated Property Advisors in Noida (5 H3: Full-service, Investment, Local, Luxury, Commercial)
+- **Section 3** — Critical Factors for Choosing the Right Consultant (5 H3)
+- **Section 4** — Overview of Noida Real Estate Market 2026 Snapshot (bullet stats)
+- **Section 5** — How to Choose the Right Property Advisor (numbered list with bold labels)
+- **Section 6** — Which Property Advisor is Best for You? (use-case table, 6 rows × 3 cols, gold header)
+- **Section 7** — Top Areas in Noida (4 H3: Sector 150, Expressway, Greater Noida West, Sector 137/168)
+- **Section 8** — Services Offered (6-item bullet list)
+- **FAQ** — 7 accordion `<details>` blocks
+- **CTA box** — "Book a Free Consultation" button → contact page
+
+### ✅ Sidebar
+- Company logo card
+- Call button (gold) + WhatsApp button (green) — styled with proper spacing/cards
+- "You May Also Like" internal links (About, Projects, Contact)
+
+### ✅ SEO meta
+- `$page_title` = "Top-Rated Property Consultants in Noida (2026)"
+- `$page_description` = 158 chars — within limit
+- `$page_canonical` = `url('best-propery')`
+
+---
+
+## 🎨 47. UI/UX Fixes — `best-propery.php`
+
+| Fix | Detail |
+|---|---|
+| Hero subtitle duplicate removed | "Noida Real Estate" was showing twice — subtitle `<p>` removed |
+| Table HTML typo fixed | `<t*r>` → `<tr>` in ROI-focused investor row |
+| Table Key Priority cells | Line breaks added with `<br>` — was showing as run-on text |
+| Empty CTA box cleaned | Empty `<h3>` and `<p>` tags removed, button link fixed (`htttps://` typo → `url('contact')`) |
+| Empty bottom strip removed | Blank section with empty heading/button removed entirely |
+| CTA button styled | `text-decoration:none`, `color:#0b1d33`, `font-weight:700`, `btn-lg` class |
+| Sidebar card styling | All 3 sidebar blocks (author, contact, related) given proper padding, border, border-radius, gap |
+| Phone/WhatsApp buttons | `text-decoration:none`, `font-weight:700` added |
+| Internal links in sidebar | `color:var(--c-gold)`, `text-decoration:none`, `gap:0.65rem` between items |
+| H2 interlink added | "Property Advisor in Noida" in "How to Choose" H2 links to homepage — `color:inherit`, `text-decoration:none`, new tab |
+
+---
+
+## 📁 Files Modified (Session 8)
+
+| File | Changes |
+|---|---|
+| `public/best-propery.php` | **NEW FILE** — full SEO landing page with real content writer content, UI/UX fixes, sidebar, FAQ, table, interlink |
