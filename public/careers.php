@@ -33,11 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Rate limit: 1 submission per IP per 24 hours
-    $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    $ip = client_ip();
     $recent = db()->prepare(
-        "SELECT COUNT(*) FROM job_applications WHERE ip_address = ? AND created_at >= datetime('now', '-24 hours')"
+        "SELECT COUNT(*) FROM job_applications WHERE ip_address = ? AND created_at >= :window"
     );
-    $recent->execute([$ip]);
+    $recent->execute([$ip, date('Y-m-d H:i:s', strtotime('-24 hours'))]);
     if ((int)$recent->fetchColumn() >= 1) {
         $_SESSION['career_flash'] = 'You have already submitted an application in the last 24 hours. Please try again tomorrow.';
         header('Location: ' . $redirect_base); exit;
@@ -80,16 +80,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ' . $redirect_base); exit;
         }
         // Validate MIME server-side
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime  = finfo_file($finfo, $file['tmp_name']);
-        finfo_close($finfo);
+        $mime = mime_content_type($file['tmp_name']);
         if (!in_array($mime, array_values($allowed))) {
             $_SESSION['career_flash'] = 'Invalid file type. Only PDF, DOC, or DOCX accepted.';
             header('Location: ' . $redirect_base); exit;
         }
 
+        $uploadDir = __DIR__ . '/uploads/cv/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
         $filename = 'cv_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-        $dest     = __DIR__ . '/uploads/cv/' . $filename;
+        $dest     = $uploadDir . $filename;
         if (!move_uploaded_file($file['tmp_name'], $dest)) {
             $_SESSION['career_flash'] = 'Failed to save CV. Please try again.';
             header('Location: ' . $redirect_base); exit;

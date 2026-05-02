@@ -319,7 +319,7 @@
     if (!els.length) return;
 
     const animate = (el) => {
-      const target = parseFloat(el.getAttribute('data-counter')) || 0;
+      const target = parseFloat(el.getAttribute('data-counter')); if (!isFinite(target)) return;
       const suffix = el.getAttribute('data-suffix') || '';
       const duration = 1400;
       const start = performance.now();
@@ -598,6 +598,31 @@
   }
 
   // ------------------------------------------------------------------
+  // Open all internal links in new tab
+  // (skip: tel:, mailto:, wa.me, #anchors, javascript:, already target=_blank,
+  //  data-modal-open, data-no-target, fav buttons)
+  // ------------------------------------------------------------------
+  function initLinksNewTab() {
+    $$('a[href]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (!href) return;
+      if (a.hasAttribute('target')) return;
+      if (a.hasAttribute('data-modal-open')) return;
+      if (a.hasAttribute('data-no-target')) return;
+      if (href.startsWith('#')) return;
+      if (href.startsWith('tel:')) return;
+      if (href.startsWith('mailto:')) return;
+      if (href.startsWith('javascript:')) return;
+      if (href.startsWith('whatsapp:')) return;
+      a.setAttribute('target', '_blank');
+      const rel = a.getAttribute('rel') || '';
+      if (!rel.includes('noopener')) {
+        a.setAttribute('rel', (rel + ' noopener').trim());
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------
   // AJAX form submissions
   // ------------------------------------------------------------------
   function initForms() {
@@ -668,6 +693,7 @@ initStickyHeader();
     initHeroSearch();
     initTestimonials();
     initAnchors();
+    initLinksNewTab();
 
     // Non-critical — defer to idle so main thread is free during LCP
     const idle = window.requestIdleCallback || (fn => setTimeout(fn, 100));
@@ -701,7 +727,7 @@ initStickyHeader();
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden', 'false');
       btn.setAttribute('aria-expanded', 'true');
-      btn.querySelector('.btn-label').textContent = 'Read Less';
+      const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = 'Read Less';
       if (backdrop) backdrop.classList.add('is-open');
       document.body.style.overflow = 'hidden';
     };
@@ -709,7 +735,7 @@ initStickyHeader();
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
       btn.setAttribute('aria-expanded', 'false');
-      btn.querySelector('.btn-label').textContent = 'Read More';
+      const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = 'Read More';
       if (backdrop) backdrop.classList.remove('is-open');
       document.body.style.overflow = '';
     };

@@ -587,3 +587,443 @@ Added on every page in:
 | `public/uploads/blog/` | 7 blog cover images (advisor, noida, rera, homeloan, expressway, resvscom) |
 | `public/uploads/projects/` | 30+ new project images from official developer websites |
 | `public/uploads/cv/` | **NEW FOLDER** — CV/resume uploads from careers form |
+
+---
+
+## 🗓️ Session 5 — 24 April 2026
+
+---
+
+## 🗺️ 25. Homepage — Google Map Section
+
+### ✅ New "Find Us" section added before Contact
+- Google Maps iframe embed — exact coordinates: 28.5085151, 77.3793737 (Logix Technova, Sector 132, Noida)
+- 4 info cards: Office Address / Nearest Metro (Sector 137 Aqua Line) / Expressway Access (Sector 132 Exit) / Working Hours
+- Gold pin label overlay: "Shubharambh Infra Advisors" highlighted on map
+- "Get Directions" button linking to Google Maps navigation
+- Map height: 560px desktop / 460px tablet / 340px mobile
+- Dark navy theme with gold accent borders matching site design
+- Fully responsive: 4-col → 2-col → 1-col info cards
+
+---
+
+## 📱 26. Footer — Mobile Responsive Fix
+
+### ✅ Complete mobile footer redesign
+- Quick Links + Services: side by side in 2-column grid (was stacked 1-col)
+- About section: logo + text horizontal row, social icons full-width below
+- Newsletter: inline flex (no wrapping on mobile)
+- Contact + Get In Touch: full width below 2-col grid
+- Footer bottom text: centered on mobile, visibility fixed (rgba white 65% instead of muted)
+- 420px: collapses to full 1-col stack
+
+---
+
+## 🔍 27. SEO — Meta Description Lengths Fixed
+
+### ✅ All pages now within 100–160 character limit
+
+| Page | Before | After |
+|---|---|---|
+| index.php | 201ch | 158ch |
+| about.php | 188ch | 137ch |
+| blogs.php | 174ch | 131ch |
+| careers.php | 222ch | 156ch |
+| contact.php | 164ch | 146ch |
+| projects.php | 161ch | 145ch |
+| emi-calculator.php | 145ch | 145ch ✅ |
+
+---
+
+## 🚫 28. Nav — EMI Calculator Removed from Header
+
+### ✅ EMI Calc link removed from header navigation
+- Remains accessible via Footer Quick Links
+- Header nav now: HOME / ABOUT / PROJECTS / BLOG / CAREERS / CONTACT
+
+---
+
+## 🖼️ 29. Project Images — Real Photos from Developer Websites
+
+### ✅ Logo images replaced with actual renders/photos
+
+| Project | Source | Fix |
+|---|---|---|
+| T&T The Blue | theblue.tandtgroup.in | Replaced logo/text image with actual building render |
+| Corbett Eye | globalbirthdevelopers.com | Real resort photos |
+| SVG Town Square | shrivinayaka.com | Official architectural renders |
+| Kutumbh City | kutumbcityharidwar.com | Aerial drone photos (Feb 2026) |
+| Eternia | eternia.greatvaluerealty.com | Official tower renders |
+| Shubh Kadam | globalbirthdevelopers.com | Resort renders confirmed |
+
+### ✅ User-uploaded images integrated for 8 projects
+- Corbett Eye: plot1–3 (user's own photos)
+- Yatharth HighLife: HighLife1–3 (user's own photos)
+- Shubh Kadam: ShubhKadam1–4 (user's own photos)
+- Uniwest Arcade: UniwsestArcade1–3 (user's own photos)
+- Uniwest Aero Hub: uniwest1–3 (user's own photos)
+- Eternia: eternia1–3 (user's own photos)
+- ONE FNG: ONEFNG1–3 (user's own photos)
+- M3M The Line: m3mline1–3 (user's own photos)
+- M3M The Cullinan: M3MTheCullinan1–3 (user's own photos)
+
+### ✅ Projects hidden from index + projects page
+- Kutumbh City: `is_active=0, is_featured=0`
+- Uniwest Hub: `is_active=0, is_featured=0` (duplicate of Aero Hub)
+
+---
+
+## 👤 30. Team Photo — Mohit Khari Updated
+
+### ✅ New photo uploaded and tracked in git
+- File: `public/uploads/team/mohit-khari.jpg`
+- `.gitignore` updated: `!public/uploads/team/` exception added
+- Team folder now tracked in git — deploys on `git pull`
+- DB updated: `team_members` table photo path updated
+
+---
+
+## 🏗️ 31. Project Cards — Full Redesign (index + projects page)
+
+### ✅ New card design — price on image overlay
+- Price moved from card body to image overlay (bottom-left, gold text on dark gradient)
+- Image ratio: 16:10 → 4:3 (better for property photos)
+- Specs bar: boxed grid with border separators (no misalignment)
+- Config text: `white-space: nowrap` + `text-overflow: ellipsis` — no wrapping
+- All config values shortened in DB: "High-street retail shops, anchor spaces..." → "Retail & Studios"
+- Hover: subtle translateY(-5px) + gold border glow
+
+---
+
+## 🏠 32. Project Slug Pages — Stats Bar Redesign
+
+### ✅ Complete stats bar redesign
+- Removed SVG icons — label (gold uppercase) on top, value (white bold) below
+- Border-separated cells — no random gaps
+- `word-break: break-word` for long values
+- Sidebar: shortened `property_type` and `sizes` for clean display
+- Stats bar: full values shown with proper wrapping
+- Responsive: 2×2 grid on tablet/mobile with border-bottom separators
+
+---
+
+## 🔍 33. SEO — Blog Pages Noindex
+
+### ✅ noindex, nofollow added to all blog pages
+- `blogs.php`: `$page_robots = 'noindex, nofollow'`
+- `blog.php`: `$page_robots = 'noindex, nofollow'`
+- Google will not index any blog listing or single blog post pages
+
+---
+
+## 🔀 34. Git — UAT Merged to Main
+
+### ✅ main branch synced with uat
+- `git reset --hard origin/uat` + `git push origin main --force`
+- Both branches now identical
+- `uploads/team/` folder tracked in git with `.gitignore` exception
+
+---
+
+## 📁 Files Modified (Session 5)
+
+| File | Changes |
+|---|---|
+| `includes/header.php` | EMI Calc removed from nav, cache-bust versions (20260424a–l) |
+| `public/index.php` | Google Map section added, project card price overlay |
+| `public/projects.php` | Project card price overlay, config text shortened |
+| `public/project.php` | Stats bar redesign (label/value, no icons), sidebar data shortened |
+| `public/blogs.php` | `noindex, nofollow` added |
+| `public/blog.php` | `noindex, nofollow` added |
+| `public/assets/css/style.css` | Map section CSS, footer mobile CSS, project card redesign, stats bar redesign |
+| `public/uploads/team/mohit-khari.jpg` | New team photo added and tracked in git |
+| `.gitignore` | `!public/uploads/team/` exception added |
+| `storage/shubharambh.sqlite` | Projects: config/sizes/property_type shortened; Kutumbh City + Uniwest Hub hidden; team photo updated; 9 projects gallery updated with user images |
+
+---
+
+## 🗓️ Session 6 — 25 April 2026
+
+---
+
+## 📩 35. Project Enquiry Popup Modal — Built from Scratch
+
+### ✅ New dark modal popup on all project pages
+- Fields: Full Name, Phone Number, Email Address
+- Heading: "Get Exclusive Offers" with gold border and company logo
+- All CTA buttons on project pages now trigger this modal instead of linking out
+- `sp-enquiry-trigger` class + `data-source` attribute on every CTA wires it to the popup
+
+### ✅ Database — `project_enquiries` table (NEW)
+- Fields: `id, project_id, name, phone, email, source, ip, user_agent, created_at`
+- Auto-created on first submission (no manual migration needed)
+- Separate from general `inquiries` table — cleaner data separation
+
+### ✅ Per-project rate limiting
+- Max **2 submissions per email/phone/IP** per project per 24 hours
+- Different projects are independent — user can enquire on multiple projects freely
+- Returns friendly error if rate limit hit
+
+### ✅ CSRF protection
+- Token generated via `csrf_field()` → `name="csrf"`
+- Verified server-side via `csrf_verify($_POST['csrf'])`
+- Fixed bug: was using wrong function name `verify_csrf_token()` causing "Network error" on submit
+
+### ✅ API endpoint — `public/api/project_enquiry_submit.php` (NEW)
+- Accepts POST: name, phone, email, source, project_id, csrf
+- Validates all fields, rate limits, stores to DB
+- Returns JSON response (success/error)
+
+---
+
+## 🏠 36. Hero Form — Merged with Popup Modal
+
+### ✅ Hero floating form pre-fills and submits via popup
+- Hero card: Full Name / Email / Phone fields inline
+- "Send Message" validates hero inputs, copies values into modal fields, then auto-submits
+- Data goes to same `project_enquiries` table via same API endpoint
+- Success/error toast shown — same UX as popup
+
+---
+
+## 🗺️ 37. Floor Plan / Site Layout Section — New Section on Project Pages
+
+### ✅ Smart section type detection
+- **Plot projects** → shows "Site Layout" (aerial map SVG placeholder)
+- **Commercial projects** (retail/office/studio) → shows "Unit Layout"
+- **BHK apartments** → shows "Floor Plans" with per-BHK cards
+
+### ✅ Floor plan cards — per-BHK layout
+- One card per BHK type (3 BHK / 4 BHK / 5 BHK etc.)
+- Each card shows: BHK label + size
+- Image blurred with lock icon overlay (teaser UX — unlock on enquiry)
+- Sizes parsed from DB string — `short_sizes()` function added to collapse verbose ranges
+
+### ✅ New placeholder SVGs created
+- `public/assets/img/floor-plan-placeholder.svg` — architectural floor plan layout
+- `public/assets/img/site-layout-placeholder.svg` — aerial plot map with roads, plots, compass, legend
+
+---
+
+## 📊 38. Stats Strip — Icon Redesign
+
+### ✅ Stats cells now have gold icon boxes
+- Each stat: gold square icon box (left) + label/value (right)
+- Icons: grid (Configuration), ruler (Sizes), calendar (Possession), currency (Price)
+- Border separators between cells
+- Mobile: 2×2 grid layout
+
+### ✅ Sizes display — `short_sizes()` function
+- Verbose sizes like "3 BHK: 3,217 sq ft | 4 BHK: 4,315 sq ft | 5 BHK: 5,990–6,220 sq ft" collapsed to "3,217–6,220 sq ft"
+- Strips all non-numeric, finds min/max, formats cleanly
+
+---
+
+## 📱 39. Mobile Sticky Bar — Project Pages
+
+### ✅ Fixed bottom bar on mobile for project pages
+- 3 buttons: **Call** (gold border) / **Enquiry** (gold fill, triggers popup) / **WhatsApp** (green border)
+- `body.page-project-detail { padding-bottom: 70px }` on mobile — content not hidden behind bar
+- Added in `includes/footer_project.php`
+
+---
+
+## 📦 40. Three New Projects Added
+
+### ✅ T&T The Blue
+- Dynamic slug page: `/projects/tnt-the-blue`
+- Stats: 3/4/5 BHK | 2,048–6,220 sq ft | Dec 2027 | ₹2.8 Cr+
+- Floor plan cards: 3 BHK / 4 BHK / 5 BHK
+
+### ✅ Yatharth HighLife TechZone 4
+- Dynamic slug page: `/projects/yatharth-highlife-techzone-4`
+- Stats: 1/2 BHK | 941–1,454 sq ft | 2030 | ₹90 Lakh+
+
+### ✅ Corbett Eye
+- Dynamic slug page: `/projects/corbett-eye`
+- Plot project — Site Layout section instead of Floor Plans
+- RERA badge removed (no valid RERA — DB `rera_id` cleared to empty string)
+
+---
+
+## 🔗 41. Clean URLs — Sitewide (.php Removed)
+
+### ✅ `.htaccess` updated
+- New rewrite rule: `/projects/tnt-the-blue` → `project.php?slug=tnt-the-blue`
+- Internal rewrite fixed: `%{REQUEST_FILENAME}.php -f` (was `DOCUMENT_ROOT/$1.php` — broken on XAMPP subdirectory)
+
+### ✅ All navigation links cleaned — no more `.php` in hover URLs
+
+| File | Links Updated |
+|---|---|
+| `includes/header.php` | All nav links, logo href, notification banner CTA |
+| `includes/footer.php` | Quick Links, Services, Privacy/Terms, shortlist bar, sticky mobile bar |
+| `includes/footer_project.php` | All quick links, Privacy/Terms, logo href |
+| `includes/header_project.php` | Logo href |
+| `public/index.php` | All internal links + featured project card URLs |
+| `public/about.php` | Breadcrumb + CTA buttons |
+| `public/projects.php` | Breadcrumb, filter form, clear filters links, canonical, JSON-LD |
+| `public/blogs.php` | Breadcrumb, filter bar, all blog card links |
+| `public/blog.php` | Breadcrumb, redirects, social share URLs, related post links |
+| `public/contact.php` | Breadcrumb, privacy policy link |
+| `public/careers.php` | Breadcrumb, form action, back to home, redirect base |
+| `public/emi-calculator.php` | Breadcrumb, CTA button |
+| `public/privacy-policy.php` | Breadcrumb |
+| `public/terms.php` | Breadcrumb |
+| `public/404.php` | Back to Home + View Projects buttons |
+| `public/project.php` | Canonical URL, breadcrumb JSON-LD, featured project cards |
+
+---
+
+## 🔗 43. Internal Links — Open in New Tab (Sitewide)
+
+### ✅ All internal page links now open in a new tab
+- Every internal link across the site (`/about`, `/projects`, `/contact`, `/blog`, project pages, etc.) opens in `target="_blank"`
+- Applied sitewide — header nav, footer, project cards, CTA buttons, blog cards, breadcrumbs
+- External links (WhatsApp, Facebook, Google Maps, developer websites) were already `target="_blank"` — unchanged
+
+---
+
+## 🐛 42. Bug Fixes (Session 6)
+
+| Bug | Fix |
+|---|---|
+| "Network error" on popup form submit | Wrong function `verify_csrf_token()` → correct `csrf_verify($_POST['csrf'])` |
+| RERA badge showing on Corbett Eye (no RERA) | DB `rera_id` cleared from "Not listed" to `''`; badge only shows when `rera_id` non-empty |
+| `foreach` destructuring syntax error in floor plan cards | Fixed: `foreach ($fpCards as $fpLabel => $fpSize)` with separate counter `$fi` |
+| `.htaccess` clean URLs not working on XAMPP localhost | `%{DOCUMENT_ROOT}/$1.php` → `%{REQUEST_FILENAME}.php` (works in subdirectory) |
+| Double `<?php` tag in project.php after edit | Removed duplicate opening tag |
+
+---
+
+## 📁 Files Modified (Session 6)
+
+| File | Changes |
+|---|---|
+| `public/project.php` | Popup modal HTML+JS, hero form merge, floor plan section, stats icon redesign, short_sizes(), all CTAs → sp-enquiry-trigger, clean URL updates |
+| `public/api/project_enquiry_submit.php` | **NEW FILE** — enquiry API with rate limiting + CSRF |
+| `public/assets/css/style.css` | Stats icon redesign, floor plan cards, popup modal, mobile sticky bar, mobile UI fixes |
+| `public/assets/img/floor-plan-placeholder.svg` | **NEW FILE** — architectural floor plan SVG |
+| `public/assets/img/site-layout-placeholder.svg` | **NEW FILE** — aerial plot map SVG |
+| `includes/footer_project.php` | Mobile sticky bar (Call/Enquiry/WhatsApp), clean URL links |
+| `includes/header_project.php` | Logo href clean URL |
+| `includes/header.php` | All nav links → clean URLs |
+| `includes/footer.php` | All links → clean URLs (Quick Links, Services, Privacy/Terms, shortlist bar) |
+| `public/index.php` | Featured project cards → clean URLs (`/projects/` + slug) |
+| `public/projects.php` | Project card links → clean URLs |
+| `public/assets/js/main.js` | Search results link → `/projects/` + slug |
+| `public/.htaccess` | Project slug rewrite rule added; internal rewrite fix |
+| `public/about.php` | Clean URL links |
+| `public/blogs.php` | Clean URL links |
+| `public/blog.php` | Clean URL links |
+| `public/contact.php` | Clean URL links |
+| `public/careers.php` | Clean URL links |
+| `public/emi-calculator.php` | Clean URL links |
+| `public/privacy-policy.php` | Clean URL links |
+| `public/terms.php` | Clean URL links |
+| `public/404.php` | Clean URL links |
+| `storage/shubharambh.sqlite` | `rera_id` cleared for Corbett Eye; placeholder strings removed from all projects |
+
+---
+
+## 🗓️ Session 7 — 26 April 2026 (11:00 AM – 2:00 PM IST)
+
+---
+
+## 🔍 44. Full Project Bug Audit — 14 Bugs Found & Fixed
+
+### 🔴 Critical (1)
+
+**Bug 1 — Stored XSS — blog.php**
+- `<?= $post['body'] ?>` raw output — intentionally kept as-is (admin-authored HTML content, not user input). Comment added to clarify it is trusted content.
+- **File:** `public/blog.php:78`
+
+---
+
+### 🟠 High (3)
+
+**Bug 2 — Rate Limit Bypass — careers.php**
+- `$_SERVER['REMOTE_ADDR']` directly used for IP — does not handle proxy/CDN X-Forwarded-For headers
+- **Fix:** Replaced with `client_ip()` helper (same as all other endpoints)
+- **File:** `public/careers.php:36`
+
+**Bug 3 — JavaScript Null Crash — main.js**
+- `.querySelector('.btn-label').textContent` called without null check — if `.btn-label` element missing, entire page JS crashes
+- **Fix:** Added null check `const lbl = btn.querySelector('.btn-label'); if (lbl) lbl.textContent = '...'`
+- **File:** `public/assets/js/main.js:730`
+
+**Bug 4 — CV Upload Silent Fail — careers.php**
+- `move_uploaded_file()` fails silently if `uploads/cv/` directory doesn't exist — user gets cryptic error
+- **Fix:** Added `mkdir($uploadDir, 0755, true)` before upload if directory missing
+- **File:** `public/careers.php:92`
+
+---
+
+### 🟡 Medium (5)
+
+**Bug 5 — Dead Code — blogs.php**
+- `COUNT(*)` query executed twice in one line — first result immediately overwritten on next line
+- **Fix:** Removed redundant first line, kept clean 3-line version
+- **File:** `public/blogs.php:22`
+
+**Bug 6 — Fragile Positional Query Params — blogs.php**
+- Dynamic `WHERE` clause mixed with positional `?` params — easy to break on future edits
+- **Fix:** Converted to named params `:cat`, `:lim`, `:off`
+- **File:** `public/blogs.php:19`
+
+**Bug 7 — noindex + Active Linking Contradiction — blogs.php / blog.php**
+- Blog pages have `noindex, nofollow` but are actively linked from homepage and footer
+- **Decision:** Intentionally kept as-is (user chose to keep blogs noindexed)
+
+**Bug 8 — SQLite-Only Date Syntax — careers.php**
+- `datetime('now', '-24 hours')` is SQLite-specific — breaks silently on MySQL
+- **Fix:** Replaced with PHP `date('Y-m-d H:i:s', strtotime('-24 hours'))` — database-agnostic
+- **File:** `public/careers.php:38`
+- **Bonus fix:** `finfo_open()` / `finfo_close()` deprecated in PHP 8.5 → replaced with `mime_content_type()`
+
+**Bug 9 — NaN Risk in Counter Animation — main.js**
+- `parseFloat() || 0` does not catch NaN — invalid `data-counter` attribute displays "NaN" to users
+- **Fix:** `parseFloat(val); if (!isFinite(target)) return;`
+- **File:** `public/assets/js/main.js:322`
+
+---
+
+### 🟢 Low (2)
+
+**Bug 10 — Empty Hero Slides Array — index.php**
+- After `array_filter()`, if all images missing, `$heroSlides[0]` accessed on empty array
+- **Fix:** Added explicit fallback `if (empty($heroSlides)) $heroSlides = ['projects/m3mcullinan-1.webp'];`
+- **File:** `public/index.php:84`
+
+**Bug 11 — Email Field Inconsistency — contact.php vs project.php**
+- Project enquiry form had email as `required`, contact form had email as optional — inconsistent UX
+- **Fix:** Added `required` to contact form email field
+- **File:** `public/contact.php:103`
+
+---
+
+## 🔧 45. Contact Form — "Method Not Allowed" Bug Fixed
+
+### ✅ Root Cause
+- `.htaccess` 301 redirect rule was stripping `.php` from `api/contact_submit.php` on XAMPP subdirectory
+- `!^api/` exclusion condition only matched paths starting with `api/` — on XAMPP the captured path includes subdirectory prefix, so condition never matched
+- 301 redirect converts POST → GET, causing "Method not allowed" response
+
+### ✅ Fix
+- Added second exclusion condition `RewriteCond %1 !/api/` (matches `api/` anywhere in path)
+- Works on both XAMPP subdirectory (`/shubharambh/public/api/`) and production root (`/api/`)
+- **File:** `public/.htaccess`
+
+---
+
+## 📁 Files Modified (Session 7)
+
+| File | Changes |
+|---|---|
+| `public/blog.php` | Clarifying comment added on raw body output |
+| `public/blogs.php` | Dead code removed (Bug 5), named query params (Bug 6) |
+| `public/careers.php` | `client_ip()` fix (Bug 2), `mkdir()` for CV upload (Bug 4), PHP-native date syntax (Bug 8), `mime_content_type()` deprecation fix |
+| `public/contact.php` | Email field made `required` (Bug 11) |
+| `public/index.php` | Hero slides empty array fallback (Bug 10) |
+| `public/assets/js/main.js` | Null check on `.btn-label` (Bug 3), `isFinite()` counter guard (Bug 9) |
+| `public/.htaccess` | `!/api/` condition added to fix contact form POST → GET redirect on XAMPP |

@@ -99,8 +99,8 @@ include __DIR__ . '/../includes/header.php';
             <input type="tel" id="cf-phone" name="phone" required pattern="[0-9+\- ]{10,15}">
           </div>
           <div class="form-field">
-            <label for="cf-email">Email</label>
-            <input type="email" id="cf-email" name="email" maxlength="150">
+            <label for="cf-email">Email *</label>
+            <input type="email" id="cf-email" name="email" maxlength="150" required>
           </div>
           <div class="form-field">
             <label for="cf-city">City</label>
