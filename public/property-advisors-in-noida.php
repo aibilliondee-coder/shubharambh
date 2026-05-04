@@ -85,7 +85,132 @@ $page_jsonld = [
 include __DIR__ . '/../includes/header.php';
 ?>
 
+<style>
+/* ── property-advisors-in-noida page responsive fix ── */
+.pan-page *,
+.pan-page *::before,
+.pan-page *::after { box-sizing: border-box; }
 
+.pan-page {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 2-col layout: article + sidebar */
+.pan-page .blog-post-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2.5rem;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Article text never overflows */
+.pan-page .blog-post-body {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* All text elements */
+.pan-page .blog-post-body p,
+.pan-page .blog-post-body h2,
+.pan-page .blog-post-body h3,
+.pan-page .blog-post-body li,
+.pan-page .blog-post-body ul,
+.pan-page .blog-post-body ol,
+.pan-page .blog-post-body details,
+.pan-page .blog-post-body summary {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Table responsive */
+.pan-page .blog-post-body div[style*="overflow-x:auto"] {
+  width: 100%;
+  max-width: 100%;
+}
+
+.pan-page .blog-post-body table {
+  min-width: 500px;
+}
+
+/* Sidebar sticky */
+.pan-page .blog-post-sidebar {
+  position: sticky;
+  top: 120px;
+  min-width: 0;
+}
+
+/* ── Mobile: single column ── */
+@media (max-width: 768px) {
+  .pan-page .blog-post-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .pan-page .blog-post-sidebar {
+    position: static;
+    order: 2; /* sidebar NEECHE rahe article ke baad */
+  }
+
+  .pan-page .blog-post-body {
+    order: 1;
+  }
+
+  .pan-page .blog-post-body h2 {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    line-height: 1.3;
+  }
+
+  .pan-page .blog-post-body h3 {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+
+  .pan-page .blog-post-body p,
+  .pan-page .blog-post-body li {
+    font-size: clamp(0.88rem, 3.5vw, 1rem);
+    line-height: 1.7;
+  }
+
+  /* Table: proper horizontal scroll on mobile */
+  .pan-page .blog-post-body div[style*="overflow-x:auto"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .pan-page .blog-post-body table {
+    min-width: 480px;
+    font-size: 0.82rem;
+  }
+
+  .pan-page .blog-post-body th,
+  .pan-page .blog-post-body td {
+    padding: 0.55rem 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .pan-page .blog-post-layout {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .pan-page .blog-post-body h2 {
+    font-size: clamp(1.1rem, 5.5vw, 1.4rem);
+  }
+}
+</style>
+
+<div class="pan-page">
 <section class="page-banner">
   <div class="container">
     <span class="eyebrow">Noida Real Estate</span>
@@ -500,5 +625,7 @@ include __DIR__ . '/../includes/header.php';
 
 </div>
 
+
+</div><!-- /.pan-page -->
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
