@@ -10,7 +10,6 @@ $settings = load_settings();
 $page_title = 'Top-Rated Property Consultants in Noida (2026)';
 $page_description = 'Discover the best property advisors in Noida for residential, commercial, and investment needs. Compare top consultants, services, and expert tips before you invest.';
 $page_canonical = url('property-advisors-in-noida');
-$page_robots = 'noindex, nofollow';
 $page_active = '';
 include __DIR__ . '/../includes/header.php';
 ?>
