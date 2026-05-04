@@ -10,6 +10,7 @@ $settings = load_settings();
 $page_title = 'Top-Rated Property Consultants in Noida (2026)';
 $page_description = 'Discover the best property advisors in Noida for residential, commercial, and investment needs. Compare top consultants, services, and expert tips before you invest.';
 $page_canonical = url('property-advisors-in-noida');
+$page_robots = 'noindex, nofollow';
 $page_active = '';
 include __DIR__ . '/../includes/header.php';
 ?>
@@ -35,6 +36,11 @@ include __DIR__ . '/../includes/header.php';
       every month, and RERA rules keep getting sharper, having someone like Shubh Rambh Consultants, who actually lives
       the ground reality, is not a luxury; it is closer to a survival tactic.
     </p>
+    <figure style="margin:2rem 0;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.3);">
+      <img src="<?= e(upload_url('property/best-property-in-noida.png')) ?>" alt="best-property-in-noida" loading="lazy"
+        width="800" height="450" style="width:100%;height:auto;display:block;object-fit:cover;">
+    </figure>
+
     <h2>Why Do You Need a Property Advisor in Noida?</h2>
     <p>The real estate market of Noida, Greater Noida, and the Noida Expressway corridor spans across 200 sectors and
       localities. And between the hype around the Noida Expressway and the constant buzz of new launches near the Jewar
