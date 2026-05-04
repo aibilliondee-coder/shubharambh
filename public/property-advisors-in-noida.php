@@ -11,6 +11,76 @@ $page_title = 'Top-Rated Property Consultants in Noida (2026)';
 $page_description = 'Discover the best property advisors in Noida for residential, commercial, and investment needs. Compare top consultants, services, and expert tips before you invest.';
 $page_canonical = url('property-advisors-in-noida');
 $page_active = '';
+
+$_pUrl = url('property-advisors-in-noida');
+$page_jsonld = [
+  '@context' => 'https://schema.org',
+  '@graph' => [
+
+    [
+      '@type' => 'WebPage',
+      '@id' => $_pUrl . '#webpage',
+      'url' => $_pUrl,
+      'name' => $page_title,
+      'description' => $page_description,
+      'inLanguage' => 'en-IN',
+      'publisher' => [
+        '@type' => 'RealEstateAgent',
+        'name' => 'Shubharambh Infra Advisors',
+        'url' => url(''),
+      ],
+    ],
+
+
+    [
+      '@type' => 'BreadcrumbList',
+      '@id' => $_pUrl . '#breadcrumb',
+      'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Property Advisors in Noida', 'item' => $_pUrl],
+      ],
+    ],
+
+    [
+      '@type' => 'FAQPage',
+      '@id' => $_pUrl . '#faq',
+      'mainEntity' => [
+        [
+          '@type' => 'Question',
+          'name' => 'Who is the most trusted property advisor in Noida?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'There is no single name that fits buyer preference, but a strong real estate consultant in Noida will have experience with repatriation guidelines, Power of Attorney documentation, and a track record of managing properties after purchase.'],
+        ],
+        [
+          '@type' => 'Question',
+          'name' => 'Is it better to buy a flat or a plot in Noida in 2026?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'Plots in areas like Sector 150 offer higher appreciation potential but need patience and a larger upfront capital. Flats, especially ready-to-move ones near the Expressway, generate immediate rental income. The best real estate consultant in Noida will map your liquidity and holding capacity to help you make the best value-for-money investment.'],
+        ],
+        [
+          '@type' => 'Question',
+          'name' => 'How much commission do property advisors charge in Noida?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'Most advisors earn through builder commissions, which usually range from 1% to 3% of the property\'s value. When they charge a buyer directly, the fee is often 1% to 2% of the transaction value or a fixed package for full services.'],
+        ],
+        [
+          '@type' => 'Question',
+          'name' => 'Are property consultants in Noida worth it?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'Yes, especially if you value your time and want to avoid legal tangles. The cost of a bad purchase, like liquidated damages, stuck capital, and litigation, almost always diminishes whatever fee a good property consultant in Noida charges.'],
+        ],
+        [
+          '@type' => 'Question',
+          'name' => 'How to verify a property dealer in Noida?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'Check their RERA agent registration number on the UP RERA portal. Look at their transaction history if they are willing to share sanitized references, and search for their firm name online. A genuine property advisor in Noida will not hide these things.'],
+        ],
+        [
+          '@type' => 'Question',
+          'name' => 'Which advisor is best for investment in Noida?',
+          'acceptedAnswer' => ['@type' => 'Answer', 'text' => 'An investment-focused real estate consultant in Noida who specializes in ROI, someone who can show you data on pre-launch commercial plots, upcoming infrastructure unlocks, and realistic rental yields.'],
+        ],
+      ],
+    ],
+
+  ]
+];
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
